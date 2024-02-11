@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payments",
+  "info": {
+    "singularName": "payment",
+    "pluralName": "payments",
+    "displayName": "payment",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "method": {
+      "type": "enumeration",
+      "enum": [
+        "paypal",
+        "online-banking",
+        "cash"
+      ]
+    },
+    "total": {
+      "type": "integer"
+    },
+    "payment_date": {
+      "type": "datetime"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "payments"
+    },
+    "booking": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::booking.booking",
+      "mappedBy": "payment"
+    }
+  }
+}
