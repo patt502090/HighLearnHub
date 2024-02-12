@@ -60,6 +60,10 @@ export default function LoginPage() {
     window.location.href = `${conf.apiUrlPrefix}${conf.googleConnectEndpoint}`;
   };
 
+  const handleRegister = () => {
+    navigate("/register");
+  };
+
   return (
     <ContextProvider>
       <div
@@ -71,7 +75,7 @@ export default function LoginPage() {
         }}
       >
         <div className="container w-auto bg-white border-2 rounded-lg shadow-2xl p-6">
-          <p className="text-lg font-bold mb-4 mt-6 text-center">
+          <p className="text-lg font-bold mb-4 mt-4 text-center">
             ลงชื่อเข้าใช้
           </p>
           <p className="text-base mb-5 text-center">
@@ -141,12 +145,12 @@ export default function LoginPage() {
           <div className="relative my-4 mb-6">
             <hr className="absolute w-full border-t-2 border-gray-1000" />
             <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4 bg-white text-gray-1000 text-xs ">
-              OR
+              หรือ
             </span>
           </div>
 
           <button
-            className="px-6 py-2.5 mb-4 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150 items-center mx-auto"
+            className="px-6 py-2.5 mb-5 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150 items-center mx-auto"
             onClick={handleGoogleLoginClick}
           >
             <img
@@ -155,8 +159,16 @@ export default function LoginPage() {
               loading="lazy"
               alt="google logo"
             />
-            <span className="text-sm">Login with Google</span>
+            <span className="text-sm">ดำเนินการต่อด้วย Google</span>
           </button>
+
+          <p
+            href="#"
+            className="text-sm text-red-500 underline text-center cursor-pointer font-medium mb-3"
+            onClick={handleRegister}
+          >
+            ยังไม่มีบัญชี ?
+          </p>
         </div>
       </div>
     </ContextProvider>
