@@ -11,6 +11,8 @@ import CourseInfoPage from './pages/CourseInfoPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 
+import { ContextProvider } from "./context/Auth.context";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -55,7 +57,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <ContextProvider>
       <RouterProvider router={router} />
+      </ContextProvider>
   </React.StrictMode>
 );
 
