@@ -1,73 +1,34 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import CourseInfoPage from './pages/CourseInfoPage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-import RegisterAccountPage from './pages/RegisterAccountPage';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import CourseInfoPage from "./pages/CourseInfoPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import RegisterAccountPage from "./pages/RegisterAccountPage";
+
 import { ContextProvider } from "./context/Auth.context";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App/>,
-    children: [
-      {
-        path: "home",
-        element: <CourseInfoPage />,
-      },
-    ]
-  },
-  {
-    path: "/login",
-    element: <LoginPage/>,
-  },
-  {
-    path: "/register",
-    element: <RegisterPage/>,
-  },
-  {
-    path: "/registerAccount",
-    element: <RegisterAccountPage/>,
-  },
-  {
-    path: "/member",
-    element: <App/>,
-    children: [
-      {
-        path: "/member/:id",
-        element: <CourseInfoPage />,
-      },
-    ]
-  },
-  {
-    path: "/admin",
-    element: <App/>,
-    children: [
-      {
-        path: "/admin/:id",
-        element: <CourseInfoPage />,
-      },
-    ]
-  },
-]);
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <ContextProvider>
-      <RouterProvider router={router} />
-      </ContextProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/home" element={<CourseInfoPage />} />
+          <Route path="/course/:id" element={<CourseInfoPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/registerAccount" element={<RegisterAccountPage />} />
+          <Route path="/member/:id" element={<CourseInfoPage />} />
+          <Route path="/admin/:id" element={<CourseInfoPage />} />
+        </Routes>
+      </Router>
+    </ContextProvider>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

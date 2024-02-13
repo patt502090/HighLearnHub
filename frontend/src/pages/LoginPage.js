@@ -7,6 +7,7 @@ import backgroundImage from "../assets/background.png";
 import conf from "../conf/main";
 import ax from "../conf/ax";
 import { AuthContext, ContextProvider } from "../context/Auth.context";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
@@ -46,7 +47,10 @@ export default function LoginPage() {
         console.log("role:", result.data.role.name);
 
         if (result.data.role.name === "Member") {
-          navigate("/");
+          toast.success('Login Successfully!')
+          setTimeout(() => {
+            navigate('/');
+          }, 1000);                    
         }
       }
     } catch (error) {
@@ -64,8 +68,10 @@ export default function LoginPage() {
     navigate("/register");
   };
 
+
   return (
     <ContextProvider>
+      <Toaster position="top-right" reverseOrder={false} />
       <div
         className="flex items-center justify-center h-screen w-screen"
         style={{
@@ -74,7 +80,7 @@ export default function LoginPage() {
           backgroundPosition: "center",
         }}
       >
-        <div className="container w-auto bg-white border-2 rounded-lg shadow-2xl p-6">
+        <div className="container max-w-sm bg-white border-2 rounded-lg shadow-2xl p-6">
           <p className="text-lg font-bold mb-4 mt-4 text-center">
             ลงชื่อเข้าใช้
           </p>
@@ -86,7 +92,7 @@ export default function LoginPage() {
             onSubmit={handleSubmit}
           >
             <div className="max-w-md">
-              <div className="mb-2 block">
+              <div className="mb-2  block">
                 <Label htmlFor="email4" value="Email" className="text-left" />
               </div>
               <TextInput
@@ -97,7 +103,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={handleEmailChange}
                 required
-                size="35"
+                size="27"
               />
               {emailError && (
                 <p className="text-red-500 text-xs mt-1">{emailError}</p>
@@ -120,21 +126,23 @@ export default function LoginPage() {
                 value={password}
                 onChange={handlePasswordChange}
                 required
-                size="35"
+                size="27"
               />
               {passwordError && (
                 <p className="text-red-500 text-xs mt-1">{passwordError}</p>
               )}
             </div>
 
-            <div className="flex items-center gap-2 mt-4 text-left">
-              <Checkbox id="remember" />
-              <Label htmlFor="remember">Remember me</Label>
+            <div className="gap-2 text-left">
+              <Checkbox id="remember" className="mx-2" />
+              <Label htmlFor="remember" className="inline-block">
+                Remember me
+              </Label>
             </div>
 
             <Button
               type="submit"
-              className="mt-4 mb-6 px-6"
+              className=" px-6"
               gradientDuoTone="purpleToPink"
               size="md"
               disabled={!submitEnabled || loading}
@@ -142,7 +150,7 @@ export default function LoginPage() {
               {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
             </Button>
           </form>
-          <div className="relative my-4 mb-6">
+          <div className="relative my-6">
             <hr className="absolute w-full border-t-2 border-gray-1000" />
             <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4 bg-white text-gray-1000 text-xs ">
               หรือ
@@ -150,7 +158,7 @@ export default function LoginPage() {
           </div>
 
           <button
-            className="px-6 py-2.5 mb-5 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150 items-center mx-auto"
+            className="px-6 py-2.5 mb-5 mt-12 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150 items-center mx-auto"
             onClick={handleGoogleLoginClick}
           >
             <img

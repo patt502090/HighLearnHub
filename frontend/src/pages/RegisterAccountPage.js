@@ -7,18 +7,21 @@ import backgroundImage from "../assets/background.png";
 import conf from "../conf/main";
 import ax from "../conf/ax";
 import { ContextProvider } from "../context/Auth.context";
+import { FaPhoneSquareAlt } from "react-icons/fa";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function RegisterAccountPage() {
   const [loading, setLoading] = useState(false);
   const [submitEnabled, setSubmitEnabled] = useState(true);
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     username: "",
     email: "",
-    confirmEmail: "",
     password: "",
     confirmPassword: "",
+    phonenum: "",
+    citizenID: "",
   });
 
   const navigate = useNavigate();
@@ -39,18 +42,30 @@ export default function RegisterAccountPage() {
     e.preventDefault();
     setSubmitEnabled(false);
     setLoading(true);
-  
-    try {
-      if (formData.email === formData.confirmEmail && formData.password === formData.confirmPassword) {
-        const result = await ax.post(`${conf.apiUrlPrefix}${conf.registerEndpoint}`, {
-          email: formData.email,
-          password: formData.password,
-        });
-  
-        console.log("Registration successful:", result.data);
 
+    try {
+      if (formData.password === formData.confirmPassword) {
+        const postData = {
+          username: formData.username,
+          email: formData.email,
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          password: formData.password,
+          cirizenID: formData.citizenID,
+          phonenum: formData.phonenum,
+        };
+  
+        const result = await ax.post(
+          `${conf.apiUrlPrefix}${conf.registerEndpoint}`,
+          postData
+        );
+        console.log("Registration successful:", result.data);
+        toast.success('Login Successfully!')
+          setTimeout(() => {
+            navigate('/login');
+          }, 1000);
       } else {
-        console.error("Email or password confirmation mismatch");
+        console.error("Password confirmation mismatch");
       }
     } catch (error) {
       console.error("Registration failed:", error.response.data);
@@ -62,6 +77,7 @@ export default function RegisterAccountPage() {
 
   return (
     <ContextProvider>
+      <Toaster />
       <div
         className="flex items-center justify-center h-screen w-screen"
         style={{
@@ -70,52 +86,14 @@ export default function RegisterAccountPage() {
           backgroundPosition: "center",
         }}
       >
-        <div className="container w-auto bg-white border-2 rounded-lg shadow-2xl p-6">
+        <div className="container w-full max-w-md bg-white border-2 rounded-lg shadow-2xl p-6 ">
           <p className="text-lg font-bold mb-4 text-center">
             สมัครบัญชีผู้ใช้ด้วยอีเมล
           </p>
           <p className="text-sm mb-5 text-center">กรุณากรอกข้อมูลให้ครบถ้วน</p>
-          <form className="grid grid-cols-2 gap-4 justify-center" onSubmit={handleSubmit}>
-            <div>
-              <Label htmlFor="firstName" value="First Name" />
-              <TextInput
-                id="firstName"
-                type="text"
-                placeholder="John"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-              />
-            </div>
+          <form onSubmit={handleSubmit} className="flex flex-wrap gap-4">
 
-            <div>
-              <Label htmlFor="lastName" value="Last Name" />
-              <TextInput
-                id="lastName"
-                type="text"
-                placeholder="Doe"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="username" value="Username" />
-              <TextInput
-                id="username"
-                type="text"
-                placeholder="johndoe"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div>
+          <div className="w-full">
               <Label htmlFor="email" value="Email" />
               <TextInput
                 id="email"
@@ -129,21 +107,78 @@ export default function RegisterAccountPage() {
               />
             </div>
 
-            <div>
-              <Label htmlFor="confirmEmail" value="Confirm Email" />
+            <div className="flex-2">
+              <Label htmlFor="first_name" value="First Name" />
               <TextInput
-                id="confirmEmail"
-                type="email"
-                icon={HiMail}
-                placeholder="name@flowbite.com"
-                name="confirmEmail"
-                value={formData.confirmEmail}
+                id="first_name"
+                type="text"
+                placeholder="John"
+                name="first_name"
+                value={formData.first_name}
+                onChange={handleChange}
+                required
+                size={16.99}
+              />
+            </div>
+
+            <div className="flex-2">
+              <Label htmlFor="last_name" value="Last Name" />
+              <TextInput
+                id="last_name"
+                type="text"
+                placeholder="Doe"
+                name="last_name"
+                value={formData.last_name}
+                onChange={handleChange}
+                required
+                size={17}
+              />
+            </div>
+
+            <div className="flex-2">
+              <Label htmlFor="username" value="Username" />
+              <TextInput
+                id="username"
+                type="text"
+                placeholder="johndoe"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+                size={16.99}
+              />
+            </div>
+
+            <div className="flex-2">
+              <Label htmlFor="citizenID" value="CitizenID" />
+              <TextInput
+                id="citizenID"
+                type="text"
+                placeholder="12345"
+                name="citizenID"
+                value={formData.citizenID}
+                onChange={handleChange}
+                required
+                size={17}
+              />
+            </div>
+
+
+            <div className="w-full">
+              <Label htmlFor="phone" value="Phone Number" />
+              <TextInput
+                id="phone"
+                type="text"
+                placeholder="191"
+                name="phonenum"
+                value={formData.phonenum}
+                icon={FaPhoneSquareAlt}
                 onChange={handleChange}
                 required
               />
             </div>
 
-            <div>
+            <div className="w-full">
               <Label htmlFor="password" value="Password" />
               <TextInput
                 id="password"
@@ -157,7 +192,7 @@ export default function RegisterAccountPage() {
               />
             </div>
 
-            <div>
+            <div className="w-full">
               <Label htmlFor="confirmPassword" value="Confirm Password" />
               <TextInput
                 id="confirmPassword"
@@ -173,7 +208,7 @@ export default function RegisterAccountPage() {
 
             <Button
               type="submit"
-              className="col-span-2 mt-4 mb-6 px-6"
+              className="flex-1 mt-4 mb-6 px-6 mx-auto"
               gradientDuoTone="purpleToPink"
               size="md"
               disabled={!submitEnabled || loading}
