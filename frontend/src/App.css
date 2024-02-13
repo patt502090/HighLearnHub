@@ -42,4 +42,6 @@
   font-weight: 400;
   font-style: normal;
 }
-
+body {
+  font-family: "Prompt", sans-serif;
+}

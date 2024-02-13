@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Course() {
     return (
@@ -11,9 +12,9 @@ export default function Course() {
             <div style={{ margin: '60px' }}></div>
             <div className="flex flex-wrap justify-center">
                 <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 m-2">
-                    <a href="#">
+                    <Link to="/course/1">
                         <img className="rounded-t-lg w-full h-64 object-cover" src="https://study.com/cimages/course-image/biology-101-syllabus-resource-lesson-plans_139158_large.jpg" alt="" />
-                    </a>
+                    </Link>
                     <div className="p-5">
                         <a href="#">
                             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white text-center">ชีววิทยา</h5>
