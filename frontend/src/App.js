@@ -1,14 +1,15 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import "./App.css";
-import { Button } from "flowbite-react";
 import Navbar from "./pages/navbar";
 import Course from "./componant/course";
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
     <>
       <Navbar> </Navbar>
+      <Toaster position="top-right" reverseOrder={false} />
       <Course/>
       <Outlet />
     </>
