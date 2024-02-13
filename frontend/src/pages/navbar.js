@@ -9,8 +9,10 @@ const Navbar = () => {
         <div className="container mx-auto flex justify-between items-center p-4">
           <SidebarWithBurgerMenu></SidebarWithBurgerMenu>
           
-          <div>
+          <div className='container text-right'>
+          <button className=" bg-black hover:bg-zinc-600 text-white font-bold py-2 px-4 rounded-full">
             <NavLink to="/login" className="text-white">Login</NavLink>
+            </button>
           </div>
         </div>
       </header>
