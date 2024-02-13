@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import "./App.css";
-import { Button } from "flowbite-react";
-import Navbar from "./pages/navbar";
-import Course from "./componant/course";
+import Navbar from "./components/Navbar";
+import Course from "./components/Course";
+import SidebarWithBurgerMenu from "./components/Sidebar"
 
 function App() {
+
   return (
     <>
-      <Navbar> </Navbar>
-      <Course/>
+      <Navbar />
+      <Course />
       <Outlet />
+      <SidebarWithBurgerMenu />
     </>
   );
 }

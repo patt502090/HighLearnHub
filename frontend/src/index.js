@@ -11,7 +11,6 @@ import CourseInfoPage from './pages/CourseInfoPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import RegisterAccountPage from './pages/RegisterAccountPage';
-
 import { ContextProvider } from "./context/Auth.context";
 
 const router = createBrowserRouter([
