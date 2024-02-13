@@ -60,7 +60,10 @@ export default function RegisterAccountPage() {
           postData
         );
         console.log("Registration successful:", result.data);
-        navigate("/login");
+        toast.success('Login Successfully!')
+          setTimeout(() => {
+            navigate('/login');
+          }, 1000);
       } else {
         console.error("Password confirmation mismatch");
       }

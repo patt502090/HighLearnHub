@@ -47,8 +47,10 @@ export default function LoginPage() {
         console.log("role:", result.data.role.name);
 
         if (result.data.role.name === "Member") {
-          navigate("/");
           toast.success('Login Successfully!')
+          setTimeout(() => {
+            navigate('/');
+          }, 1000);                    
         }
       }
     } catch (error) {
