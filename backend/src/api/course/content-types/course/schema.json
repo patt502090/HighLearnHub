@@ -39,6 +39,17 @@
       "relation": "oneToMany",
       "target": "api::video.video",
       "mappedBy": "course"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }

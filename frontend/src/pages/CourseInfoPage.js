@@ -9,8 +9,9 @@ export default function CourseInfoPage() {
     useEffect(() => {
         const fetchCourse = async () => {
             try {
-                const response = await axios.get(`http://localhost:1337/api/courses/1`);
-                setCourse(response.data); 
+                const response = await axios.get(`http://localhost:1337/api/courses/${id}?populate=image`);
+                console.log(response)    
+                setCourse(response.data.data); 
             } catch (error) {
                 console.error("Error fetching course:", error);
             }
@@ -25,7 +26,7 @@ export default function CourseInfoPage() {
             {course ? (
                 <div>
                     <p>Course ID: {course.id}</p>
-                    <p>Course Name: {course.name}</p>
+                    <p>Course Name: {course.attributes.title}</p>
                 </div>
             ) : (
                 <p>Loading...</p>
