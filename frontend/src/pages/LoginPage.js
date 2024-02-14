@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { Button, Checkbox, Label, TextInput, Spinner } from "flowbite-react";
 import { HiMail } from "react-icons/hi";
 import { RiLockPasswordFill } from "react-icons/ri";
 import backgroundImage from "../assets/background.png";
@@ -41,20 +41,21 @@ export default function LoginPage() {
       });
 
       result = await ax.get(`${conf.apiUrlPrefix}${conf.jwtUserEndpoint}`);
-      console.log("login result:", result.data);
+      console.log("ข้อมูล Member ที่เข้าสู่ระบบ :", result.data);
 
       if (result.data.role.name) {
         console.log("role:", result.data.role.name);
-
+        setLoading(false);
         if (result.data.role.name === "Member") {
-          toast.success('Login Successfully!')
+          toast.success("เข้าสู่ระบบสำเร็จ!");
+
           setTimeout(() => {
-            navigate('/');
-          }, 1000);                    
+            navigate("/");
+          }, 700);
         }
       }
     } catch (error) {
-      setPasswordError("Invalid email or password");
+      setPasswordError("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
     } finally {
       setLoading(false);
       setSubmitEnabled(true);
@@ -68,7 +69,6 @@ export default function LoginPage() {
     navigate("/register");
   };
 
-
   return (
     <ContextProvider>
       <Toaster position="top-right" reverseOrder={false} />
@@ -81,25 +81,25 @@ export default function LoginPage() {
         }}
       >
         <div className="container max-w-sm bg-white border-2 rounded-lg shadow-2xl p-6">
-          <p className="text-lg font-bold mb-4 mt-4 text-center">
+          <p className="text-lg font-bold mb-4 mt-3 text-center">
             ลงชื่อเข้าใช้
           </p>
           <p className="text-base mb-5 text-center">
             ยินดีต้อนรับเข้าสู่บัญชีผู้ใช้ HighLearnHub
           </p>
           <form
-            className="flex flex-col gap-3 items-center justify-center"
+            className="flex flex-col gap-3"
             onSubmit={handleSubmit}
           >
-            <div className="max-w-md">
+            <div className="max-w-md  items-center">
               <div className="mb-2  block">
-                <Label htmlFor="email4" value="Email" className="text-left" />
+                <Label htmlFor="email4" value="อีเมล" className="text-left " />
               </div>
               <TextInput
                 id="email4"
                 type="email"
                 icon={HiMail}
-                placeholder="name@flowbite.com"
+                placeholder="name@highlearnhub.com"
                 value={email}
                 onChange={handleEmailChange}
                 required
@@ -110,11 +110,11 @@ export default function LoginPage() {
               )}
             </div>
 
-            <div className="max-w-md mt-2">
+            <div className="max-w-md">
               <div className="mb-2 block">
                 <Label
                   htmlFor="password"
-                  value="Password"
+                  value="รหัสผ่าน"
                   className="text-left"
                 />
               </div>
@@ -132,23 +132,26 @@ export default function LoginPage() {
                 <p className="text-red-500 text-xs mt-1">{passwordError}</p>
               )}
             </div>
-
-            <div className="gap-2 text-left">
-              <Checkbox id="remember" className="mx-2" />
-              <Label htmlFor="remember" className="inline-block">
-                Remember me
-              </Label>
-            </div>
+          
+            <p
+            href="#"
+            className="text-sm text-center hover:underline cursor-pointer  gap-2 mb-1"
+            onClick={handleRegister}
+          >
+            ลืมรหัสผ่าน ?
+          </p>
+      
 
             <Button
               type="submit"
-              className=" px-6"
+              className="w-1/2 mx-auto"
               gradientDuoTone="purpleToPink"
               size="md"
               disabled={!submitEnabled || loading}
             >
-              {loading ? "กำลังเข้าสู่ระบบ..." : "เข้าสู่ระบบ"}
+              {loading ? <span>กำลังโหลด...</span> : <span>เข้าสู่ระบบ</span>}
             </Button>
+
           </form>
           <div className="relative my-6">
             <hr className="absolute w-full border-t-2 border-gray-1000" />
@@ -162,7 +165,7 @@ export default function LoginPage() {
             onClick={handleGoogleLoginClick}
           >
             <img
-              className="w-4 h-4"
+              className="w-4 h-4 items-center justify-center"
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               loading="lazy"
               alt="google logo"
@@ -172,7 +175,7 @@ export default function LoginPage() {
 
           <p
             href="#"
-            className="text-sm text-red-500 underline text-center cursor-pointer font-medium mb-3"
+            className="text-sm text-red-500 underline text-center cursor-pointer font-medium mb-2"
             onClick={handleRegister}
           >
             ยังไม่มีบัญชี ?

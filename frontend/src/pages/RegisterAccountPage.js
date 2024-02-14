@@ -8,11 +8,12 @@ import conf from "../conf/main";
 import ax from "../conf/ax";
 import { ContextProvider } from "../context/Auth.context";
 import { FaPhoneSquareAlt } from "react-icons/fa";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 
 export default function RegisterAccountPage() {
   const [loading, setLoading] = useState(false);
   const [submitEnabled, setSubmitEnabled] = useState(true);
+  const [passwordError, setPasswordError] = useState(false);
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -21,7 +22,6 @@ export default function RegisterAccountPage() {
     password: "",
     confirmPassword: "",
     phonenum: "",
-    citizenID: "",
   });
 
   const navigate = useNavigate();
@@ -32,7 +32,9 @@ export default function RegisterAccountPage() {
       ...prevData,
       [name]: value,
     }));
+  
   };
+  
 
   const handleLogin = () => {
     navigate("/login");
@@ -42,7 +44,7 @@ export default function RegisterAccountPage() {
     e.preventDefault();
     setSubmitEnabled(false);
     setLoading(true);
-
+  
     try {
       if (formData.password === formData.confirmPassword) {
         const postData = {
@@ -51,7 +53,6 @@ export default function RegisterAccountPage() {
           first_name: formData.first_name,
           last_name: formData.last_name,
           password: formData.password,
-          cirizenID: formData.citizenID,
           phonenum: formData.phonenum,
         };
   
@@ -59,25 +60,32 @@ export default function RegisterAccountPage() {
           `${conf.apiUrlPrefix}${conf.registerEndpoint}`,
           postData
         );
-        console.log("Registration successful:", result.data);
-        toast.success('Login Successfully!')
-          setTimeout(() => {
-            navigate('/login');
-          }, 1000);
+        console.log("สมัครข้อมูล:", result.data);
+        console.log(postData)
+        toast.success("สมัครสมาชิกสำเร็จ!");
+        setTimeout(() => {
+          navigate("/login");
+        }, 700);
       } else {
-        console.error("Password confirmation mismatch");
+        console.error("รหัสผ่านไม่ตรงกัน กรุณากรอกรหัสผ่านใหม่ให้ตรงกัน");
+        toast.error("รหัสผ่านไม่ตรงกัน กรุณากรอกรหัสผ่านใหม่ให้ตรงกัน");
+        setPasswordError(true);
       }
     } catch (error) {
-      console.error("Registration failed:", error.response.data);
+      console.error("ข้อมูลสมัครไม่สำเร็จ:", error.response.data);
+      toast.error("การสมัครไม่สำเร็จ กรุณาติดต่อเจ้าหน้าที่");
+      console.log(formData)
+
     } finally {
       setLoading(false);
       setSubmitEnabled(true);
     }
   };
+  
 
   return (
     <ContextProvider>
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
       <div
         className="flex items-center justify-center h-screen w-screen"
         style={{
@@ -92,14 +100,13 @@ export default function RegisterAccountPage() {
           </p>
           <p className="text-sm mb-5 text-center">กรุณากรอกข้อมูลให้ครบถ้วน</p>
           <form onSubmit={handleSubmit} className="flex flex-wrap gap-4">
-
-          <div className="w-full">
-              <Label htmlFor="email" value="Email" />
+            <div className="w-full">
+              <Label htmlFor="email" value="อีเมล" />
               <TextInput
                 id="email"
                 type="email"
                 icon={HiMail}
-                placeholder="name@flowbite.com"
+                placeholder="name@highlearnhub.com"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
@@ -108,7 +115,7 @@ export default function RegisterAccountPage() {
             </div>
 
             <div className="flex-2">
-              <Label htmlFor="first_name" value="First Name" />
+              <Label htmlFor="first_name" value="ชื่อจริง" />
               <TextInput
                 id="first_name"
                 type="text"
@@ -122,7 +129,7 @@ export default function RegisterAccountPage() {
             </div>
 
             <div className="flex-2">
-              <Label htmlFor="last_name" value="Last Name" />
+              <Label htmlFor="last_name" value="นามสกุล" />
               <TextInput
                 id="last_name"
                 type="text"
@@ -135,10 +142,10 @@ export default function RegisterAccountPage() {
               />
             </div>
 
-            <div className="flex-2">
-              <Label htmlFor="username" value="Username" />
+            <div className="flex-2 w-full">
+              <Label htmlFor="username" value="ชื่อผู้ใช้" />
               <TextInput
-                id="username"
+                id="username3"
                 type="text"
                 placeholder="johndoe"
                 name="username"
@@ -146,26 +153,12 @@ export default function RegisterAccountPage() {
                 onChange={handleChange}
                 required
                 size={16.99}
+                addon="@"
               />
             </div>
-
-            <div className="flex-2">
-              <Label htmlFor="citizenID" value="CitizenID" />
-              <TextInput
-                id="citizenID"
-                type="text"
-                placeholder="12345"
-                name="citizenID"
-                value={formData.citizenID}
-                onChange={handleChange}
-                required
-                size={17}
-              />
-            </div>
-
 
             <div className="w-full">
-              <Label htmlFor="phone" value="Phone Number" />
+              <Label htmlFor="phone" value="เบอร์โทรศัพท์" />
               <TextInput
                 id="phone"
                 type="text"
@@ -179,7 +172,7 @@ export default function RegisterAccountPage() {
             </div>
 
             <div className="w-full">
-              <Label htmlFor="password" value="Password" />
+              <Label htmlFor="password" value="รหัสผ่าน" />
               <TextInput
                 id="password"
                 type="password"
@@ -191,9 +184,8 @@ export default function RegisterAccountPage() {
                 required
               />
             </div>
-
             <div className="w-full">
-              <Label htmlFor="confirmPassword" value="Confirm Password" />
+              <Label htmlFor="confirmPassword" value="ยืนยันรหัสผ่าน" />
               <TextInput
                 id="confirmPassword"
                 type="password"
@@ -205,6 +197,12 @@ export default function RegisterAccountPage() {
                 required
               />
             </div>
+
+            {passwordError && (
+              <div className="text-red-500 text-sm font-semibold">
+                รหัสผ่านไม่ตรงกัน กรุณากรอกรหัสผ่านใหม่ให้ตรงกัน
+              </div>
+            )}
 
             <Button
               type="submit"
