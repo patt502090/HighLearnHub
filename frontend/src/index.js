@@ -8,7 +8,7 @@ import CourseInfoPage from "./pages/CourseInfoPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import RegisterAccountPage from "./pages/RegisterAccountPage";
-
+import PaymentPage from "./pages/PaymentPage";
 import { ContextProvider } from "./context/Auth.context";
 import PageNotFound from "./pages/PageNotFound";
 import ProfliePage from "./pages/ProfliePage";
@@ -29,6 +29,7 @@ root.render(
           <Route path="/admin/:id" element={<CourseInfoPage />} />
           <Route path="/proflie" element={<ProfliePage />} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="/payment" element={<PaymentPage />} />
         </Routes>
       </Router>
     </ContextProvider>
