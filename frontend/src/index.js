@@ -10,6 +10,8 @@ import RegisterPage from "./pages/RegisterPage";
 import RegisterAccountPage from "./pages/RegisterAccountPage";
 
 import { ContextProvider } from "./context/Auth.context";
+import PageNotFound from "./pages/PageNotFound";
+import ProfliePage from "./pages/ProfliePage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,13 +20,15 @@ root.render(
       <Router>
         <Routes>
           <Route path="/" element={<App />} />
-          {/* <Route path="/home" element={<CourseInfoPage />} /> */}
+          <Route path="/home" element={<App />} />
           <Route path="/course/:id" element={<CourseInfoPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/registerAccount" element={<RegisterAccountPage />} />
           <Route path="/member/:id" element={<CourseInfoPage />} />
           <Route path="/admin/:id" element={<CourseInfoPage />} />
+          <Route path="/proflie" element={<ProfliePage />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
     </ContextProvider>
