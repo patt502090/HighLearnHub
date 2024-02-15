@@ -5,7 +5,7 @@ export default function Course(props) {
   console.log(props);
   return (
     <>
-      <div className="flex justify-between container mx-auto px-5 mt-3">
+      {/* <div className="flex justify-between container mx-auto px-5 mt-3">
         <h2 className="mt-2"> 105 รายการ</h2>
         <div className="order-last">
           <button
@@ -28,7 +28,7 @@ export default function Course(props) {
       <hr
         className="border-t-4 border-black border-solid my-1"
         style={{ borderColor: "#000000" }}
-      />
+      /> */}
       <h1
         className="text-3xl font-bold text-center mb-5"
         style={{ borderColor: "#000000", marginTop: "40px" }}

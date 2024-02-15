@@ -53,9 +53,13 @@ export default function SidebarWithBurgerMenu(props) {
 
     return (
         <>
-            <button variant="text" size="lg" onClick={openDrawer}>
-                <Bars3Icon className="h-8 w-8 stroke-2" />
-            </button>
+            <IconButton variant="text" size="lg" onClick={openDrawer}>
+                {isDrawerOpen ? (
+                    <XMarkIcon className="h-8 w-8 stroke-2" />
+                ) : (
+                    <Bars3Icon className="h-8 w-8 stroke-2" />
+                )}
+            </IconButton>
             <Drawer open={isDrawerOpen} onClose={closeDrawer}>
                 <Card
                     color="transparent"
@@ -75,7 +79,7 @@ export default function SidebarWithBurgerMenu(props) {
                     <List>
                         <a href="/home" className="text-initial">
                             <hr className="my-2 border-blue-gray-50" />
-                            <ListItem s>
+                            <ListItem>
                                 <ListItemPrefix>
                                     <HomeIcon className="h-5 w-5" />
                                 </ListItemPrefix>

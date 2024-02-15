@@ -5,7 +5,7 @@ import axios from "axios";
 export default function CourseInfoPage() {
     const { id } = useParams();
     const [course, setCourse] = useState(null);
-    const [learningType, setLearningType] = useState("live"); // Default to "live" learning type
+    const [learningType, setLearningType] = useState("live");
 
     useEffect(() => {
         const fetchCourse = async () => {

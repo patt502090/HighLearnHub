@@ -50,6 +50,16 @@
         "videos",
         "audios"
       ]
+    },
+    "subject": {
+      "type": "string"
+    },
+    "study_type": {
+      "type": "enumeration",
+      "enum": [
+        "Live",
+        "Online"
+      ]
     }
   }
 }

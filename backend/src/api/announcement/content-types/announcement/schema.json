@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "announcements",
+  "info": {
+    "singularName": "announcement",
+    "pluralName": "announcements",
+    "displayName": "announcement",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  }
+}

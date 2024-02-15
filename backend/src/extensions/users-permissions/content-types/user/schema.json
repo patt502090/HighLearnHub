@@ -65,9 +65,6 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "citizenID": {
-      "type": "string"
-    },
     "phonenum": {
       "type": "string"
     },
