@@ -47,11 +47,11 @@ export default function LoginPage() {
         console.log("role:", result.data.role.name);
         setLoading(false);
         if (result.data.role.name === "Member") {
-          toast.success("เข้าสู่ระบบสำเร็จ!");
-
-          setTimeout(() => {
-            navigate("/");
-          }, 700);
+        setTimeout(() => {
+          navigate("/");
+          });
+        toast.success("เข้าสู่ระบบสำเร็จ!");
+      
         }
       }
     } catch (error) {
@@ -62,7 +62,7 @@ export default function LoginPage() {
     }
   };
   const handleGoogleLoginClick = () => {
-    window.location.href = `${conf.apiUrlPrefix}${conf.googleConnectEndpoint}`;
+    navigate(`${conf.apiUrlPrefix}${conf.googleConnectEndpoint}`);
   };
 
   const handleRegister = () => {
@@ -71,7 +71,7 @@ export default function LoginPage() {
 
   return (
     <ContextProvider>
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster position="top-center" reverseOrder={false} />
       <div
         className="flex items-center justify-center h-screen w-screen"
         style={{
@@ -87,10 +87,7 @@ export default function LoginPage() {
           <p className="text-base mb-5 text-center">
             ยินดีต้อนรับเข้าสู่บัญชีผู้ใช้ HighLearnHub
           </p>
-          <form
-            className="flex flex-col gap-3"
-            onSubmit={handleSubmit}
-          >
+          <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
             <div className="max-w-md  items-center">
               <div className="mb-2  block">
                 <Label htmlFor="email4" value="อีเมล" className="text-left " />
@@ -132,15 +129,14 @@ export default function LoginPage() {
                 <p className="text-red-500 text-xs mt-1">{passwordError}</p>
               )}
             </div>
-          
+
             <p
-            href="#"
-            className="text-sm text-center hover:underline cursor-pointer  gap-2 mb-1"
-            onClick={handleRegister}
-          >
-            ลืมรหัสผ่าน ?
-          </p>
-      
+              href="#"
+              className="text-sm text-center hover:underline cursor-pointer  gap-2 mb-1"
+              onClick={handleRegister}
+            >
+              ลืมรหัสผ่าน ?
+            </p>
 
             <Button
               type="submit"
@@ -151,7 +147,6 @@ export default function LoginPage() {
             >
               {loading ? <span>กำลังโหลด...</span> : <span>เข้าสู่ระบบ</span>}
             </Button>
-
           </form>
           <div className="relative my-6">
             <hr className="absolute w-full border-t-2 border-gray-1000" />

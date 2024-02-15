@@ -63,7 +63,7 @@ export default function RegisterAccountPage() {
         toast.success("สมัครสมาชิกสำเร็จ!");
         setTimeout(() => {
           navigate("/login");
-        }, 700);
+        },);
       } else {
         console.error("รหัสผ่านไม่ตรงกัน กรุณากรอกรหัสผ่านใหม่ให้ตรงกัน");
         toast.error("รหัสผ่านไม่ตรงกัน กรุณากรอกรหัสผ่านใหม่ให้ตรงกัน");
