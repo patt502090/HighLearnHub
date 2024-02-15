@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Checkbox, Label, TextInput, Spinner } from "flowbite-react";
+import { Button, Label, TextInput } from "flowbite-react";
 import { HiMail } from "react-icons/hi";
 import { RiLockPasswordFill } from "react-icons/ri";
 import backgroundImage from "../assets/background.png";
@@ -80,7 +80,7 @@ export default function LoginPage() {
           backgroundPosition: "center",
         }}
       >
-        <div className="container max-w-sm bg-white border-2 rounded-lg shadow-2xl p-6">
+        <div className="container max-w-xs md:max-w-sm bg-white border-2 rounded-lg shadow-2xl p-6">
           <p className="text-lg font-bold mb-4 mt-3 text-center">
             ลงชื่อเข้าใช้
           </p>

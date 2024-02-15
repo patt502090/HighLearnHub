@@ -32,9 +32,7 @@ export default function RegisterAccountPage() {
       ...prevData,
       [name]: value,
     }));
-  
   };
-  
 
   const handleLogin = () => {
     navigate("/login");
@@ -44,7 +42,7 @@ export default function RegisterAccountPage() {
     e.preventDefault();
     setSubmitEnabled(false);
     setLoading(true);
-  
+
     try {
       if (formData.password === formData.confirmPassword) {
         const postData = {
@@ -55,13 +53,13 @@ export default function RegisterAccountPage() {
           password: formData.password,
           phonenum: formData.phonenum,
         };
-  
+
         const result = await ax.post(
           `${conf.apiUrlPrefix}${conf.registerEndpoint}`,
           postData
         );
         console.log("สมัครข้อมูล:", result.data);
-        console.log(postData)
+        console.log(postData);
         toast.success("สมัครสมาชิกสำเร็จ!");
         setTimeout(() => {
           navigate("/login");
@@ -74,14 +72,12 @@ export default function RegisterAccountPage() {
     } catch (error) {
       console.error("ข้อมูลสมัครไม่สำเร็จ:", error.response.data);
       toast.error("การสมัครไม่สำเร็จ กรุณาติดต่อเจ้าหน้าที่");
-      console.log(formData)
-
+      console.log(formData);
     } finally {
       setLoading(false);
       setSubmitEnabled(true);
     }
   };
-  
 
   return (
     <ContextProvider>
@@ -94,7 +90,7 @@ export default function RegisterAccountPage() {
           backgroundPosition: "center",
         }}
       >
-        <div className="container w-full max-w-md bg-white border-2 rounded-lg shadow-2xl p-6 ">
+        <div className="container max-w-xs md:max-w-sm bg-white border-2 rounded-lg shadow-2xl p-6 ">
           <p className="text-lg font-bold mb-4 text-center">
             สมัครบัญชีผู้ใช้ด้วยอีเมล
           </p>
@@ -114,7 +110,7 @@ export default function RegisterAccountPage() {
               />
             </div>
 
-            <div className="flex-2">
+            <div className="flex-1 md:flex-2">
               <Label htmlFor="first_name" value="ชื่อจริง" />
               <TextInput
                 id="first_name"
@@ -124,11 +120,11 @@ export default function RegisterAccountPage() {
                 value={formData.first_name}
                 onChange={handleChange}
                 required
-                size={16.99}
+                size={17} 
               />
             </div>
 
-            <div className="flex-2">
+            <div className="flex-1 md:flex-2">
               <Label htmlFor="last_name" value="นามสกุล" />
               <TextInput
                 id="last_name"
@@ -152,7 +148,6 @@ export default function RegisterAccountPage() {
                 value={formData.username}
                 onChange={handleChange}
                 required
-                size={16.99}
                 addon="@"
               />
             </div>
