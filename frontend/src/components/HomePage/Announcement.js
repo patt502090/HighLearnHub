@@ -33,15 +33,20 @@ export default function Announcements({ data }) {
         className="border-t-4 border-black border-solid my-1"
         style={{ borderColor: "#000000" }}
       />
-      <div className="container mx-auto h-full w-full mt-10 swiper-container">
+      <div className="mx-auto h-full w-full mt-10 swiper-container">
         <Swiper
           spaceBetween={1}
           modules={[Navigation, Pagination]}
+          centeredSlides={true}
           navigation={true}
+          loop={true}
           slidesPerView={1}
+          pagination={{
+            clickable: true,
+          }}
           breakpoints={{
             640: {
-              slidesPerView: 2,
+              slidesPerView: 3,
             },
           }}
         >
