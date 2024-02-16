@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
 import "../App.css";
 import Navbar from "../components/Navbar";
 import Course from "../components/HomePage/Course";
@@ -59,7 +58,6 @@ export default function HomePage() {
       <OnlineLatest/>
       <LiveCourse/>
       <Course data={course} />
-      <Outlet />
     </>
   );
 }

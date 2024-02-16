@@ -12,6 +12,7 @@ import PaymentPage from "./pages/PaymentPage";
 import { ContextProvider } from "./context/Auth.context";
 import PageNotFound from "./pages/PageNotFound";
 import ProfliePage from "./pages/ProfliePage";
+import CartPage from "./pages/CartPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -30,6 +31,7 @@ root.render(
           <Route path="/proflie" element={<ProfliePage />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/MyCart" element={<CartPage/>}/>
         </Routes>
       </Router>
     </ContextProvider>

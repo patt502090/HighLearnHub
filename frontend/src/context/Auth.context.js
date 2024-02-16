@@ -68,6 +68,7 @@ export const ContextProvider = props => {
         state,
         login,
         logout,
+        
       }}
     >
       {props.children}
