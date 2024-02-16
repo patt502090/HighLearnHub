@@ -1,142 +1,114 @@
-import React, { useEffect } from "react";
-import {
-    IconButton,
-    Typography,
-    List,
-    ListItem,
-    ListItemPrefix,
-    ListItemSuffix,
-    Chip,
-    Drawer,
-    Card,
-} from "@material-tailwind/react";
-import {
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import Button from '@mui/material/Button';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 
-    UserCircleIcon,
-    BookOpenIcon,
-    ShoppingCartIcon,
-    HomeIcon,
-} from "@heroicons/react/24/solid";
-import {
-    Bars3Icon,
-    XMarkIcon,
-} from "@heroicons/react/24/outline";
+export default function SidebarWithBurgerMenu() {
+    const [state, setState] = React.useState({
+        top: false,
+        left: false,
+        bottom: false,
+        right: false,
+    });
 
+    const toggleDrawer = (left, open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
 
-export default function SidebarWithBurgerMenu(props) {
-    const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
-
-    useEffect(() => {
-        const removeBugFromUsingDrawerComponent = async () => {
-            if (isDrawerOpen) {
-                const bgElement = document.querySelectorAll("div.bg-opacity-60")[0];
-                if (bgElement) {
-                    bgElement.classList.remove("bg-opacity-60");
-                    bgElement.classList.remove("bg-black");
-                }
-            }
-        };
-
-        removeBugFromUsingDrawerComponent();
-    }, [isDrawerOpen]);
-
-    const openDrawer = () => {
-        setIsDrawerOpen(true);
-        props.setShowingSearchingBar(false);
-    }
-    const closeDrawer = () => {
-        setIsDrawerOpen(false)
-        setTimeout(() => {
-            props.setShowingSearchingBar(true);
-        }, 250);
+        setState({ ...state, [left]: open });
     };
 
     return (
-        <>
-            <IconButton variant="text" size="lg" onClick={openDrawer}>
-                {isDrawerOpen ? (
-                    <XMarkIcon className="h-8 w-8 stroke-2" />
-                ) : (
-                    <Bars3Icon className="h-8 w-8 stroke-2" />
-                )}
-            </IconButton>
-            <Drawer open={isDrawerOpen} onClose={closeDrawer}>
-                <Card
-                    color="transparent"
-                    shadow={false}
-                    className="h-[calc(100vh-2rem)] w-full p-4"
+        <div>
+            <React.Fragment>
+                <Button onClick={toggleDrawer('left', true)}>
+                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14" />
+                    </svg></Button>
+                <Drawer
+                    anchor="left"
+                    open={state["left"]}
+                    onClose={toggleDrawer("left", false)}
                 >
-                    <div className="mb-2 flex items-center gap-4 p-4">
-                        <img
-                            src="https://media.discordapp.net/attachments/705005230944813076/1207665128879824917/HighLearnHub.png?ex=65e078cc&is=65ce03cc&hm=a49d1fee0719ab7706f2d7acad9c954db6f9d7d0699f6afb97fe6b31c0b508ed&=&format=webp&quality=lossless&width=625&height=625"
-                            alt="brand"
-                            className="h-10 w-10"
-                        />
-                        <Typography variant="h5" color="blue-gray">
-                            HighLearnHub
-                        </Typography>
-                    </div>
-                    <List>
-                        <a href="/home" className="text-initial">
-                            <hr className="my-2 border-blue-gray-50" />
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <HomeIcon className="h-5 w-5" />
-                                </ListItemPrefix>
-                                หน้าแรก
-                                <ListItemSuffix>
-                                    <Chip
-                                        value=""
-                                        size="sm"
-                                        variant="ghost"
-                                        color="blue-gray"
-                                        className="rounded-full"
-                                    />
-                                </ListItemSuffix>
-                            </ListItem>
-                        </a>
-                        <a href="/mycourse" className="text-initial">
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <BookOpenIcon className="h-5 w-5" />
-                                </ListItemPrefix>
-                                คอร์สของฉัน
-                            </ListItem>
-                        </a>
-                        <a href="/payment" className="text-initial">
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ShoppingCartIcon className="h-5 w-5" />
-                                </ListItemPrefix>
-                                ตะกร้าของฉัน
-                                <ListItemSuffix>
-                                    <Chip
-                                        value=""
-                                        size="sm"
-                                        variant="ghost"
-                                        color="blue-gray"
-                                        className="rounded-full"
-                                    />
-                                </ListItemSuffix>
-                            </ListItem>
-                        </a>
-                    </List>
-                    <div className="absolute inset-x-0 bottom-0 h-16">
-                        <hr className="my-2 border-blue-gray-50" />
-                        <div className="mb-2 flex items-center gap-4 p-2">
-                            <a href="/proflie" className="text-initial">
-                                <ListItem>
-                                    <ListItemPrefix>
-                                        <UserCircleIcon className="h-5 w-5" />
-                                    </ListItemPrefix>
-                                    โปรไฟล์
-                                </ListItem>
-                            </a>
-                        </div>
-                    </div>
-                </Card>
-            </Drawer>
-        </>
+                    <Box
+                        sx={{ width: 250 }}
+                        role="presentation"
+                        onClick={toggleDrawer("left", false)}
+                        onKeyDown={toggleDrawer("left", false)}
+                    >
+                        <div className="mb-2 flex items-center gap-4 p-4">
+                            <img
+                                src="https://media.discordapp.net/attachments/705005230944813076/1207665128879824917/HighLearnHub.png?ex=65e078cc&is=65ce03cc&hm=a49d1fee0719ab7706f2d7acad9c954db6f9d7d0699f6afb97fe6b31c0b508ed&=&format=webp&quality=lossless&width=625&height=625"
+                                alt="brand"
+                                className="h-10 w-10"
+                            />
+                            <p variant="h5" color="blue-gray">
+                                HighLearnHub
+                            </p>
 
+                        </div>
+                        <hr className="my-2 border-blue-gray-50" />
+                        <a href='/home'>
+                            <List>
+                                <ListItem disablePadding href=''>
+                                    <ListItemButton>
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd" d="M11.3 3.3a1 1 0 0 1 1.4 0l6 6 2 2a1 1 0 0 1-1.4 1.4l-.3-.3V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3c0 .6-.4 1-1 1H7a2 2 0 0 1-2-2v-6.6l-.3.3a1 1 0 0 1-1.4-1.4l2-2 6-6Z" clip-rule="evenodd" />
+                                        </svg>
+                                        <p className='ml-2'>หน้าแรก</p>
+                                    </ListItemButton>
+                                </ListItem>
+                            </List>
+                        </a>
+                        <a href='/mycourse'>
+                            <List>
+                                <ListItem disablePadding href=''>
+                                    <ListItemButton>
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd" d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2c.6 0 1-.4 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z" clip-rule="evenodd" />
+                                        </svg>
+                                        <p className='ml-2'>คอร์สของฉัน</p>
+                                    </ListItemButton>
+                                </ListItem>
+                            </List>
+                        </a>
+                        <a href='/payment'>
+                            <List>
+                                <ListItem disablePadding href=''>
+                                    <ListItemButton>
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd" d="M4 4c0-.6.4-1 1-1h1.5c.5 0 .9.3 1 .8L7.9 6H19a1 1 0 0 1 1 1.2l-1.3 6a1 1 0 0 1-1 .8h-8l.2 1H17a3 3 0 1 1-2.8 2h-2.4a3 3 0 1 1-4-1.8L5.7 5H5a1 1 0 0 1-1-1Z" clip-rule="evenodd" />
+                                        </svg>
+
+                                        <p className='ml-2'>ตะกร้าของฉัน</p>
+                                    </ListItemButton>
+                                </ListItem>
+                            </List>
+                        </a>
+                        <div className="absolute inset-x-0 bottom-0 h-16">
+                            <hr className="border-blue-gray-50" />
+                            <div className="flex items-center gap-4">
+                                <a href="/proflie" className="text-initial">
+                                    <List>
+                                        <ListItem disablePadding href=''>
+                                            <ListItemButton>
+                                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd" />
+                                                </svg>
+                                                <p className='ml-2'>โปรไฟล์</p>
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </List>
+                                </a>
+                            </div>
+                        </div>
+                    </Box>
+                </Drawer>
+            </React.Fragment>
+        </div>
     );
 }
