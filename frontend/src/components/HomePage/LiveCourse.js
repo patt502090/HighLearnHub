@@ -9,8 +9,8 @@ import "./SwiperButton.css";
 import axios from "axios";
 import { Badge } from 'flowbite-react';
 
-const OnlineBestSeller = () => {
-  const [onlineSelling, setOnlineSelling] = useState([]);
+const LiveCourse = () => {
+  const [liveCourse, setliveCourse] = useState([]);
   const navigate = useNavigate();
 
   const handleCardClick = (id) => {
@@ -20,20 +20,21 @@ const OnlineBestSeller = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const onlineSellingResponse = await axios.get(
-          "http://localhost:1337/api/courses?populate=image&filters[study_type][$eq]=Online&sort=amount:desc&pagination[pageSize]=10"
+        const liveCourseResponse = await axios.get(
+          "http://localhost:1337/api/courses?populate=image&filters[study_type][$eq]=Live&sort=amount:desc&pagination[pageSize]=10"
         );
-        const onlineSellingData = onlineSellingResponse.data.data.map(
+        const liveCourseData = liveCourseResponse.data.data.map(
           (course) => ({
             id: course.id,
             title: course.attributes.title,
             price: course.attributes.price,
             amount: course.attributes.amount,
             description: course.attributes.description,
+            maxamount: course.attributes.maxamount,
             image:"http://localhost:1337" + course.attributes.image.data.attributes.url,
           })
         );
-        setOnlineSelling(onlineSellingData);
+        setliveCourse(liveCourseData);
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -44,7 +45,7 @@ const OnlineBestSeller = () => {
 
   return (
     <div className="w-4/5 mx-auto h-full">
-     <p className="font-medium mx-auto mt-20 text-3xl">คอร์สออนไลน์ยอดนิยม</p>
+     <p className="font-medium mx-auto mt-20 text-3xl">คอร์สเรียนสดแนะนำ</p>
       <div className="swiper-container">
         <Swiper
           spaceBetween={30}
@@ -66,7 +67,7 @@ const OnlineBestSeller = () => {
             }
           }}
         >
-          {onlineSelling?.map((course) => (
+          {liveCourse?.map((course) => (
             <SwiperSlide key={course.id}>
               <div className="bg-white rounded-lg shadow-lg border border-gray-100 w-full cursor-pointer mx-auto mt-10 my-20 hover:translate-y-[-10px] transition-transform duration-300 h-full py-auto" onClick={() => handleCardClick(course.id)}>
                 <div className="relative h-40">
@@ -79,7 +80,7 @@ const OnlineBestSeller = () => {
                     <p className="font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">{course.description}</p>
                   </div>
 
-                    <p className="my-5 mb-1">จำนวนยอดสั่งซื้อ {course.amount} คอร์ส</p>
+                    <p className="my-5 mb-1">ผู้ลงสมัคร {course.amount}/{course.maxamount} คน</p>
                   <div className="flex gap-2 mt-4">
                     <Badge color="warning">BESTSELLER</Badge>
                     <Badge color="failure">PROMOTION</Badge>
@@ -97,4 +98,4 @@ const OnlineBestSeller = () => {
   );
 };
 
-export default OnlineBestSeller;
+export default LiveCourse;

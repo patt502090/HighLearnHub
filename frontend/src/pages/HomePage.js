@@ -7,6 +7,8 @@ import Announcements from "../components/HomePage/Announcement";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import OnlineBestSeller from "../components/HomePage/OnlineBestSeller";
+import OnlineLatest from "../components/HomePage/OnlineLatest";
+import LiveCourse from "../components/HomePage/LiveCourse";
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -23,10 +25,6 @@ export default function HomePage() {
         const announcementResponse = await axios.get(
           "http://localhost:1337/api/announcements?populate=image"
         );
-
-        // const lastedCourseOnlineResponse = await axios.get(
-        //   "http://localhost:1337/api/courses?filters[study_type][$eq]=Online&sort=createdAt:desc&pagination[pageSize]=5"
-        // );
 
         const courseData = courseResponse.data.data.map((item) => ({
           id: item.id,
@@ -58,6 +56,8 @@ export default function HomePage() {
       <Toaster position="top-right" reverseOrder={false} />
       <Announcements data={announcements} />
       <OnlineBestSeller/>
+      <OnlineLatest/>
+      <LiveCourse/>
       <Course data={course} />
       <Outlet />
     </>
