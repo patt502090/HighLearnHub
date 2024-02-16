@@ -69,7 +69,7 @@ const LiveCourse = () => {
         >
           {liveCourse?.map((course) => (
             <SwiperSlide key={course.id}>
-              <div className="bg-white rounded-lg shadow-lg border border-gray-100 w-full cursor-pointer mx-auto mt-10 my-20 hover:translate-y-[-10px] transition-transform duration-300 h-full py-auto" onClick={() => handleCardClick(course.id)}>
+              <div className="bg-white rounded-lg shadow-lg border border-gray-100 w-full cursor-pointer mx-auto mt-10 my-5 hover:translate-y-[-10px] transition-transform duration-300 h-full py-auto" onClick={() => handleCardClick(course.id)}>
                 <div className="relative h-40">
                   <img src={course.image} alt={course.title} className="absolute w-full h-full object-cover rounded-t-lg" />
                 </div>
@@ -80,10 +80,10 @@ const LiveCourse = () => {
                     <p className="font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">{course.description}</p>
                   </div>
 
-                    <p className="my-5 mb-1">ผู้ลงสมัคร {course.amount}/{course.maxamount} คน</p>
+                    <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">จำนวนผู้ลงสมัคร {course.amount}/{course.maxamount} คน</p>
                   <div className="flex gap-2 mt-4">
-                    <Badge color="warning">BESTSELLER</Badge>
-                    <Badge color="failure">PROMOTION</Badge>
+                    <Badge color="purple">LIVE</Badge>
+                    <Badge color="info">RECOMMEND</Badge>
                   </div>
 
                   <hr className="mt-6"/>
