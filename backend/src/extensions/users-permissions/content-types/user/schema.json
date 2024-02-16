@@ -86,6 +86,23 @@
     },
     "last_name": {
       "type": "string"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "contact": {
+      "type": "text"
+    },
+    "about": {
+      "type": "text"
     }
   }
 }

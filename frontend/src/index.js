@@ -11,7 +11,7 @@ import RegisterAccountPage from "./pages/RegisterAccountPage";
 import PaymentPage from "./pages/PaymentPage";
 import { ContextProvider } from "./context/Auth.context";
 import PageNotFound from "./pages/PageNotFound";
-import ProfliePage from "./pages/ProfliePage";
+import ProfilePage from "./pages/ProfilePage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -27,7 +27,7 @@ root.render(
           <Route path="/registerAccount" element={<RegisterAccountPage />} />
           <Route path="/member/:id" element={<CourseInfoPage />} />
           <Route path="/admin/:id" element={<CourseInfoPage />} />
-          <Route path="/proflie" element={<ProfliePage />} />
+          <Route path="/profile/:id" element={<ProfilePage />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="/payment" element={<PaymentPage />} />
         </Routes>
