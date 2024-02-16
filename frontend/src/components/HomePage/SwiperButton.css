@@ -29,9 +29,9 @@
 }
 
 .swiper-button-prev {
-  left: 10px; /* ปรับตำแหน่งปุ่มไปทางซ้าย */
+  left: 10px;
 }
 
 .swiper-button-next {
-  right: 10px; /* ปรับตำแหน่งปุ่มไปทางขวา */
+  right: 10px;
 }

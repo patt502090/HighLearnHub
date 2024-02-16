@@ -6,10 +6,12 @@ import Course from "../components/HomePage/Course";
 import Announcements from "../components/HomePage/Announcement";
 import { Toaster } from "react-hot-toast";
 import axios from "axios";
+import OnlineBestSeller from "../components/HomePage/OnlineBestSeller";
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,24 +24,26 @@ export default function HomePage() {
           "http://localhost:1337/api/announcements?populate=image"
         );
 
+        // const lastedCourseOnlineResponse = await axios.get(
+        //   "http://localhost:1337/api/courses?filters[study_type][$eq]=Online&sort=createdAt:desc&pagination[pageSize]=5"
+        // );
+
         const courseData = courseResponse.data.data.map((item) => ({
           id: item.id,
           title: item.attributes.title,
           price: item.attributes.price,
-          image:
-            "http://localhost:1337" + item.attributes.image.data.attributes.url,
+          image: "http://localhost:1337" + item.attributes.image.data.attributes.url,
         }));
 
         const announcementData = announcementResponse.data.data.map((item) => ({
           id: item.id,
           title: item.attributes.title,
-          image:
-            "http://localhost:1337" + item.attributes.image.data.attributes.url,
+          image: "http://localhost:1337" + item.attributes.image.data.attributes.url,
         }));
 
         setCourse(courseData);
         setAnnouncements(announcementData);
-        console.log("test", announcementResponse);
+
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -52,8 +56,8 @@ export default function HomePage() {
     <>
       <Navbar />
       <Toaster position="top-right" reverseOrder={false} />
-      {/* <p className="text-center mt-10 text-4xl underline text-red-500">โปรโมชั่น</p> */}
       <Announcements data={announcements} />
+      <OnlineBestSeller/>
       <Course data={course} />
       <Outlet />
     </>
