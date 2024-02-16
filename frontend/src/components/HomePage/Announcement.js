@@ -4,7 +4,7 @@ import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import "./Announcement.css";
+import "./SwiperButton.css";
 export default function Announcements({ data }) {
   console.log(data);
   return (
