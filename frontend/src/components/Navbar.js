@@ -7,6 +7,8 @@ import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
+const proflieID = 1
+
 const Navbar = () => {
   const [showingSearchingBar, setShowingSearchingBar] = useState(true);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -26,25 +28,39 @@ const Navbar = () => {
     });
   };
 
-  
+
   return (
     <ContextProvider>
       <Toaster position="top-center" reverseOrder={false} />
       <div>
-        <header className="bg-gray-500">
+        <header className="bg-highlearnhub-firstgray">
           <div className="container mx-auto flex justify-between items-center p-4">
-            <SidebarWithBurgerMenu
-              userData={user}
-              setShowingSearchingBar={setShowingSearchingBar}
-            />
-            <img src="/assets/background.png" alt="Logo" className="h-8 w-auto mr-2" />
+            <div className="flex">
+              <SidebarWithBurgerMenu
+                userData={user}
+              />
+              <img src="https://media.discordapp.net/attachments/705005230944813076/1208313872990347264/HLH_2.png?ex=65e2d4fc&is=65d05ffc&hm=10fa3e09ca49cc6796caf9f0ed0e5b4518a1a1708628c840c6c0d821d89555e7&=&format=webp&quality=lossless&width=625&height=312" alt="Logo" className="h-11 w-auto ml-2" />
+            </div>
             {user ? (
-              <Button
-                gradientDuoTone="purpleToBlue"
-                onClick={() => setShowLogoutModal(true)}
-              >
-                ออกจากระบบ ({user.username})
-              </Button>
+              <div className="flex">
+                <NavLink to={`/profile/${proflieID}`} className="hover:underline">       
+                <Button
+                  color="dark" pill
+                  className="mr-2"
+                >
+                  <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd" />
+                  </svg>
+                  {user.username}
+                </Button>
+                </NavLink>
+                <Button
+                  color="dark" pill
+                  onClick={() => setShowLogoutModal(true)}
+                >
+                  ออกจากระบบ
+                </Button>
+              </div>
             ) : (
               <Button gradientDuoTone="purpleToBlue" className="px-3">
                 <NavLink to="/login" className="hover:underline">
@@ -55,7 +71,7 @@ const Navbar = () => {
           </div>
         </header>
 
-        <body className="bg-gray-400">
+        <body className="bg-highlearnhub-secondgray">
           <div className="container mx-auto flex justify-center items-center h-30 p-4">
             <button
               type="button"
@@ -127,30 +143,30 @@ const Navbar = () => {
               {" "}
               กรองตามวิชา
               <div>
-              <label
-                    className="inline-flex items-center mt-3"
-                    style={{ display: "block" }}
-                  >
-                    <input
-                      type="checkbox"
-                      className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 rounded"
-                    />
-                    <span className="ml-2 text-gray-700 dark:text-gray-300">
-                      ฟิสิกส์
-                    </span>
-                  </label>
-                  <label
-                    className="inline-flex items-center mt-3"
-                    style={{ display: "block" }}
-                  >
-                    <input
-                      type="checkbox"
-                      className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 rounded"
-                    />
-                    <span className="ml-2 text-gray-700 dark:text-gray-300">
-                      คอม
-                    </span>
-                  </label>
+                <label
+                  className="inline-flex items-center mt-3"
+                  style={{ display: "block" }}
+                >
+                  <input
+                    type="checkbox"
+                    className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 rounded"
+                  />
+                  <span className="ml-2 text-gray-700 dark:text-gray-300">
+                    ฟิสิกส์
+                  </span>
+                </label>
+                <label
+                  className="inline-flex items-center mt-3"
+                  style={{ display: "block" }}
+                >
+                  <input
+                    type="checkbox"
+                    className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 rounded"
+                  />
+                  <span className="ml-2 text-gray-700 dark:text-gray-300">
+                    คอม
+                  </span>
+                </label>
               </div>
               <div>
                 กรองตามราคา

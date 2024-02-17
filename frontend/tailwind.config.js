@@ -6,7 +6,13 @@ export default {
     './src/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
-    extends: {},
+      colors: {
+        'highlearnhub': {
+          firstgray : '#807f7d',
+          secondgray : '#a6a6a6',
+        },
+      },
+      extends: {},
   },
   plugins: [
     require('flowbite/plugin'),

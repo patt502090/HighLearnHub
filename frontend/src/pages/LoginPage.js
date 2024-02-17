@@ -35,6 +35,7 @@ export default function LoginPage() {
     login(email, password);
 
     try {
+      delete ax.defaults.headers.common["Authorization"];
       let result = await ax.post(`${conf.apiUrlPrefix}${conf.loginEndpoint}`, {
         identifier: email,
         password: password,
@@ -46,7 +47,7 @@ export default function LoginPage() {
       if (result.data.role.name) {
         console.log("role:", result.data.role.name);
         setLoading(false);
-        if (result.data.role.name === "Member") {
+        if (result.data.role.name === "member") {
         setTimeout(() => {
           navigate("/");
           });
