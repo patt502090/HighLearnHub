@@ -72,7 +72,7 @@ export default function LoginPage() {
 
   return (
     <ContextProvider>
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="top-right" reverseOrder={false} />
       <div
         className="flex items-center justify-center h-screen w-screen"
         style={{

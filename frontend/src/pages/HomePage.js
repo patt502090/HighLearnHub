@@ -53,7 +53,7 @@ export default function HomePage() {
   return (
     <>
       <Navbar />
-      <Toaster position="top-right" reverseOrder={false} />
+      {/* <Toaster position="top-right" reverseOrder={false} /> */}
       <Announcements data={announcements} />
       <OnlineBestSeller />
       <OnlineLatest />
