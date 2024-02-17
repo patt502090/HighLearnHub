@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import "../App.css";
 import Navbar from "../components/Navbar";
 import Course from "../components/HomePage/Course";
@@ -12,7 +13,6 @@ import LiveCourse from "../components/HomePage/LiveCourse";
 export default function HomePage() {
   const [course, setCourse] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,18 +29,19 @@ export default function HomePage() {
           id: item.id,
           title: item.attributes.title,
           price: item.attributes.price,
-          image: "http://localhost:1337" + item.attributes.image.data.attributes.url,
+          image:
+            "http://localhost:1337" + item.attributes.image.data.attributes.url,
         }));
 
         const announcementData = announcementResponse.data.data.map((item) => ({
           id: item.id,
           title: item.attributes.title,
-          image: "http://localhost:1337" + item.attributes.image.data.attributes.url,
+          image:
+            "http://localhost:1337" + item.attributes.image.data.attributes.url,
         }));
 
         setCourse(courseData);
         setAnnouncements(announcementData);
-
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -54,10 +55,11 @@ export default function HomePage() {
       <Navbar />
       <Toaster position="top-right" reverseOrder={false} />
       <Announcements data={announcements} />
-      <OnlineBestSeller/>
-      <OnlineLatest/>
-      <LiveCourse/>
+      <OnlineBestSeller />
+      <OnlineLatest />
+      <LiveCourse />
       <Course data={course} />
+      <Outlet />
     </>
   );
 }

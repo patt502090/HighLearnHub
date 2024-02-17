@@ -96,8 +96,12 @@ const OnlineLatest = () => {
                     </p>
                   </div>
 
-                  <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-green-500">
-                    จำนวนยอดสั่งซื้อ {course.amount} คอร์ส
+                  <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-red-500">
+                    จำนวนยอดสั่งซื้อ{" "}
+                    <a class="hover:underline decoration-red-500/30 ">
+                      {course.amount} 
+                    </a>
+                    {' '}คอร์ส
                   </p>
                   <div className="flex gap-2 mt-4">
                     <Badge color="indigo">NEW</Badge>
