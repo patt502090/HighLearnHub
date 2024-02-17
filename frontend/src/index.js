@@ -30,7 +30,6 @@ root.render(
           <Route path="/member/:id" element={<CourseInfoPage />} />
           <Route path="/admin/:id" element={<CourseInfoPage />} />
           <Route path="/profile/:id" element={<ProfilePage />} />
-          <Route path="*" element={<PageNotFound />} />
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/MyCart" element={<CartPage/>}/>
           <Route path="/mycourse" element={<MyCoursePage/>} />

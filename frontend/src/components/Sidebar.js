@@ -5,8 +5,9 @@ import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
+import { Link } from 'react-router-dom';
 
-export default function SidebarWithBurgerMenu() {
+export default function SidebarWithBurgerMenu({ userData }) {
     const [state, setState] = React.useState({
         top: false,
         left: false,
@@ -28,7 +29,8 @@ export default function SidebarWithBurgerMenu() {
                 <Button onClick={toggleDrawer('left', true)}>
                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14" />
-                    </svg></Button>
+                    </svg>
+                </Button>
                 <Drawer
                     anchor="left"
                     open={state["left"]}
@@ -52,7 +54,7 @@ export default function SidebarWithBurgerMenu() {
 
                         </div>
                         <hr className="my-2 border-blue-gray-50" />
-                        <a href='/home'>
+                        <Link to="/home">
                             <List>
                                 <ListItem disablePadding href=''>
                                     <ListItemButton>
@@ -63,8 +65,8 @@ export default function SidebarWithBurgerMenu() {
                                     </ListItemButton>
                                 </ListItem>
                             </List>
-                        </a>
-                        <a href='/mycourse'>
+                        </Link>
+                        <Link to="/mycourse">
                             <List>
                                 <ListItem disablePadding href=''>
                                     <ListItemButton>
@@ -75,8 +77,8 @@ export default function SidebarWithBurgerMenu() {
                                     </ListItemButton>
                                 </ListItem>
                             </List>
-                        </a>
-                        <a href='/payment'>
+                        </Link>
+                        <Link to="/payment">
                             <List>
                                 <ListItem disablePadding href=''>
                                     <ListItemButton>
@@ -88,11 +90,12 @@ export default function SidebarWithBurgerMenu() {
                                     </ListItemButton>
                                 </ListItem>
                             </List>
-                        </a>
+                        </Link>
                         <div className="absolute inset-x-0 bottom-0 h-16">
                             <hr className="border-blue-gray-50" />
                             <div className="flex items-center gap-4">
-                                <a href="/proflie" className="text-initial">
+                            
+                                <Link to={`/profile/:id`}>
                                     <List>
                                         <ListItem disablePadding href=''>
                                             <ListItemButton>
@@ -103,7 +106,8 @@ export default function SidebarWithBurgerMenu() {
                                             </ListItemButton>
                                         </ListItem>
                                     </List>
-                                </a>
+                                </Link>
+                            
                             </div>
                         </div>
                     </Box>

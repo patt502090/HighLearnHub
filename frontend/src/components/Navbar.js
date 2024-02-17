@@ -10,6 +10,8 @@ import toast, { Toaster } from "react-hot-toast";
 const Navbar = () => {
   const [showingSearchingBar, setShowingSearchingBar] = useState(true);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showSubjectFilterModal, setShowSubjectFilterModal] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState("");
   const { state: ContextState, logout } = useContext(AuthContext);
   const { user } = ContextState;
   const navigate = useNavigate();
@@ -24,14 +26,19 @@ const Navbar = () => {
     });
   };
 
+  const handleSubjectFilter = (subject) => {
+    setSelectedSubject(subject);
+    setShowSubjectFilterModal(false);
+  };
+
   return (
     <ContextProvider>
-      {console.log(user)}
       <Toaster position="top-center" reverseOrder={false} />
       <div>
         <header className="bg-gray-500">
           <div className="container mx-auto flex justify-between items-center p-4">
             <SidebarWithBurgerMenu
+              userData={user}
               setShowingSearchingBar={setShowingSearchingBar}
             />
             {user ? (
@@ -55,10 +62,11 @@ const Navbar = () => {
           <div className="container mx-auto flex justify-center items-center h-30 p-4">
             <button
               type="button"
-              className="flex text-black border-none justify-centerfont-medium rounded-full text-sm px-5 py-2.5 text-center"
+              className="flex text-black border-none justify-center font-medium rounded-full text-sm px-5 py-2.5 text-center"
+              onClick={() => setShowSubjectFilterModal(true)}
             >
               <svg
-                class="w-6 h-6 text-black dark:text-white"
+                className="w-6 h-6 text-black dark:text-white"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -110,6 +118,51 @@ const Navbar = () => {
         </body>
 
         <Modal
+          show={showSubjectFilterModal}
+          size="md"
+          onClose={() => setShowSubjectFilterModal(false)}
+          popup
+        >
+          <Modal.Header>กรองตามวิชา</Modal.Header>
+          <Modal.Body>
+            <div className="text-center">
+              <div>
+                <label className="inline-flex items-center mt-3">
+                  <input
+                    type="checkbox"
+                    className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 rounded" // เพิ่ม focus:ring เพื่อสร้างเอฟเฟกต์เมื่อช่องติ๊กถูกเลือก
+                    checked={selectedSubject === "ฟิสิก"}
+                    onChange={() => handleSubjectFilter("ฟิสิก")}
+                  />
+                  <span className="ml-2 text-gray-700 dark:text-gray-300">
+                    ฟิสิก
+                  </span>
+                </label>
+                <label className="inline-flex items-center mt-3">
+                  <input
+                    type="checkbox"
+                    className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 rounded" // เพิ่ม focus:ring เพื่อสร้างเอฟเฟกต์เมื่อช่องติ๊กถูกเลือก
+                    checked={selectedSubject === "คอม"}
+                    onChange={() => handleSubjectFilter("คอม")}
+                  />
+                  <span className="ml-2 text-gray-700 dark:text-gray-300">
+                    คอม
+                  </span>
+                </label>
+              </div>
+              <div>
+                <button
+                  className={`bg-red-500 text-white px-4 py-2 rounded-lg mt-3 ml-auto`}
+                  onClick={() => handleSubjectFilter("ค้นหา")}
+                >
+                  ค้นหา
+                </button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
+
+        <Modal
           show={showLogoutModal}
           size="md"
           onClose={() => setShowLogoutModal(false)}
@@ -124,7 +177,7 @@ const Navbar = () => {
               </h3>
               <div className="flex justify-center gap-4">
                 <Button color="failure" onClick={handleLogout}>
-                ออกจากระบบ
+                  ออกจากระบบ
                 </Button>
                 <Button
                   color="gray"
