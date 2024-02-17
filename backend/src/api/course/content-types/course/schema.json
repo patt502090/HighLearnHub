@@ -60,6 +60,14 @@
         "Live",
         "Online"
       ]
+    },
+    "livedetail": {
+      "type": "text",
+      "required": false
+    },
+    "onlinedetail": {
+      "type": "text",
+      "required": false
     }
   }
 }
