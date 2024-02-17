@@ -1,6 +1,6 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
+import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -10,9 +10,9 @@ export default function Announcements({ data }) {
   return (
     <div>
       
-      <div className="mx-auto h-full w-full mt-10 swiper-container">
+      <div className="mx-auto h-full w-full mt-10">
         <Swiper
-          spaceBetween={1}
+          spaceBetween={20}
           modules={[Navigation, Pagination]}
           centeredSlides={true}
           navigation={true}
@@ -27,11 +27,10 @@ export default function Announcements({ data }) {
             },
           }}
         >
-          {data &&
-            data.map((announcement) => (
+          {data?.map((announcement) => (
               <SwiperSlide key={announcement.id}>
                 <img
-                  className="mx-auto"
+                  className="mx-auto border rounded-3xl shadow"
                   src={announcement.image}
                   alt={announcement.title}
                 />

@@ -6,12 +6,12 @@ export default {
     './src/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
-      colors: {
-        'highlearnhub': {
-          firstgray : '#807f7d',
-          secondgray : '#a6a6a6',
-        },
-      },
+      // colors: {
+      //   'highlearnhub': {
+      //     firstgray : '#807f7d',
+      //     secondgray : '#a6a6a6',
+      //   },
+      // },
       extends: {},
   },
   plugins: [

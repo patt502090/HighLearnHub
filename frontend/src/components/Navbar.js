@@ -33,8 +33,8 @@ const Navbar = () => {
     <ContextProvider>
       <Toaster position="top-center" reverseOrder={false} />
       <div>
-        <header className="bg-highlearnhub-firstgray">
-          <div className="container mx-auto flex justify-between items-center p-4">
+        <header className="bg-gray-400">
+          <div className="container mx-auto flex justify-between items-center p-4 ">
             <div className="flex">
               <SidebarWithBurgerMenu
                 userData={user}
@@ -71,7 +71,7 @@ const Navbar = () => {
           </div>
         </header>
 
-        <body className="bg-highlearnhub-secondgray">
+        <body className="bg-gray-300">
           <div className="container mx-auto flex justify-center items-center h-30 p-4">
             <button
               type="button"

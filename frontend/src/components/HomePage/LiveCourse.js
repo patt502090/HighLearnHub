@@ -94,14 +94,14 @@ const LiveCourse = () => {
 
                   <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
                     จำนวนผู้ลงสมัคร{" "}
-                    <a class="hover:underline decoration-red-500/30 ">
+                    <a class="hover:underline decoration-red-500/30">
                       {course.amount}/{course.maxamount}
                     </a>{" "}
                     คน
                   </p>
                   <div className="flex gap-2 mt-4">
-                    <Badge color="purple">LIVE</Badge>
-                    <Badge color="info">RECOMMEND</Badge>
+                    <Badge color="info">LIVE</Badge>
+                    <Badge color="purple">RECOMMEND</Badge>
                   </div>
                   <hr className="mt-6" />
                   <p className="text-right mr-1 mt-3 font-semibold">
