@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import SidebarWithBurgerMenu from "./Sidebar";
-import { Button, Modal } from "flowbite-react";
+import { Button, Modal, ModalHeader } from "flowbite-react";
 import { AuthContext, ContextProvider } from "../context/Auth.context";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
@@ -26,11 +26,7 @@ const Navbar = () => {
     });
   };
 
-  const handleSubjectFilter = (subject) => {
-    setSelectedSubject(subject);
-    setShowSubjectFilterModal(false);
-  };
-
+  
   return (
     <ContextProvider>
       <Toaster position="top-center" reverseOrder={false} />
@@ -41,6 +37,7 @@ const Navbar = () => {
               userData={user}
               setShowingSearchingBar={setShowingSearchingBar}
             />
+            <img src="/assets/background.png" alt="Logo" className="h-8 w-auto mr-2" />
             {user ? (
               <Button
                 gradientDuoTone="purpleToBlue"
@@ -71,6 +68,7 @@ const Navbar = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
                 viewBox="0 0 24 24"
+                onClick={() => setShowSubjectFilterModal(false)}
               >
                 <path d="M5 3a2 2 0 0 0-1.5 3.3l5.4 6v5c0 .4.3.9.6 1.1l3.1 2.3c1 .7 2.5 0 2.5-1.2v-7.1l5.4-6C21.6 5 20.7 3 19 3H5Z" />
               </svg>
@@ -123,37 +121,69 @@ const Navbar = () => {
           onClose={() => setShowSubjectFilterModal(false)}
           popup
         >
-          <Modal.Header>กรองตามวิชา</Modal.Header>
+          <ModalHeader>Filter</ModalHeader>
           <Modal.Body>
             <div className="text-center">
+              {" "}
+              กรองตามวิชา
               <div>
-                <label className="inline-flex items-center mt-3">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 rounded" // เพิ่ม focus:ring เพื่อสร้างเอฟเฟกต์เมื่อช่องติ๊กถูกเลือก
-                    checked={selectedSubject === "ฟิสิก"}
-                    onChange={() => handleSubjectFilter("ฟิสิก")}
-                  />
-                  <span className="ml-2 text-gray-700 dark:text-gray-300">
-                    ฟิสิก
-                  </span>
-                </label>
-                <label className="inline-flex items-center mt-3">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 rounded" // เพิ่ม focus:ring เพื่อสร้างเอฟเฟกต์เมื่อช่องติ๊กถูกเลือก
-                    checked={selectedSubject === "คอม"}
-                    onChange={() => handleSubjectFilter("คอม")}
-                  />
-                  <span className="ml-2 text-gray-700 dark:text-gray-300">
-                    คอม
-                  </span>
-                </label>
+              <label
+                    className="inline-flex items-center mt-3"
+                    style={{ display: "block" }}
+                  >
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 rounded"
+                    />
+                    <span className="ml-2 text-gray-700 dark:text-gray-300">
+                      ฟิสิกส์
+                    </span>
+                  </label>
+                  <label
+                    className="inline-flex items-center mt-3"
+                    style={{ display: "block" }}
+                  >
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 rounded"
+                    />
+                    <span className="ml-2 text-gray-700 dark:text-gray-300">
+                      คอม
+                    </span>
+                  </label>
+              </div>
+              <div>
+                กรองตามราคา
+                <div>
+                  <label
+                    className="inline-flex items-center mt-3"
+                    style={{ display: "block" }}
+                  >
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 rounded"
+                    />
+                    <span className="ml-2 text-gray-700 dark:text-gray-300">
+                      0-1000
+                    </span>
+                  </label>
+                  <label
+                    className="inline-flex items-center mt-3"
+                    style={{ display: "block" }}
+                  >
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-blue-600 focus:ring-blue-500 rounded"
+                    />
+                    <span className="ml-2 text-gray-700 dark:text-gray-300">
+                      1000-2000
+                    </span>
+                  </label>
+                </div>
               </div>
               <div>
                 <button
                   className={`bg-red-500 text-white px-4 py-2 rounded-lg mt-3 ml-auto`}
-                  onClick={() => handleSubjectFilter("ค้นหา")}
                 >
                   ค้นหา
                 </button>
