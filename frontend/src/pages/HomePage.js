@@ -25,10 +25,14 @@ export default function HomePage() {
           "http://localhost:1337/api/announcements?populate=image"
         );
 
+        console.log(courseResponse);
+
         const courseData = courseResponse.data.data.map((item) => ({
           id: item.id,
           title: item.attributes.title,
           price: item.attributes.price,
+          description : item.attributes.description,
+          type : item.attributes.study_type,
           image:
             "http://localhost:1337" + item.attributes.image.data.attributes.url,
         }));
