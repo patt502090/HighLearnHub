@@ -5,11 +5,12 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./SwiperButton.css";
+import { Link } from "react-router-dom";
 export default function Announcements({ data }) {
   console.log(data);
   return (
     <div>
-      
+
       <div className="mx-auto h-full w-full mt-10">
         <Swiper
           spaceBetween={20}
@@ -28,14 +29,16 @@ export default function Announcements({ data }) {
           }}
         >
           {data?.map((announcement) => (
-              <SwiperSlide key={announcement.id}>
+            <SwiperSlide key={announcement.id}>
+              <Link>
                 <img
-                  className="mx-auto border rounded-3xl shadow"
+                  className="mx-auto border rounded-3xl shadow hover:scale-105 transition duration-500 cursor-pointer"
                   src={announcement.image}
                   alt={announcement.title}
                 />
-              </SwiperSlide>
-            ))}
+              </Link>
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
     </div>
