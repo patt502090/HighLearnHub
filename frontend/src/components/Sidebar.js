@@ -94,8 +94,7 @@ export default function SidebarWithBurgerMenu({ userData }) {
                         <div className="absolute inset-x-0 bottom-0 h-16">
                             <hr className="border-blue-gray-50" />
                             <div className="flex items-center gap-4">
-                            
-                                <Link to={`/profile/:id`}>
+                                <Link to={`/profile/${userData && userData.id}`}>
                                     <List>
                                         <ListItem disablePadding href=''>
                                             <ListItemButton>
@@ -107,7 +106,6 @@ export default function SidebarWithBurgerMenu({ userData }) {
                                         </ListItem>
                                     </List>
                                 </Link>
-                            
                             </div>
                         </div>
                     </Box>

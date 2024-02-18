@@ -11,6 +11,7 @@ function ProfilePage() {
                 const userResponse = await fetch(`http://localhost:1337/api/users/${id}`);
                 const userData = await userResponse.json();
                 setUserData(userData);
+                console.log(userData)
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -29,7 +30,7 @@ function ProfilePage() {
 
                     <div className="w-2/3 sm:text-center pl-5 mt-10 text-start">
                         <p className="font-poppins font-bold text-heading sm:text-4xl text-2xl">
-                            {userData && userData.first_name} {userData && userData.last_name}
+                        Name: {userData && `${userData.first_name} ${userData.last_name}`}
                         </p>
                     </div>
 
