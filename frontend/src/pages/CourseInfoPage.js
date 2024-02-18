@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams ,Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
+import CartPage from "./CartPage";
 
 export default function CourseInfoPage() {
     const { id } = useParams();
     const [course, setCourse] = useState(null);
     const [learningType, setLearningType] = useState("live");
+    const [amount, setAmount] = useState(0); // เพิ่ม state สำหรับจำนวน amount และเริ่มต้นเป็น 0
 
     useEffect(() => {
         const fetchCourse = async () => {
@@ -19,7 +21,14 @@ export default function CourseInfoPage() {
         };
 
         fetchCourse();
+        console.log(fetchCourse);
     }, [id]);
+
+    // สร้างฟังก์ชัน handleOrderClick เพื่อเพิ่มจำนวน amount เมื่อกดสั่งคอร์ส
+    const handleOrderClick = () => {
+        setAmount(prevAmount => prevAmount + 1);
+        
+    };
 
     return (
         <div className="min-h-screen bg-gray-200">
@@ -38,6 +47,7 @@ export default function CourseInfoPage() {
                             />
                         )}
                         <p className="text-red-700 mb-4">Price: {course.attributes.price}</p>
+                        <p className="text-red-700 mb-4">จำนวนที่นั่ง: {amount}/{course.attributes.amount}</p>
                         <p className="text-gray-600 mb-4">บทเรียน</p>
                         <div className="space-x-4 mb-4">
                             <button
@@ -55,9 +65,11 @@ export default function CourseInfoPage() {
                         </div>
                         <p className="text-gray-600 mb-4">{learningType === 'live' ? 'Live Lesson Details' : 'Online Lesson Details'}</p>
                         <p className="text-gray-800 mb-4">{learningType === 'live' ? course.attributes.livedetail : course.attributes.onlinedetail}</p>
-                        <button className="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+        
+                        <Link to={'/payment'}>
+                        <button className="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600" onClick={handleOrderClick}>
                             Order Now
-                        </button>
+                        </button></Link>
                     </div>
                 ) : (
                     <p>Loading...</p>
