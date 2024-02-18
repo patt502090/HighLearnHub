@@ -8,6 +8,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import "./SwiperButton.css";
 import axios from "axios";
 import { Badge } from "flowbite-react";
+import { HiClock } from "react-icons/hi";
 
 const OnlineBestSeller = () => {
   const [onlineSelling, setOnlineSelling] = useState([]);
@@ -21,20 +22,35 @@ const OnlineBestSeller = () => {
     const fetchData = async () => {
       try {
         const onlineSellingResponse = await axios.get(
-          "http://localhost:1337/api/courses?populate=image&filters[study_type][$eq]=Online&sort=amount:desc&pagination[pageSize]=10"
+          "http://localhost:1337/api/courses?populate=image&filters[study_type][$eq]=Online&sort=amount:desc&pagination[pageSize]=10&populate=videos"
         );
+        console.log("ข้อมูลหลังเรียก API ของ OnlineSelling", onlineSellingResponse);
         const onlineSellingData = onlineSellingResponse.data.data.map(
-          (course) => ({
-            id: course.id,
-            title: course.attributes.title,
-            price: course.attributes.price,
-            amount: course.attributes.amount,
-            description: course.attributes.description,
-            image:
-              "http://localhost:1337" +
-              course.attributes.image.data.attributes.url,
-          })
+          (course) => {
+            const totalDurationMinutes = course.attributes.videos.data.reduce(
+              (totalDuration, video) =>
+                totalDuration + video.attributes.duration,
+              0
+            );
+
+            const hours = Math.floor(totalDurationMinutes / 60);
+            const minutes = totalDurationMinutes % 60;
+
+            return {
+              id: course.id,
+              title: course.attributes.title,
+              price: course.attributes.price,
+              amount: course.attributes.amount,
+              description: course.attributes.description,
+              image:
+                "http://localhost:1337" +
+                course.attributes.image.data.attributes.url,
+              duration: { hours, minutes },
+            };
+          }
         );
+
+        console.log("ข้อมูลหลังจากการกรอง API ของ OnlineSelling", onlineSellingData);
         setOnlineSelling(onlineSellingData);
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -105,9 +121,16 @@ const OnlineBestSeller = () => {
                   </div>
 
                   <hr className="mt-6" />
-                  <p className="text-right mr-1 mt-3 font-semibold">
-                    {course.price} บาท{" "}
-                  </p>
+                  <div className="flex flex-wrap gap-2 justify-between">
+                    <Badge color="gray" icon={HiClock} className="mt-2">
+                      {course.duration.hours} ชั่วโมง {course.duration.minutes}{" "}
+                      นาที
+                    </Badge>
+
+                    <p className="text-right mt-3 font-semibold">
+                      {course.price} บาท{" "}
+                    </p>
+                  </div>
                 </div>
               </div>
             </SwiperSlide>

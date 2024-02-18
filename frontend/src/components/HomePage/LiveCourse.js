@@ -21,7 +21,7 @@ const LiveCourse = () => {
     const fetchData = async () => {
       try {
         const liveCourseResponse = await axios.get(
-          "http://localhost:1337/api/courses?populate=image&filters[study_type][$eq]=Live&sort=amount:desc&pagination[pageSize]=10"
+          "http://localhost:1337/api/courses?populate=image&filters[study_type][$eq]=Live&sort=amount:desc&pagination[pageSize]=10&populate=videos"
         );
         const liveCourseData = liveCourseResponse.data.data.map((course) => ({
           id: course.id,

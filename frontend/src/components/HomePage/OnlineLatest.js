@@ -8,6 +8,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import "./SwiperButton.css";
 import axios from "axios";
 import { Badge } from "flowbite-react";
+import { HiClock } from "react-icons/hi";
 
 const OnlineLatest = () => {
   const [onlineLatest, setOnlineLatest] = useState([]);
@@ -21,22 +22,35 @@ const OnlineLatest = () => {
     const fetchData = async () => {
       try {
         const onlineLatestResponse = await axios.get(
-          "http://localhost:1337/api/courses?populate=image&filters[study_type][$eq]=Online&sort=createdAt:desc&pagination[pageSize]=10"
+          "http://localhost:1337/api/courses?populate=image&filters[study_type][$eq]=Online&sort=createdAt:desc&pagination[pageSize]=10&populate=videos"
         );
-        console.log("wwwdsdsd", onlineLatestResponse);
+        console.log("ข้อมูลหลังเรียก API ของ OnlineLatest", onlineLatestResponse);
         const onlineLatestData = onlineLatestResponse.data.data.map(
-          (course) => ({
-            id: course.id,
-            title: course.attributes.title,
-            price: course.attributes.price,
-            amount: course.attributes.amount,
-            description: course.attributes.description,
-            image:
-              "http://localhost:1337" +
-              course.attributes.image.data.attributes.url,
-          })
+          (course) => {
+            const totalDurationMinutes = course.attributes.videos.data.reduce(
+              (totalDuration, video) =>
+                totalDuration + video.attributes.duration,
+              0
+            );
+
+            const hours = Math.floor(totalDurationMinutes / 60);
+            const minutes = totalDurationMinutes % 60;
+
+            return {
+              id: course.id,
+              title: course.attributes.title,
+              price: course.attributes.price,
+              amount: course.attributes.amount,
+              description: course.attributes.description,
+              image:
+                "http://localhost:1337" +
+                course.attributes.image.data.attributes.url,
+              duration: { hours, minutes },
+            };
+          }
         );
-        console.log("wwwwsdsdeee", onlineLatestData);
+
+        console.log("ข้อมูลหลังจากการกรอง API ของ OnlineLatest", onlineLatestData);
         setOnlineLatest(onlineLatestData);
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -99,9 +113,9 @@ const OnlineLatest = () => {
                   <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-red-500">
                     จำนวนยอดสั่งซื้อ{" "}
                     <a class="hover:underline decoration-red-500/30 ">
-                      {course.amount} 
-                    </a>
-                    {' '}คอร์ส
+                      {course.amount}
+                    </a>{" "}
+                    คอร์ส
                   </p>
                   <div className="flex gap-2 mt-4">
                     <Badge color="indigo">NEW</Badge>
@@ -109,9 +123,16 @@ const OnlineLatest = () => {
                   </div>
 
                   <hr className="mt-6" />
-                  <p className="text-right mr-1 mt-3 font-semibold">
-                    {course.price} บาท{" "}
-                  </p>
+                  <div className="flex flex-wrap gap-2 justify-between">
+                    <Badge color="gray" icon={HiClock} className="mt-2">
+                      {course.duration.hours} ชั่วโมง {course.duration.minutes}{" "}
+                      นาที
+                    </Badge>
+
+                    <p className="text-right mt-3 font-semibold">
+                      {course.price} บาท{" "}
+                    </p>
+                  </div>
                 </div>
               </div>
             </SwiperSlide>
