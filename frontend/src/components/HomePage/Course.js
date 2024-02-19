@@ -41,7 +41,7 @@ export default function Course(props) {
           </Dropdown>
         </div>
 
-        <div className="grid lg:grid-cols-5 grid-cols-2 gap-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-2">
           {props.data?.map((item) => (
             <div
               key={item.id}
