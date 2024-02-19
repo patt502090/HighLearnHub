@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Badge, Dropdown, DropdownItem } from "flowbite-react";
 import { HiClock } from "react-icons/hi";
+
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
   const [dropdownLabel, setDropdownLabel] = useState("ทั้งหมด");
@@ -13,9 +14,11 @@ export default function Course(props) {
 
   return (
     <>
-      <div className="w-4/5 mx-auto h-full flex flex-wrap items-center justify-between mt-20">
-        <p className="font-medium text-3xl">คอร์สเรียนทั้งหมด</p>
-        <div className="flex my-10 ml-2">
+      <div className="w-full md:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between mt-20">
+        <p className="font-medium text-2xl md:text-3xl pl-3 md:pl-0">
+          คอร์สเรียนทั้งหมด
+        </p>
+        <div className="flex my-10 mr-3 md:mr-0">
           <Dropdown label={dropdownLabel} className="mr-2">
             <DropdownItem
               onClick={() => handleFilter("All", "ทั้งหมด")}
@@ -41,11 +44,11 @@ export default function Course(props) {
           </Dropdown>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 md:gap-2 mx-1 md:mx-0">
           {props.data?.map((item) => (
             <div
               key={item.id}
-              className={`hover:translate-y-[-10px] transition-transform duration-300 max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 m-2 ${
+              className={`hover:translate-y-[-10px] transition-transform duration-300 max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 m-1 md:m-2 ${
                 filterType === "All" || item.type === filterType
                   ? "block"
                   : "hidden"
@@ -65,14 +68,17 @@ export default function Course(props) {
                   >
                     {item.type === "Live" ? "LIVE COURSE" : "ONLINE COURSE"}
                   </p>
-                  <h5 className="mb-2 text-base lg:text-lg font-medium tracking-tight text-gray-900 dark:text-white text-left">
+                  <h5 className="mb-2 text-sm lg:text-lg font-medium tracking-tight text-gray-900 dark:text-white text-left">
                     {item.title}
                   </h5>
-                  <p className="font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">
-                    {item.description}
-                  </p>
+
+                  {window.innerWidth > 900 && (
+                    <p className="font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">
+                      {item.description}
+                    </p>
+                  )}
                   {item.type === "Live" ? (
-                    <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
+                    <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xs md:text-base">
                       จำนวนผู้ลงสมัคร{" "}
                       <a class="hover:underline decoration-red-500/30">
                         {item.amount}/{item.maxamount}
@@ -80,15 +86,17 @@ export default function Course(props) {
                       คน
                     </p>
                   ) : (
-                    <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-red-500">
-                      จำนวนยอดสั่งซื้อ{" "}
-                      <a class="hover:underline decoration-red-500/30 ">
+                    <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-red-500 text-xs md:text-base">
+                      {window.innerWidth < 900
+                        ? "ยอดสั่งซื้อ"
+                        : "จำนวนยอดสั่งซื้อ"}{" "}
+                      <a className="hover:underline decoration-red-500/30 ">
                         {item.amount}
                       </a>{" "}
                       คอร์ส
                     </p>
                   )}
-                  <div className="flex my-3 ">
+                  <div className="flex my-3">
                     {item.type === "Live" ? (
                       <Badge color="failure">LIVE</Badge>
                     ) : (
@@ -97,17 +105,17 @@ export default function Course(props) {
                   </div>
                   <hr className="mt-1" />
                   {item.type === "Online" ? (
-                    <div className="flex flex-wrap gap-2 justify-between">
-                      <Badge color="gray" icon={HiClock} className="mt-2">
+                    <div className="md:flex md:flex-wrap gap-2 md:justify-between ">
+                      <Badge color="gray" icon={HiClock} className="mt-2 text-[10px] md:text-xs mx-3 md:mx-0 font-normal">
                         {item.duration.hours} ชั่วโมง {item.duration.minutes}{" "}
                         นาที
                       </Badge>
-                      <p className="text-right mt-3 font-semibold">
+                      <p className="mt-3 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
                         {item.price} บาท{" "}
                       </p>
                     </div>
                   ) : (
-                    <p className="text-right mr-1 mt-3 font-semibold">
+                    <p className="mr-1 mt-3 md:font-semibold text-center md:text-right text-[13px] md:text-base">
                       {item.price} บาท{" "}
                     </p>
                   )}
@@ -117,7 +125,6 @@ export default function Course(props) {
           ))}
         </div>
       </div>
-      
     </>
   );
 }

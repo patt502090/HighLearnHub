@@ -44,9 +44,9 @@ const LiveCourse = () => {
   }, []);
 
   return (
-    <div className="w-4/5 mx-auto h-full">
-      <p className="font-medium mx-auto mt-20 text-3xl">คอร์สเรียนสดออนไลน์แนะนำ</p>
-      <p className="font-base mx-auto mt-5 text-1xl">
+    <div className="w-full md:w-4/5 mx-auto h-full">
+      <p className="font-medium mx-auto mt-20 text-center md:text-left text-2xl md:text-3xl">คอร์สเรียนสดออนไลน์แนะนำ</p>
+      <p className="font-base mx-auto mt-5 text-center md:text-left text-1xl">
         พัฒนาทักษะอย่างใกล้ชิดกับผู้สอน
       </p>
       <div className="swiper-container">
@@ -73,7 +73,7 @@ const LiveCourse = () => {
           {liveCourse?.map((course) => (
             <SwiperSlide key={course.id}>
               <div
-                className="bg-white rounded-lg shadow-lg border border-gray-100 w-full cursor-pointer mx-auto mt-10 my-5 hover:translate-y-[-10px] transition-transform duration-300 h-full py-auto"
+                className="bg-white rounded-lg shadow-lg border border-gray-10 w-2/3 md:w-full cursor-pointer mx-auto mt-10 my-5 hover:translate-y-[-10px] transition-transform duration-300 h-full py-auto"
                 onClick={() => handleCardClick(course.id)}
               >
                 <div className="relative h-40">

@@ -61,8 +61,8 @@ const OnlineLatest = () => {
   }, []);
 
   return (
-    <div className="w-4/5 mx-auto h-full">
-      <p className="font-medium mx-auto mt-20 text-3xl">
+    <div className="w-full md:w-4/5 mx-auto h-full">
+      <p className="font-medium mx-auto mt-20 text-center md:text-left text-2xl md:text-3xl">
         คอร์สออนไลน์ใหม่ล่าสุด
       </p>
       <div className="swiper-container">
@@ -89,7 +89,7 @@ const OnlineLatest = () => {
           {onlineLatest?.map((course) => (
             <SwiperSlide key={course.id}>
               <div
-                className="bg-white rounded-lg shadow-lg border border-gray-100 w-full cursor-pointer mx-auto mt-10 my-5 hover:translate-y-[-10px] transition-transform duration-300 h-full py-auto"
+                className="bg-white rounded-lg shadow-lg border border-gray-10 w-2/3 md:w-full cursor-pointer mx-auto mt-10 my-5 hover:translate-y-[-10px] transition-transform duration-300 h-full py-auto"
                 onClick={() => handleCardClick(course.id)}
               >
                 <div className="relative h-40">
@@ -124,7 +124,7 @@ const OnlineLatest = () => {
 
                   <hr className="mt-6" />
                   <div className="flex flex-wrap gap-2 justify-between">
-                    <Badge color="gray" icon={HiClock} className="mt-2">
+                    <Badge color="gray" icon={HiClock} className="mt-2 text-[10px] md:text-xs mx-3 md:mx-0 font-normal">
                       {course.duration.hours} ชั่วโมง {course.duration.minutes}{" "}
                       นาที
                     </Badge>
