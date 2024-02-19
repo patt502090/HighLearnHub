@@ -40,7 +40,7 @@ export default function MyCoursePage() {
   }, []);
 
   return (
-    <div className="md:h-screen bg-gray-200">
+    <div className="h-screen bg-gray-200">
       <Navbar />
       <div className="flex flex-col items-center justify-items-center mt-8 w-80 sm:w-full mx-auto ">
         <div className="w-full md:w-2/3 lg:w-1/2 p-8  bg-white shadow-lg rounded-lg ">

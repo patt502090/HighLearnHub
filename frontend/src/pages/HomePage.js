@@ -18,7 +18,7 @@ export default function HomePage() {
     const fetchData = async () => {
       try {
         const courseResponse = await axios.get(
-          "http://localhost:1337/api/courses?populate=image"
+          "http://localhost:1337/api/courses?populate=image&populate=videos"
         );
 
         const announcementResponse = await axios.get(
@@ -27,15 +27,32 @@ export default function HomePage() {
 
         console.log(courseResponse);
 
-        const courseData = courseResponse.data.data.map((item) => ({
-          id: item.id,
-          title: item.attributes.title,
-          price: item.attributes.price,
-          description : item.attributes.description,
-          type : item.attributes.study_type,
-          image:
-            "http://localhost:1337" + item.attributes.image.data.attributes.url,
-        }));
+        const courseData = courseResponse?.data?.data?.map(
+          (course) => {
+            const totalDurationMinutes = course.attributes.videos.data.reduce(
+              (totalDuration, video) =>
+                totalDuration + video.attributes.duration,
+              0
+            );
+
+            const hours = Math.floor(totalDurationMinutes / 60);
+            const minutes = totalDurationMinutes % 60;
+
+            return {
+              id: course.id,
+              title: course.attributes.title,
+              price: course.attributes.price,
+              amount: course.attributes.amount,
+              maxamount: course.attributes.maxamount,
+              description: course.attributes.description,
+              image:
+                "http://localhost:1337" +
+                course.attributes.image.data.attributes.url,
+              type:course.attributes.study_type,
+              duration: { hours, minutes },
+            };
+          }
+        );
 
         const announcementData = announcementResponse.data.data.map((item) => ({
           id: item.id,

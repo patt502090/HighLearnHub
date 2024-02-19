@@ -45,7 +45,7 @@ const LiveCourse = () => {
 
   return (
     <div className="w-4/5 mx-auto h-full">
-      <p className="font-medium mx-auto mt-20 text-3xl">คอร์สเรียนสดแนะนำ</p>
+      <p className="font-medium mx-auto mt-20 text-3xl">คอร์สเรียนสดออนไลน์แนะนำ</p>
       <p className="font-base mx-auto mt-5 text-1xl">
         พัฒนาทักษะอย่างใกล้ชิดกับผู้สอน
       </p>
@@ -85,7 +85,7 @@ const LiveCourse = () => {
                 </div>
                 <div className="p-4 flex flex-col justify-between h-full">
                   <div>
-                    <p className="text-blue-500 text-xs mb-2">LIVE COURSE</p>
+                    <p className="text-red-500 text-xs mb-2">LIVE COURSE</p>
                     <p className="font-medium">{course.title}</p>
                     <p className="font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">
                       {course.description}
@@ -100,7 +100,7 @@ const LiveCourse = () => {
                     คน
                   </p>
                   <div className="flex gap-2 mt-4">
-                    <Badge color="info">LIVE</Badge>
+                    <Badge color="red">LIVE</Badge>
                     <Badge color="purple">RECOMMEND</Badge>
                   </div>
                   <hr className="mt-6" />

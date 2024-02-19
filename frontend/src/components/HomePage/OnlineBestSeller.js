@@ -87,7 +87,7 @@ const OnlineBestSeller = () => {
           {onlineSelling?.map((course) => (
             <SwiperSlide key={course.id}>
               <div
-                className="bg-white rounded-lg shadow-lg border border-gray-100 w-full cursor-pointer mx-auto mt-10 my-5 hover:translate-y-[-10px] transition-transform duration-300 h-full py-auto"
+                className="bg-white rounded-lg shadow-lg border border-gray-10 w-full cursor-pointer mx-auto mt-10 my-5 hover:translate-y-[-10px] transition-transform duration-300 h-full py-auto "
                 onClick={() => handleCardClick(course.id)}
               >
                 <div className="relative h-40">
