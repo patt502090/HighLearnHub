@@ -9,6 +9,7 @@ import axios from "axios";
 import OnlineBestSeller from "../components/HomePage/OnlineBestSeller";
 import OnlineLatest from "../components/HomePage/OnlineLatest";
 import LiveCourse from "../components/HomePage/LiveCourse";
+import Searchbar from "../components/Searchbar";
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -74,6 +75,7 @@ export default function HomePage() {
   return (
     <>
       <Navbar />
+      <Searchbar data={course} />
       {/* <Toaster position="top-right" reverseOrder={false} /> */}
       <Announcements data={announcements} />
       <OnlineBestSeller />
