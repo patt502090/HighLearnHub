@@ -87,7 +87,7 @@ const OnlineBestSeller = () => {
           {onlineSelling?.map((course) => (
             <SwiperSlide key={course.id}>
               <div
-                className="bg-white rounded-lg shadow-lg border border-gray-10 w-2/3 md:w-full cursor-pointer mx-auto mt-10 my-5 hover:translate-y-[-10px] transition-transform duration-300 h-full py-auto "
+                className="bg-white rounded-lg shadow-lg border border-gray-10 w-2/3 md:w-full cursor-pointer mx-auto mt-10 my-5 hover:translate-y-[-10px] transition-transform duration-300 h-full py-auto"
                 onClick={() => handleCardClick(course.id)}
               >
                 <div className="relative h-40">
@@ -97,12 +97,12 @@ const OnlineBestSeller = () => {
                     className="absolute w-full h-full object-cover rounded-t-lg"
                   />
                 </div>
-                <div className="p-4 flex flex-col justify-between h-full">
-                  <div>
+                <div className="p-4 flex flex-col justify-between h-full overflow-auto">
+                  <div className="h-[120px] md:h-[140px]">
                     <p className="text-yellow-300 text-xs mb-2">
                       ONLINE COURSE
                     </p>
-                    <p className="font-medium">{course.title}</p>
+                    <p className="font-medium max-w-md">{course.title}</p>
                     <p className="font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">
                       {course.description}
                     </p>

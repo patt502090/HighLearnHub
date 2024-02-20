@@ -84,7 +84,7 @@ const LiveCourse = () => {
                   />
                 </div>
                 <div className="p-4 flex flex-col justify-between h-full">
-                  <div>
+                  <div className="h-[120px] md:h-[140px]">
                     <p className="text-red-500 text-xs mb-2">LIVE COURSE</p>
                     <p className="font-medium">{course.title}</p>
                     <p className="font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">

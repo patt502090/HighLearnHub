@@ -100,7 +100,7 @@ const OnlineLatest = () => {
                   />
                 </div>
                 <div className="p-4 flex flex-col justify-between h-full">
-                  <div>
+                  <div className="h-[120px] md:h-[140px]">
                     <p className="text-yellow-300 text-xs mb-2">
                       ONLINE COURSE
                     </p>

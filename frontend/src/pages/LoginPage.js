@@ -81,7 +81,7 @@ export default function LoginPage() {
           backgroundPosition: "center",
         }}
       >
-        <div className="container max-w-xs md:max-w-sm bg-white border-2 rounded-lg shadow-2xl p-6 flex flex-col items-center">
+        <div className="container max-w-xs md:max-w-sm bg-white border-2 rounded-lg shadow-2xl p-6 ">
           {/* <img src="https://media.discordapp.net/attachments/705005230944813076/1207665128879824917/HighLearnHub.png?ex=65e078cc&is=65ce03cc&hm=a49d1fee0719ab7706f2d7acad9c954db6f9d7d0699f6afb97fe6b31c0b508ed&=&format=webp&quality=lossless&width=625&height=625" alt="logo" className="w-auto h-28" /> */}
           <p className="text-lg font-bold mb-4 mt-3 text-center">
             ลงชื่อเข้าใช้

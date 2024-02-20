@@ -56,27 +56,29 @@ export default function Course(props) {
             >
               <Link to={`/course/${item.id}`}>
                 <img
-                  className="rounded-t-lg w-full h-24 lg:h-40 object-cover"
+                  className="rounded-t-lg w-full h-30 md:h-40 object-cover"
                   src={item.image}
                   alt=""
                 />
-                <div className="p-4 flex flex-col justify-between">
+                <div className="p-3 md:p-4 flex flex-col justify-between">
                   <p
                     className={`text-${
                       item.type === "Live" ? "red-500" : "yellow-300"
-                    } text-xs mb-2`}
+                    } text-xs mb-1`}
                   >
                     {item.type === "Live" ? "LIVE COURSE" : "ONLINE COURSE"}
                   </p>
-                  <h5 className="mb-2 text-sm lg:text-lg font-medium tracking-tight text-gray-900 dark:text-white text-left">
+                <div className="h-[30px] md:h-[120px]">
+                  <p className="text-sm md:text-base font-medium max-w-md">
                     {item.title}
-                  </h5>
-
+                  </p>
                   {window.innerWidth > 900 && (
                     <p className="font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">
                       {item.description}
                     </p>
+                    
                   )}
+                  </div>
                   {item.type === "Live" ? (
                     <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xs md:text-base">
                       จำนวนผู้ลงสมัคร{" "}
@@ -96,7 +98,7 @@ export default function Course(props) {
                       คอร์ส
                     </p>
                   )}
-                  <div className="flex my-3">
+                  <div className="flex my-1 md:my-3">
                     {item.type === "Live" ? (
                       <Badge color="failure">LIVE</Badge>
                     ) : (
@@ -104,18 +106,19 @@ export default function Course(props) {
                     )}
                   </div>
                   <hr className="mt-1" />
+
                   {item.type === "Online" ? (
                     <div className="md:flex md:flex-wrap gap-2 md:justify-between ">
                       <Badge color="gray" icon={HiClock} className="mt-2 text-[10px] md:text-xs mx-3 md:mx-0 font-normal">
                         {item.duration.hours} ชั่วโมง {item.duration.minutes}{" "}
                         นาที
                       </Badge>
-                      <p className="mt-3 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
+                      <p className="mt-2 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
                         {item.price} บาท{" "}
                       </p>
                     </div>
                   ) : (
-                    <p className="mr-1 mt-3 md:font-semibold text-center md:text-right text-[13px] md:text-base">
+                    <p className="mr-1 md:mr-0 mt-3 md:font-semibold text-center md:text-right text-[13px] md:text-base">
                       {item.price} บาท{" "}
                     </p>
                   )}
