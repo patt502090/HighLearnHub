@@ -78,7 +78,7 @@ export default function SidebarWithBurgerMenu({ userData }) {
                                 </ListItem>
                             </List>
                         </Link>
-                        <Link to="/payment">
+                        <Link to="/Mycart">
                             <List>
                                 <ListItem disablePadding href=''>
                                     <ListItemButton>
