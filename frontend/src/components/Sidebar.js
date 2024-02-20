@@ -91,6 +91,19 @@ export default function SidebarWithBurgerMenu({ userData }) {
                                 </ListItem>
                             </List>
                         </Link>
+                        <Link to="/history">
+                            <List>
+                                <ListItem disablePadding href=''>
+                                    <ListItemButton>
+                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M20.25 8.75h-4.5V7.5c0-.69-.56-1.25-1.25-1.25h-3a1.25 1.25 0 0 0-1.25 1.25V8.75h-4.5a1.25 1.25 0 0 0-1.25 1.25v10a1.25 1.25 0 0 0 1.25 1.25h13.5a1.25 1.25 0 0 0 1.25-1.25v-10a1.25 1.25 0 0 0-1.25-1.25zm-8.75-1.25h3a.25.25 0 0 1 .25.25v1h-3v-1a.25.25 0 0 1 .25-.25zm-7.25 12.5v-10h13.5v10h-13.5z"/>
+                                        <path d="M7 11.75h2.5v1.5H7zm0 3.25h10v1.5H7z"/>
+                                    </svg>
+                                        <p className='ml-2'>ประวัติการสั่งซื้อ</p>
+                                    </ListItemButton>
+                                </ListItem>
+                            </List>
+                        </Link>
                         <div className="absolute inset-x-0 bottom-0 h-16">
                             <hr className="border-blue-gray-50" />
                             <div className="flex items-center gap-4">
