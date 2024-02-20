@@ -4,6 +4,8 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import CartPage from "./CartPage";
 import BasicTabs from "../components/Tabs";
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 export default function CourseInfoPage() {
     const { id } = useParams();
@@ -47,14 +49,16 @@ export default function CourseInfoPage() {
                         <BasicTabs data={course} />
                         {/* <span className="whitespace-pre-line">{course.attributes.detail}</span><br /> */}
                         <p className="text-lg font-medium mb-4">{course.attributes.description}</p>
-                        <p className="text-xl font-medium text-red-700 mb-4">ราคา: {course.attributes.price} บาท </p>
+                        <span className="text-left text-xl font-medium text-red-700 mb-4">ราคา: {course.attributes.price} บาท </span>
                         <Link to={'/payment'}>
                             <button className="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600" onClick={handleOrderClick}>
                                 เพิ่มเข้าตะกร้า
                             </button></Link>
                     </div>
                 ) : (
-                    <p>Loading...</p>
+                    <div className="h-screen flex justify-center items-center">
+                        <CircularProgress />
+                    </div>
                 )}
             </div>
         </div>

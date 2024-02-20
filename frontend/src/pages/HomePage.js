@@ -10,14 +10,18 @@ import OnlineBestSeller from "../components/HomePage/OnlineBestSeller";
 import OnlineLatest from "../components/HomePage/OnlineLatest";
 import LiveCourse from "../components/HomePage/LiveCourse";
 import Searchbar from "../components/Searchbar";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true)
         const courseResponse = await axios.get(
           "http://localhost:1337/api/courses?populate=image&populate=videos"
         );
@@ -25,8 +29,6 @@ export default function HomePage() {
         const announcementResponse = await axios.get(
           "http://localhost:1337/api/announcements?populate=image"
         );
-
-        console.log(courseResponse);
 
         const courseData = courseResponse?.data?.data?.map(
           (course) => {
@@ -49,7 +51,7 @@ export default function HomePage() {
               image:
                 "http://localhost:1337" +
                 course.attributes.image.data.attributes.url,
-              type:course.attributes.study_type,
+              type: course.attributes.study_type,
               duration: { hours, minutes },
             };
           }
@@ -66,6 +68,8 @@ export default function HomePage() {
         setAnnouncements(announcementData);
       } catch (error) {
         console.error("Error fetching data: ", error);
+      } finally {
+        setLoading(false)
       }
     };
 
@@ -74,15 +78,17 @@ export default function HomePage() {
 
   return (
     <>
-      <Navbar />
-      <Searchbar data={course} />
-      {/* <Toaster position="top-right" reverseOrder={false} /> */}
-      <Announcements data={announcements} />
-      <OnlineBestSeller />
-      <OnlineLatest />
-      <LiveCourse />
-      <Course data={course} />
-      <Outlet />
+      {(loading) ? <div className="h-screen flex justify-center items-center">
+        <CircularProgress />
+      </div>
+        : <><Navbar />
+          <Searchbar data={course} />
+          <Announcements data={announcements} />
+          <OnlineBestSeller />
+          <OnlineLatest />
+          <LiveCourse />
+          <Course data={course} />
+          <Outlet /></>}
     </>
   );
 }
