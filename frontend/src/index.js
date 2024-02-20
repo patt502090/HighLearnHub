@@ -14,6 +14,7 @@ import PageNotFound from "./pages/PageNotFound";
 import ProfilePage from "./pages/ProfilePage";
 import CartPage from "./pages/CartPage";
 import MyCoursePage from "./pages/MyCoursePage";
+import HistoryPage from "./pages/HistoryPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -33,6 +34,7 @@ root.render(
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/MyCart" element={<CartPage/>}/>
           <Route path="/mycourse" element={<MyCoursePage/>} />
+          <Route path="/history" element={<HistoryPage/>} />
         </Routes>
       </Router>
     </ContextProvider>
