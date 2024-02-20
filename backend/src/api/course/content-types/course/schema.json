@@ -54,20 +54,19 @@
     "subject": {
       "type": "string"
     },
+    "detail": {
+      "type": "text",
+      "required": false
+    },
     "study_type": {
       "type": "enumeration",
       "enum": [
-        "Live",
-        "Online"
+        "Online",
+        "Live"
       ]
     },
-    "livedetail": {
-      "type": "text",
-      "required": false
-    },
-    "onlinedetail": {
-      "type": "text",
-      "required": false
+    "instructor_name": {
+      "type": "string"
     }
   }
 }

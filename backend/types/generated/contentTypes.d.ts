@@ -905,9 +905,9 @@ export interface ApiCourseCourse extends Schema.CollectionType {
     >;
     image: Attribute.Media;
     subject: Attribute.String;
-    study_type: Attribute.Enumeration<['Live', 'Online']>;
-    livedetail: Attribute.Text;
-    onlinedetail: Attribute.Text;
+    detail: Attribute.Text;
+    study_type: Attribute.Enumeration<['Online', 'Live']>;
+    instructor_name: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

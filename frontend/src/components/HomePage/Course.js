@@ -76,7 +76,6 @@ export default function Course(props) {
                     <p className="font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">
                       {item.description}
                     </p>
-                    
                   )}
                   </div>
                   {item.type === "Live" ? (
