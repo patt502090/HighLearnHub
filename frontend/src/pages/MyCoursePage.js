@@ -44,7 +44,7 @@ export default function MyCoursePage() {
       <Navbar />
       <div className="flex flex-col items-center justify-items-center mt-8 w-80 sm:w-full mx-auto ">
         <div className="w-full md:w-2/3 lg:w-1/2 p-8  bg-white shadow-lg rounded-lg ">
-          <p className="text-2xl font-medium text-right mb-8">คอร์สของฉัน</p>
+          <p className="text-2xl font-medium text-center mb-8">คอร์สของฉัน</p>
           <hr className="mb-6" />
           {isLoading ? (
             <p className="text-center">กำลังโหลด...</p>
