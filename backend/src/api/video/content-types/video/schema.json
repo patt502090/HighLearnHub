@@ -28,6 +28,12 @@
       "relation": "manyToOne",
       "target": "api::course.course",
       "inversedBy": "videos"
+    },
+    "watch_times": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::watch-time.watch-time",
+      "mappedBy": "video"
     }
   }
 }

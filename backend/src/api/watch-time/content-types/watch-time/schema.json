@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "watch_times",
+  "info": {
+    "singularName": "watch-time",
+    "pluralName": "watch-times",
+    "displayName": "WatchTime",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "watch_time": {
+      "type": "float"
+    },
+    "member": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "watch_times"
+    },
+    "video": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::video.video",
+      "inversedBy": "watch_times"
+    }
+  }
+}

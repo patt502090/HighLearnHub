@@ -732,6 +732,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     image: Attribute.Media;
     contact: Attribute.Text;
     about: Attribute.Text;
+    watch_times: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::watch-time.watch-time'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -989,6 +994,11 @@ export interface ApiVideoVideo extends Schema.CollectionType {
       'manyToOne',
       'api::course.course'
     >;
+    watch_times: Attribute.Relation<
+      'api::video.video',
+      'oneToMany',
+      'api::watch-time.watch-time'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1000,6 +1010,47 @@ export interface ApiVideoVideo extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::video.video',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiWatchTimeWatchTime extends Schema.CollectionType {
+  collectionName: 'watch_times';
+  info: {
+    singularName: 'watch-time';
+    pluralName: 'watch-times';
+    displayName: 'WatchTime';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    watch_time: Attribute.Float;
+    member: Attribute.Relation<
+      'api::watch-time.watch-time',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    video: Attribute.Relation<
+      'api::watch-time.watch-time',
+      'manyToOne',
+      'api::video.video'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::watch-time.watch-time',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::watch-time.watch-time',
       'oneToOne',
       'admin::user'
     > &
@@ -1030,6 +1081,7 @@ declare module '@strapi/types' {
       'api::course.course': ApiCourseCourse;
       'api::payment.payment': ApiPaymentPayment;
       'api::video.video': ApiVideoVideo;
+      'api::watch-time.watch-time': ApiWatchTimeWatchTime;
     }
   }
 }
