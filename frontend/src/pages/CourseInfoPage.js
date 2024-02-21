@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
-import CartPage from "./CartPage";
 import BasicTabs from "../components/Tabs";
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -10,7 +9,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 export default function CourseInfoPage() {
     const { id } = useParams();
     const [course, setCourse] = useState(null);
-    const [amount, setAmount] = useState(0); // เพิ่ม state สำหรับจำนวน amount และเริ่มต้นเป็น 0
 
     useEffect(() => {
         const fetchCourse = async () => {
@@ -25,11 +23,6 @@ export default function CourseInfoPage() {
         fetchCourse();
     }, [id]);
 
-    // สร้างฟังก์ชัน handleOrderClick เพื่อเพิ่มจำนวน amount เมื่อกดสั่งคอร์ส
-    const handleOrderClick = () => {
-        setAmount(prevAmount => prevAmount + 1);
-
-    };
 
     return (
         <div className="background-image">
@@ -50,8 +43,8 @@ export default function CourseInfoPage() {
                         {/* <span className="whitespace-pre-line">{course.attributes.detail}</span><br /> */}
                         <p className="text-lg font-medium mb-4">{course.attributes.description}</p>
                         <span className="text-left text-xl font-medium text-red-700 mb-4">ราคา: {course.attributes.price} บาท </span>
-                        <Link to={'/payment'}>
-                            <button className="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600" onClick={handleOrderClick}>
+                        <Link to={'/mycart'}>
+                            <button className="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
                                 เพิ่มเข้าตะกร้า
                             </button></Link>
                     </div>
