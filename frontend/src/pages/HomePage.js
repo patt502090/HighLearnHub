@@ -11,12 +11,9 @@ import OnlineLatest from "../components/HomePage/OnlineLatest";
 import LiveCourse from "../components/HomePage/LiveCourse";
 import Searchbar from "../components/Searchbar";
 import CircularProgress from '@mui/material/CircularProgress';
-<<<<<<< HEAD
-=======
 import Box from '@mui/material/Box';
 import Footer from "../components/Footer";
 
->>>>>>> 774b625e42c28c5bb24c58dab2f9e4172105a821
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
