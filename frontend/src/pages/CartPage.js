@@ -3,8 +3,7 @@ import ax from "../conf/ax";
 import conf from "../conf/main";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
-
-
+import Progessbar from "../components/Progessbar";
 
 export default function CartPage() {
   const [coursebooked, setCoursebooked] = useState();
@@ -42,6 +41,7 @@ export default function CartPage() {
   return (
     <>
       <Navbar />
+      <Progessbar></Progessbar>
       <div className="flex flex-col items-center mt-6">
         <h className="text-xl font-bold">Mycart</h>
         <div className="flex flex-col items-center mt-6">

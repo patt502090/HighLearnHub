@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
-
+import Progessbar from "../components/Progessbar";
 
 function FinishPaymentPage() {
   return (
     <>
       <Navbar />
+      <Progessbar></Progessbar>
       <body>
         <div class="flex flex-col justify-center items-center h-[100vh] pt-4">
           <div class="relative flex flex-col items-center rounded-[10px] border-[1px] border-gray-200 w-[576px] mx-auto p-4 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none">

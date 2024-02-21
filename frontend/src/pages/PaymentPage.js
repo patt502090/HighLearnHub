@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
-
+import Progessbar from "../components/Progessbar";
 export default function PaymentPage() {
     const [selectedFile, setSelectedFile] = useState(null);
 
@@ -12,6 +12,7 @@ export default function PaymentPage() {
     return (
         <>
             <Navbar />
+            <Progessbar></Progessbar>
             <div className='flex flex-col items-center mt-6'>
                 <h2 className='text-xl font-bold'>PaymentPage</h2>
                 <section className="py-17 bg-gray-100 font-poppins dark:bg-gray-700">
