@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams, Link } from "react-router-dom";
 
 export default function PaymentPage() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -45,7 +46,9 @@ export default function PaymentPage() {
             <div className="py-4">
                 <input type="file" onChange={handleFileChange} className="hidden" id="fileInput" />
                 <label htmlFor="fileInput" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer focus:outline-none focus:shadow-outline mb-4 md:mb-0 md:mr-4">เเนบสลิปรูปภาพ</label>
-                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4 md:mb-0 md:ml-4">ยืนยันการชำระเงิน</button>
+                <Link Link to="/finishpayment">
+                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4 md:mb-0 md:ml-4">ยืนยันการชำระเงิน</button>
+                </Link>
             </div>
         </div>
     )
