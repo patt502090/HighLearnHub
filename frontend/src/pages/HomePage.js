@@ -12,6 +12,8 @@ import LiveCourse from "../components/HomePage/LiveCourse";
 import Searchbar from "../components/Searchbar";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import Footer from "../components/Footer";
+
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -88,6 +90,7 @@ export default function HomePage() {
           <OnlineLatest />
           <LiveCourse />
           <Course data={course} />
+          <Footer></Footer>
           <Outlet /></>}
     </>
   );
