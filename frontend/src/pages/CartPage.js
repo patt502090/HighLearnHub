@@ -36,6 +36,19 @@ export default function CartPage() {
     });
     return totalPrice.toLocaleString();;
   };
+  const DeleteCourseBooked = async (id) => {
+    try {
+      console.log("id =", id)
+      const response = await ax.delete(
+        conf.apiUrlPrefix +
+        `/bookings/${id}`
+      );
+
+      setCoursebooked(coursebooked.filter(course => course.attributes.bookings.data[0].id != id))
+    } catch (error) {
+      console.error("Error fetching Data:", error);
+    }
+  };
 
   console.log(coursebooked);
   return (
@@ -55,30 +68,46 @@ export default function CartPage() {
 
                   <div className="py-4 mb-8 border-t border-b border-gray-200 dark:border-gray-700">
                     {coursebooked?.map((item) => (
-                      <div class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                      <div className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700" key={item.id}>
                         <img
-                          class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
-                          src={
-                            "http://localhost:1337" +
-                            item.attributes.image.data.attributes.url
-                          }
+                          className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
+                          src={"http://localhost:1337" + item.attributes.image.data.attributes.url}
                           alt=""
-                        ></img>
-                        <div class="flex flex-col justify-between p-4 leading-normal">
-                          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        />
+                        <div className="flex flex-col justify-between p-4 relative w-full">
+                          <button
+                            type="button"
+                            className="absolute top-0 right-0 mt-2 mr-2 bg-red-500 rounded-full p-2 inline-flex items-center text-white hover:text-white-500 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                            style={{ width: "30px", height: "30px" }}
+                            onClick={() => DeleteCourseBooked(item.attributes.bookings.data[0].id)}
+                          >
+                            <span className="sr-only">Close menu</span>
+                            <svg
+                              className="h-6 w-6"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                             {item.attributes.title}
                           </h5>
                           <p>{item.attributes.description}</p>
-
                           <hr className="mt-6 " />
                           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 flex justify-between">
                             <span>ราคา {item.attributes.price} บาท,</span>
                             <span>x{item.attributes.bookings.data.length}</span>
+
                           </p>
                         </div>
                       </div>
                     ))}
                   </div>
+
                   <div className="flex flex-wrap justify-between">
                     <div className="w-full px-4 mb-4 lg:w-1/2 ">
                       ราคาทั้งหมด : {calculateTotalPrice()}
@@ -97,6 +126,8 @@ export default function CartPage() {
                 ชำระเงิน
               </button>
             </Link>
+          </div>
+          <div >
           </div>
         </div>
       </div>
