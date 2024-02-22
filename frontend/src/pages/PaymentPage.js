@@ -2,11 +2,25 @@ import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Progessbar from "../components/Progessbar";
+
 export default function PaymentPage() {
     const [selectedFile, setSelectedFile] = useState(null);
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
+    };
+
+    const openFile = () => {
+        if (selectedFile) {
+            const fileURL = URL.createObjectURL(selectedFile);
+            window.open(fileURL);
+        } else {
+            alert("โปรดเลือกไฟล์ก่อน");
+        }
+    };
+
+    const handleFileDelete = () => {
+        setSelectedFile(null);
     };
 
     return (
@@ -49,7 +63,13 @@ export default function PaymentPage() {
                 </section>
                 <div className="py-4">
                     <input type="file" onChange={handleFileChange} className="hidden" id="fileInput" />
-                    <label htmlFor="fileInput" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer focus:outline-none focus:shadow-outline mb-4 md:mb-0 md:mr-4">เเนบสลิปรูปภาพ</label>
+                    <label htmlFor="fileInput" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer focus:outline-none focus:shadow-outline mb-4 md:mb-0 md:mr-4">อัปโหลดสลิปรูปภาพ</label>
+                    {selectedFile && (
+                        <>
+                            <button onClick={openFile} className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4 md:mb-0 md:mr-4">ดูไฟล์</button>
+                            <button onClick={handleFileDelete} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4 md:mb-0 md:mr-4">ลบไฟล์</button>
+                        </>
+                    )}
                     <Link Link to="/finishpayment">
                         <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4 md:mb-0 md:ml-4">ยืนยันการชำระเงิน</button>
                     </Link>
