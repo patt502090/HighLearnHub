@@ -6,6 +6,8 @@ import Navbar from "../components/Navbar";
 import BasicTabs from "../components/Tabs";
 import CircularProgress from '@mui/material/CircularProgress';
 import EditCourseModal from "./EditCourseModal";
+import conf from "../conf/main";
+import ax from "../conf/ax";
 
 
 export default function CourseInfoPage() {
@@ -14,12 +16,17 @@ export default function CourseInfoPage() {
     const { state: ContextState } = useContext(AuthContext);
     const { userRole } = ContextState;
     const [onEdit, setOnEdit] = useState(false);
+    const [Infouser, setInfouser] = useState();
+
 
     useEffect(() => {
         const fetchCourse = async () => {
             try {
-                const response = await axios.get(`http://localhost:1337/api/courses/${id}?populate=*`);
+                const response = await ax.get(conf.apiUrlPrefix + `/courses/${id}?populate=*`);
                 setCourse(response.data.data);
+
+                const datauser = await ax.get(conf.apiUrlPrefix + `/users/me`);
+                setInfouser(datauser.data.id)
             } catch (error) {
                 console.error("Error fetching course:", error);
             }
@@ -62,6 +69,37 @@ export default function CourseInfoPage() {
             </div>
         );
     }
+    const Addcart = async (course) => {
+        try {
+            const bookedDate = new Date(); // สร้างวันที่และเวลาปัจจุบัน
+
+            // แยกระหว่างวันที่และเวลา
+            const date = bookedDate.toISOString().split('T')[0]; // แยกวันที่ (อันดับแรกของ ISO string)
+            const time = bookedDate.toISOString().split('T')[1].split('.')[0]; // แยกเวลา (อันดับสองของ ISO string)
+
+            // สร้างวันหมดอายุโดยเพิ่ม 3 วันลงไปจาก booked_date
+            const expiryDate = new Date(bookedDate);
+            expiryDate.setDate(expiryDate.getDate() + 3);
+            const expiryDateString = expiryDate.toISOString().split('T')[0]; // แยกวันที่ออกมา
+
+            const response = await ax.post(
+                conf.apiUrlPrefix +
+                `/bookings`,
+                {
+                    data: {
+                        booked_date: `${date} ${time}`,
+                        expiry_date: `${expiryDateString} ${time}`, // ใช้วันที่หมดอายุที่ถูกปรับแล้ว
+                        course: parseInt(id),
+                        user: parseInt(Infouser)
+                    }
+                }
+            );
+
+        } catch (error) {
+            console.error("Error fetching Data:", error);
+        }
+    };
+
 
     return (
         <div className="background-image">
@@ -83,9 +121,12 @@ export default function CourseInfoPage() {
                         <p className="text-lg font-medium mb-4">{course.attributes.description}</p>
                         <p className="text-center text-2xl font-bold text-red-700 mb-4">ราคา: {course.attributes.price} บาท </p>
                         <Link to={'/mycart'}>
-                            <button className="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                            <button className="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600"
+                                onClick={() => Addcart()}
+                            >
                                 เพิ่มเข้าตะกร้า
-                            </button></Link>
+                            </button>
+                        </Link>
                     </div>
                 ) : (
                     <div className="h-screen flex justify-center items-center">
