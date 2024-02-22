@@ -15,21 +15,30 @@ function VideoPage() {
   const [watchTimeId, setWatchTimeId] = useState(null);
   const [userID, setUserID] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentTime,setCurrentTime] = useState(0)
+  const [currentTime, setCurrentTime] = useState(0);
+  const [totalWatchTime, setTotalWatchTime] = useState(0);
+  const [durationSelected,setDurationSelected] = useState(0)
 
   useEffect(() => {
     fetchData();
+    fetchTotalWatchData();
   }, [id]);
 
   useEffect(() => {
     if (!isLoading && selectedVideo) {
       updateWatchTime();
     }
-  }, [selectedVideo, played, userID, isLoading]); 
+  }, [selectedVideo, played, userID, isLoading]);
+
+  useEffect(() => {
+    fetchTotalWatchData();
+  }, [played]);
 
   const fetchData = async () => {
     try {
-      const userDataResponse = await ax.get(`${conf.apiUrlPrefix}/users/me?populate[bookings][populate][course][populate]=videos`);
+      const userDataResponse = await ax.get(
+        `${conf.apiUrlPrefix}/users/me?populate[bookings][populate][course][populate]=videos`
+      );
       const userData = userDataResponse.data;
       const bookingData = userData.bookings;
       const currentUserID = userData.id;
@@ -43,10 +52,14 @@ function VideoPage() {
         setTitle(firstCourse.title);
       }
 
-      const filteredBookings = bookingData.filter(booking => booking.payment_status === true);
-      const allVideos = filteredBookings.flatMap(booking => booking.course.videos);
+      const filteredBookings = bookingData.filter(
+        (booking) => booking.payment_status === true
+      );
+      const allVideos = filteredBookings.flatMap(
+        (booking) => booking.course.videos
+      );
       setVideoData(allVideos);
-      console.log("AllVideo",allVideos)
+      console.log("AllVideo", allVideos);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -55,7 +68,7 @@ function VideoPage() {
 
   const updateWatchTime = async () => {
     try {
-      console.log("watchID",watchTimeId)
+      console.log("watchID", watchTimeId);
       if (watchTimeId) {
         await ax.put(`${conf.apiUrlPrefix}/watch-times/${watchTimeId}`, {
           data: { watch_time: played },
@@ -80,17 +93,25 @@ function VideoPage() {
   const handleVideoSelection = async (videoId) => {
     if (!isLoading) {
       setIsLoading(true);
-      const selected = videoData.find(video => video.id === videoId);
+      const selected = videoData.find((video) => video.id === videoId);
       console.log(selected);
       if (selected) {
         setSelectedVideo(selected);
+        setDurationSelected(selected.duration)
         if (userID) {
-          console.log("UserID",userID)
-          const watchTimeResponse = await ax.get(`${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userID}&filters[video][id][$eq]=${selected.id}`);
-          console.log("WatchTimeResponse",watchTimeResponse);
-          setCurrentTime(Math.round(watchTimeResponse?.data.data[0].attributes.watch_time));
-          console.log("Watch Current Time Current",Math.round(watchTimeResponse?.data.data[0].attributes.watch_time))
-          console.log("Watch Time ID",watchTimeResponse?.data?.data[0]?.id)
+          console.log("UserID", userID);
+          const watchTimeResponse = await ax.get(
+            `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userID}&filters[video][id][$eq]=${selected.id}`
+          );
+          console.log("WatchTimeResponse", watchTimeResponse);
+          setCurrentTime(
+            Math.round(watchTimeResponse?.data.data[0].attributes.watch_time)
+          );
+          console.log(
+            "Watch Current Time Current",
+            Math.round(watchTimeResponse?.data.data[0].attributes.watch_time)
+          );
+          console.log("Watch Time ID", watchTimeResponse?.data?.data[0]?.id);
           if (watchTimeResponse?.data?.data?.length > 0) {
             setWatchTimeId(watchTimeResponse?.data?.data[0]?.id);
           } else {
@@ -101,54 +122,120 @@ function VideoPage() {
       setIsLoading(false);
     }
   };
-  
+
+  const totalDuration = videoData.reduce(
+    (total, item) => total + item.duration,
+    0
+  );
 
   const calculateProgress = () => {
-    if (selectedVideo) {
-      const progress = (played / selectedVideo.duration) * 100;
-      return Math.round(progress);
+    if (totalDuration === 0) return 0; 
+    const progress = (totalWatchTime / totalDuration) * 100;
+    return Math.round(progress);
+  };
+  
+  const calculateProgressSelected = () => {
+    if (durationSelected === 0) return 0;
+    const progressSelected = (played / durationSelected) * 100;
+    return Math.round(progressSelected);
+  };
+  
+
+  const fetchTotalWatchData = async () => {
+    try {
+      const watchTimesResponse = await ax.get(
+        `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userID}`
+      );
+      const watchTimesData = watchTimesResponse.data.data;
+      console.log("watchTimesData", watchTimesData);
+      let totalWatchTime = 0;
+      watchTimesData.forEach((watchTime) => {
+        totalWatchTime += watchTime.attributes.watch_time;
+      });
+      setTotalWatchTime(totalWatchTime);
+
+      console.log("Total Watch Time:", totalWatchTime);
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-    return 0;
   };
 
-  const CurrentTime = `&t=${currentTime}s`
+  const CurrentTime = `&t=${currentTime}s`;
+
+  const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+
+    let formattedTime = "";
+
+    if (hours > 0) {
+      formattedTime += `${hours} hr `;
+    }
+
+    if (minutes > 0) {
+      formattedTime += `${minutes} m `;
+    }
+
+    if (remainingSeconds > 0 || formattedTime === "") {
+      formattedTime += `${remainingSeconds} s`;
+    }
+
+    return formattedTime.trim();
+  };
 
   return (
     <>
       <Navbar />
-      <div className="flex w-1/4 md:w-full ">
-        <div className="flex-none w-1/5 p-4">
-          <h2 className="text-left ml-3 text-lg font-medium mt-10">{title}</h2>
+      <div className="flex md:w-full h-screen bg-gray-100">
+        <div className="flex-none w-full md:w-1/5 p-4">
+          <h2 className="ml-3 text-lg font-medium mt-10">{title}</h2>
           <div className="w-3/4 ml-3 mt-2">
             <Progress progress={calculateProgress()} size="sm" color="yellow" />
           </div>
-          <h3 className="ml-3 mt-2 text-xs text-slate-500">{`${calculateProgress()}% Complete`}</h3>
+          <h3 className="ml-3 mt-2 text-sm text-slate-500">{`${calculateProgress()}% Complete`}</h3>
           <hr className="my-3" />
-          <ul>
-            {videoData.map(video => (
+          <ul className="overflow-y-hidden">
+            {videoData.map((video) => (
               <li
                 key={video.id}
                 onClick={() => handleVideoSelection(video.id)}
-                className={`cursor-pointer hover:text-blue-600 ${video.id === selectedVideo?.id ? "font-bold ml-3" : "ml-3"
-                  }`}
+                className={`flex items-center cursor-pointer ${
+                  video.id === selectedVideo?.id
+                    ? "my-2 bg-gray-200 p-4 rounded"
+                    : "ml-4 my-4"
+                }`}
               >
-                {video.title}
+                <span className="flex-grow">{video.title}</span>
+                {selectedVideo && video.id === selectedVideo.id && (
+                  <span className="text-sm text-gray-500 whitespace-nowrap">
+                    {formatTime(video.duration)}
+                    {calculateProgressSelected() >= 100 && (
+                      <span className="ml-2 text-green-500">Completed</span>
+                    )}
+                  </span>
+                )}
               </li>
             ))}
           </ul>
         </div>
         <div className="flex-grow p-10">
           {selectedVideo && (
-            <ReactPlayer
-              key={selectedVideo.id}
-              onProgress={(progress) => {
-                setPlayed(progress.playedSeconds);
-              }}
-              controls={true}
-              url={`${selectedVideo.url}${CurrentTime}`}
-              height="700px"
-              width="1200px"
-            />
+            <>
+              <h2 className="text-lg font-medium text-center mb-7">
+                {selectedVideo.title}
+              </h2>
+              <ReactPlayer
+                key={selectedVideo.id}
+                onProgress={(progress) => {
+                  setPlayed(progress.playedSeconds);
+                }}
+                controls={true}
+                url={`${selectedVideo.url}${CurrentTime}`}
+                height="80%"
+                width="100%"
+              />
+            </>
           )}
         </div>
       </div>
