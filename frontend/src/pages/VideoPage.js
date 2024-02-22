@@ -15,6 +15,7 @@ function VideoPage() {
   const [watchTimeId, setWatchTimeId] = useState(null);
   const [userID, setUserID] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentTime,setCurrentTime] = useState(0)
 
   useEffect(() => {
     fetchData();
@@ -45,6 +46,7 @@ function VideoPage() {
       const filteredBookings = bookingData.filter(booking => booking.payment_status === true);
       const allVideos = filteredBookings.flatMap(booking => booking.course.videos);
       setVideoData(allVideos);
+      console.log("AllVideo",allVideos)
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -83,10 +85,12 @@ function VideoPage() {
       if (selected) {
         setSelectedVideo(selected);
         if (userID) {
-          console.log(userID)
+          console.log("UserID",userID)
           const watchTimeResponse = await ax.get(`${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userID}&filters[video][id][$eq]=${selected.id}`);
-          console.log(watchTimeResponse);
-          console.log(watchTimeResponse?.data?.data[0]?.id)
+          console.log("WatchTimeResponse",watchTimeResponse);
+          setCurrentTime(Math.round(watchTimeResponse?.data.data[0].attributes.watch_time));
+          console.log("Watch Current Time Current",Math.round(watchTimeResponse?.data.data[0].attributes.watch_time))
+          console.log("Watch Time ID",watchTimeResponse?.data?.data[0]?.id)
           if (watchTimeResponse?.data?.data?.length > 0) {
             setWatchTimeId(watchTimeResponse?.data?.data[0]?.id);
           } else {
@@ -106,6 +110,8 @@ function VideoPage() {
     }
     return 0;
   };
+
+  const CurrentTime = `&t=${currentTime}s`
 
   return (
     <>
@@ -139,7 +145,7 @@ function VideoPage() {
                 setPlayed(progress.playedSeconds);
               }}
               controls={true}
-              url={selectedVideo.url}
+              url={`${selectedVideo.url}${CurrentTime}`}
               height="700px"
               width="1200px"
             />
