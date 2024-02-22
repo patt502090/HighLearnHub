@@ -14,7 +14,7 @@ export default function Course(props) {
 
   return (
     <>
-      <div className="w-full md:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between mt-20">
+      <div className="w-full md:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between">
         <p className="font-medium text-2xl md:text-3xl pl-3 md:pl-0">
           คอร์สเรียนทั้งหมด
         </p>

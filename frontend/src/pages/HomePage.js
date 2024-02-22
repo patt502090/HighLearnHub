@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext, ContextProvider } from "../context/Auth.context";
 import { Outlet } from "react-router-dom";
 import "../App.css";
 import Navbar from "../components/Navbar";
@@ -11,7 +12,6 @@ import OnlineLatest from "../components/HomePage/OnlineLatest";
 import LiveCourse from "../components/HomePage/LiveCourse";
 import Searchbar from "../components/Searchbar";
 import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
 import Footer from "../components/Footer";
 
 
@@ -19,6 +19,9 @@ export default function HomePage() {
   const [course, setCourse] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { state: ContextState } = useContext(AuthContext);
+  const { userRole } = ContextState;
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,20 +81,36 @@ export default function HomePage() {
     fetchData();
   }, []);
 
+  console.log(userRole);
+  if (userRole === "admin") {
+    return (
+      <>
+        <Navbar />
+        <Searchbar data={course} />
+        <Course data={course} />
+      </>
+    )
+  }
+
   return (
     <>
-      {(loading) ? <div className="h-screen flex justify-center items-center">
-        <CircularProgress />
-      </div>
-        : <><Navbar />
-          <Searchbar data={course} />
-          <Announcements data={announcements} />
-          <OnlineBestSeller />
-          <OnlineLatest />
-          <LiveCourse />
-          <Course data={course} />
-          <Footer></Footer>
-          <Outlet /></>}
+      <ContextProvider>
+        {(loading) ?
+          <div className="h-screen flex justify-center items-center">
+            <CircularProgress />
+          </div>
+          :
+          <>
+            <Navbar />
+            <Searchbar data={course} />
+            <Announcements data={announcements} />
+            <OnlineBestSeller />
+            <OnlineLatest />
+            <LiveCourse />
+            <Course data={course} />
+            <Footer></Footer>
+            <Outlet /></>}
+      </ContextProvider>
     </>
   );
 }

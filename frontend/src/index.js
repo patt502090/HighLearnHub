@@ -31,6 +31,7 @@ root.render(
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/registerAccount" element={<RegisterAccountPage />} />
           <Route path="/member/:id" element={<CourseInfoPage />} />
+          <Route path="/admin" element={<App />} />
           <Route path="/admin/:id" element={<CourseInfoPage />} />
           <Route path="/profile/:id" element={<ProfilePage />} />
           <Route path="/payment" element={<PaymentPage />} />

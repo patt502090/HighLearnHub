@@ -24,7 +24,7 @@ const OnlineBestSeller = () => {
         const onlineSellingResponse = await axios.get(
           "http://localhost:1337/api/courses?populate=image&filters[study_type][$eq]=Online&sort=amount:desc&pagination[pageSize]=10&populate=videos"
         );
-        console.log("ข้อมูลหลังเรียก API ของ OnlineSelling", onlineSellingResponse);
+        // console.log("ข้อมูลหลังเรียก API ของ OnlineSelling", onlineSellingResponse);
         const onlineSellingData = onlineSellingResponse.data.data.map(
           (course) => {
             const totalDurationMinutes = course.attributes.videos.data.reduce(
@@ -50,7 +50,7 @@ const OnlineBestSeller = () => {
           }
         );
 
-        console.log("ข้อมูลหลังจากการกรอง API ของ OnlineSelling", onlineSellingData);
+        // console.log("ข้อมูลหลังจากการกรอง API ของ OnlineSelling", onlineSellingData);
         setOnlineSelling(onlineSellingData);
       } catch (error) {
         console.error("Error fetching data: ", error);

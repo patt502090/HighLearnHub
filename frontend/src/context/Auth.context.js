@@ -10,6 +10,7 @@ const initialState = {
   user: null,
   isLoginPending: false,
   loginError: null,
+  userRole: null,
 }
 
 const updateJwt = (jwt) => {
@@ -25,18 +26,19 @@ export const ContextProvider = props => {
   const [state, setState] = useSetState(initialState);
 
   const setLoginPending = (isLoginPending) => setState({ isLoginPending });
-  const setLoginSuccess = (isLoggedIn, user) => setState({ isLoggedIn, user });
+  const setLoginSuccess = (isLoggedIn, user) => setState({ isLoggedIn, user});
   const setLoginError = (loginError) => setState({ loginError });
+  const setUserRole = (userRole) => setState({ userRole });
 
 
   const handleLoginResult = (error, result) => {
     setLoginPending(false);
-
     if (result && result.user) {
       if (result.jwt) {
         updateJwt(result.jwt)
       }
       setLoginSuccess(true, result.user);
+      setUserRole(result.user.role.name)
     } else if (error) {
       setLoginError(error);
     }
@@ -55,6 +57,10 @@ export const ContextProvider = props => {
     fetchLogin(username, password, handleLoginResult)
   }
 
+  const changeRole = (role) => {
+    setUserRole(role)
+  }
+
   const logout = () => {
     setLoginPending(false);
     updateJwt(null)
@@ -68,7 +74,7 @@ export const ContextProvider = props => {
         state,
         login,
         logout,
-        
+        changeRole,
       }}
     >
       {props.children}
@@ -82,6 +88,7 @@ const fetchLogin = async (username, password, callback) => {
       identifier: username,
       password
     })
+    console.log(response.data);
     if (response.data.jwt && response.data.user.id > 0) {
       callback(null, response.data)
     } else {
@@ -99,7 +106,7 @@ const loadPersistedJwt = async (callback) => {
       axData.jwt = persistedJwt
       const response = await ax.get(conf.jwtUserEndpoint)
       if (response.data.id > 0) {
-        callback(null, {user: response.data})
+        callback(null, {user: response.data, userRole: response.data.role.name })
       } else {
         callback(null)
       }

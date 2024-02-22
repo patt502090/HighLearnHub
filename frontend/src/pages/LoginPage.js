@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Label, TextInput } from "flowbite-react";
 import { HiMail } from "react-icons/hi";
@@ -17,8 +17,10 @@ export default function LoginPage() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const authContext = useContext(AuthContext);
-  const { login } = authContext || {};
+  const { login,changeRole } = authContext || {};
   const navigate = useNavigate();
+  console.log(changeRole);
+
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -48,11 +50,22 @@ export default function LoginPage() {
         console.log("role:", result.data.role.name);
         setLoading(false);
         if (result.data.role.name === "member") {
+          changeRole(result.data.role.name)
           setTimeout(() => {
             navigate("/");
           });
           toast.success("เข้าสู่ระบบสำเร็จ!");
-
+        }
+      }
+      if (result.data.role.name) {
+        console.log("role:", result.data.role.name);
+        setLoading(false);
+        if (result.data.role.name === "admin") {
+          changeRole(result.data.role.name)
+          setTimeout(() => {
+            navigate("/admin");
+          });
+          toast.success("เข้าสู่ระบบสำเร็จ!");
         }
       }
     } catch (error) {

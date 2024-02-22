@@ -44,7 +44,7 @@ const LiveCourse = () => {
   }, []);
 
   return (
-    <div className="w-full md:w-4/5 mx-auto h-full">
+    <div className="w-full md:w-4/5 mx-auto h-full mb:20">
       <p className="font-medium mx-auto mt-20 text-center md:text-left text-2xl md:text-3xl">คอร์สเรียนสดออนไลน์แนะนำ</p>
       <p className="font-base mx-auto mt-5 text-center md:text-left text-1xl">
         พัฒนาทักษะอย่างใกล้ชิดกับผู้สอน

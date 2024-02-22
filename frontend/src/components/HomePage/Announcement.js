@@ -7,7 +7,6 @@ import "swiper/css/navigation";
 import "./SwiperButton.css";
 import { Link } from "react-router-dom";
 export default function Announcements({ data }) {
-  console.log(data);
   return (
     <div>
 
