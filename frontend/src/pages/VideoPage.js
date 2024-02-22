@@ -14,38 +14,46 @@ function VideoPage() {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [watchTimeId, setWatchTimeId] = useState(null);
   const [userID, setUserID] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userDataResponse = await ax.get(`${conf.apiUrlPrefix}/users/me?populate[bookings][populate][course][populate]=videos`);
-        const userData = userDataResponse.data;
-        const bookingData = userData.bookings;
-        const currentUserID = userData.id;
-
-        if (currentUserID) {
-          setUserID(currentUserID);
-        }
-
-        const firstCourse = bookingData[0]?.course;
-        if (firstCourse) {
-          setTitle(firstCourse.title);
-        }
-
-        const filteredBookings = bookingData.filter(booking => booking.payment_status === true);
-        const allVideos = filteredBookings.flatMap(booking => booking.course.videos);
-        setVideoData(allVideos);
-
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-
     fetchData();
   }, [id]);
 
+  useEffect(() => {
+    if (!isLoading && selectedVideo) {
+      updateWatchTime();
+    }
+  }, [selectedVideo, played, userID, isLoading]); 
+
+  const fetchData = async () => {
+    try {
+      const userDataResponse = await ax.get(`${conf.apiUrlPrefix}/users/me?populate[bookings][populate][course][populate]=videos`);
+      const userData = userDataResponse.data;
+      const bookingData = userData.bookings;
+      const currentUserID = userData.id;
+
+      if (currentUserID) {
+        setUserID(currentUserID);
+      }
+
+      const firstCourse = bookingData[0]?.course;
+      if (firstCourse) {
+        setTitle(firstCourse.title);
+      }
+
+      const filteredBookings = bookingData.filter(booking => booking.payment_status === true);
+      const allVideos = filteredBookings.flatMap(booking => booking.course.videos);
+      setVideoData(allVideos);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+
   const updateWatchTime = async () => {
     try {
+      console.log("watchID",watchTimeId)
       if (watchTimeId) {
         await ax.put(`${conf.apiUrlPrefix}/watch-times/${watchTimeId}`, {
           data: { watch_time: played },
@@ -67,22 +75,26 @@ function VideoPage() {
     }
   };
 
-  useEffect(() => {
-    updateWatchTime();
-  }, [selectedVideo,played, userID]); 
-
   const handleVideoSelection = async (videoId) => {
-    const selected = videoData.find(video => video.id === videoId);
-    if (selected) {
-      setSelectedVideo(selected);
-      const watchTimeResponse = await ax.get(`${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userID}&filters[video][id][$eq]=${selected.id}`);
-    //   console.log(watchTimeResponse)
-      console.log(watchTimeResponse?.data?.data[0]?.id)
-      if (watchTimeResponse?.data?.data?.length > 0) {
-        setWatchTimeId(watchTimeResponse?.data?.data[0]?.id);
-      } else {
-        setWatchTimeId(null);
+    if (!isLoading) {
+      setIsLoading(true);
+      const selected = videoData.find(video => video.id === videoId);
+      console.log(selected);
+      if (selected) {
+        setSelectedVideo(selected);
+        if (userID) {
+          console.log(userID)
+          const watchTimeResponse = await ax.get(`${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userID}&filters[video][id][$eq]=${selected.id}`);
+          console.log(watchTimeResponse);
+          console.log(watchTimeResponse?.data?.data[0]?.id)
+          if (watchTimeResponse?.data?.data?.length > 0) {
+            setWatchTimeId(watchTimeResponse?.data?.data[0]?.id);
+          } else {
+            setWatchTimeId(null);
+          }
+        }
       }
+      setIsLoading(false);
     }
   };
   
@@ -128,8 +140,8 @@ function VideoPage() {
               }}
               controls={true}
               url={selectedVideo.url}
-              height="600px"
-              width="1100px"
+              height="700px"
+              width="1200px"
             />
           )}
         </div>
