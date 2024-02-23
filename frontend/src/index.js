@@ -17,6 +17,8 @@ import MyCoursePage from "./pages/MyCoursePage";
 import HistoryPage from "./pages/HistoryPage";
 import FinishPaymentPage from "./pages/FinishPaymentPage";
 import VideoPage from "./pages/VideoPage";
+import ProtectAdminRoute from "./conf/ProtectRoute";
+import ProtectMemberRoute from "./conf/ProtectMemberRoute";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -31,15 +33,18 @@ root.render(
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/registerAccount" element={<RegisterAccountPage />} />
           <Route path="/member/:id" element={<CourseInfoPage />} />
-          <Route path="/admin" element={<App />} />
-          <Route path="/admin/:id" element={<CourseInfoPage />} />
+          <Route path="/admin" element={
+            <ProtectAdminRoute><App /></ProtectAdminRoute>} />
+          <Route path="/admin/:id" element={
+            <ProtectAdminRoute><CourseInfoPage /></ProtectAdminRoute>} />
           <Route path="/profile/:id" element={<ProfilePage />} />
           <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/MyCart" element={<CartPage/>}/>
-          <Route path="/mycourse" element={<MyCoursePage/>} />
-          <Route path="/history" element={<HistoryPage/>} />
-          <Route path="/finishpayment" element={<FinishPaymentPage/>} />
-          <Route path="/mycourse/:id" element={<VideoPage/>} />
+          <Route path="/MyCart" element={<ProtectMemberRoute><CartPage /></ProtectMemberRoute>} />
+          <Route path="/mycourse" element={<MyCoursePage />} />
+          <Route path="/history" element={<HistoryPage />} />
+          <Route path="/finishpayment" element={<FinishPaymentPage />} />
+          <Route path="/mycourse/:id" element={<VideoPage />} />
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
     </ContextProvider>
