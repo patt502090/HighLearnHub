@@ -72,11 +72,9 @@ export default function Course(props) {
                     <p className="text-sm md:text-base font-medium max-w-md">
                       {item.title}
                     </p>
-                    {window.innerWidth > 900 && (
-                      <p className="font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">
+                      <p className="max-[600px]:hidden font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">
                         {item.description}
                       </p>
-                    )}
                   </div>
                   {item.type === "Live" ? (
                     <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xs md:text-base">

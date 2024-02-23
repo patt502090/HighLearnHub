@@ -241,11 +241,10 @@ function VideoPage() {
                 <li
                   key={video.id}
                   onClick={() => handleVideoSelection(video.id)}
-                  className={`flex items-center cursor-pointer ${
-                    video.id === selectedVideo?.id
-                      ? "my-2 bg-gray-200 p-4 rounded"
-                      : "ml-4 my-4"
-                  }`}
+                  className={`flex items-center cursor-pointer ${video.id === selectedVideo?.id
+                    ? "my-2 bg-gray-200 p-4 rounded"
+                    : "ml-4 my-4"
+                    }`}
                 >
                   <span className="flex-grow text-sm md:text-base">
                     {video.title}
