@@ -27,12 +27,12 @@ function ProfilePage() {
 
     fetchData();
   }, [id]);
-
   return (
     <div>
+    
       <Navbar />
       <div
-        className="flex flex-col items-center justify-center mt-6 w-full"
+        className="flex flex-col items-center justify-items-center mt-8 w-80 sm:w-full mx-auto"
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: "cover",
