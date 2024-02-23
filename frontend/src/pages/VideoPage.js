@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import ReactPlayer from "react-player";
 import ax from "../conf/ax";
 import Navbar from "../components/Navbar";
 import conf from "../conf/main";
 import { Progress } from "flowbite-react";
-import { Axios } from "axios";
+import { AuthContext, ContextProvider } from "../context/Auth.context";
 
 function VideoPage() {
   const { id } = useParams();
@@ -21,11 +21,14 @@ function VideoPage() {
   const [durationSelected, setDurationSelected] = useState(0);
   const [imageCourse, setImageCourse] = useState(null);
 
+  const { state: ContextState} = useContext(AuthContext);
+  const { user } = ContextState;
+
   useEffect(() => {
     setIsLoading(true);
     fetchData();
-    fetchTotalWatchData();
   }, [id]);
+
 
   useEffect(() => {
     if (!isLoading && selectedVideo) {
@@ -133,6 +136,8 @@ function VideoPage() {
     0
   );
 
+  console.log("totalWatchTime",totalWatchTime)
+  console.log("totalDuration",totalDuration)
   const calculateProgress = () => {
     if (totalDuration === 0) return 0;
     const progress = (totalWatchTime / totalDuration) * 100;
@@ -147,9 +152,12 @@ function VideoPage() {
 
   const fetchTotalWatchData = async () => {
     try {
+      const userStartResponse = await ax.get(`${conf.apiUrlPrefix}/users/me`)
+      const userStartData = userStartResponse.data.id
       const watchTimesResponse = await ax.get(
-        `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userID}`
+        `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userStartData}&filters[course][id][$eq]=${id}`
       );
+      console.log("watchTimesResponse",watchTimesResponse)
       const watchTimesData = watchTimesResponse.data.data;
       console.log("watchTimesData", watchTimesData);
       let totalWatchTime = 0;
@@ -158,7 +166,6 @@ function VideoPage() {
       });
       setTotalWatchTime(totalWatchTime);
 
-      console.log("Total Watch Time:", totalWatchTime);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -170,7 +177,7 @@ function VideoPage() {
         const imageResponse = await ax.get(
           `${conf.apiUrlPrefix}/courses?populate=image&filters[id][$eq]=${id}`
         );
-        console.log("test",imageResponse);
+        console.log("imageResponse",imageResponse);
         const imageData = imageResponse.data.data.map((course) => ({
           id: course.id,
           image:
@@ -212,6 +219,7 @@ function VideoPage() {
   // console.log("image", imageCourse[0]);
 
   return (
+    <ContextProvider>
     <>
       <Navbar />
       <div className="flex md:w-full h-screen bg-gray-100">
@@ -285,6 +293,7 @@ function VideoPage() {
         </div>
       </div>
     </>
+    </ContextProvider>
   );
 }
 
