@@ -913,6 +913,11 @@ export interface ApiCourseCourse extends Schema.CollectionType {
     detail: Attribute.Text;
     study_type: Attribute.Enumeration<['Online', 'Live']>;
     instructor_name: Attribute.String;
+    watch_times: Attribute.Relation<
+      'api::course.course',
+      'oneToMany',
+      'api::watch-time.watch-time'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1039,6 +1044,11 @@ export interface ApiWatchTimeWatchTime extends Schema.CollectionType {
       'api::watch-time.watch-time',
       'manyToOne',
       'api::video.video'
+    >;
+    course: Attribute.Relation<
+      'api::watch-time.watch-time',
+      'manyToOne',
+      'api::course.course'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

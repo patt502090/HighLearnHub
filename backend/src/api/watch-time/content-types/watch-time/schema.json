@@ -26,6 +26,12 @@
       "relation": "manyToOne",
       "target": "api::video.video",
       "inversedBy": "watch_times"
+    },
+    "course": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::course.course",
+      "inversedBy": "watch_times"
     }
   }
 }
