@@ -42,7 +42,7 @@ const Navbar = () => {
             </div>
             {user ? (
               <div className="flex">
-                <NavLink to={`/profile/${proflieID}`} className="hover:underline">
+                <NavLink to={`/profile/${user && user.id}`} className="hover:underline">
                   <Button
                     color="dark" pill
                     className="mr-2 hover:underline"

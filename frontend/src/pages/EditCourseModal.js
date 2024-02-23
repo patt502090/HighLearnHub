@@ -48,7 +48,16 @@ export default function EditCourseModal(props) {
             })
         props.onCloseModal(false);
     }
-
+    const handleDelete = () => {
+        ax.delete(conf.apiUrlPrefix +
+            `/courses/${props.course.id}`)
+            .then((response) => {
+                console.log(response.data);
+                props.onCloseModal(false);
+            }).catch((error) => {
+                console.error(error);
+            });
+    }
     return (
         <>
             <Modal show={props.openModal} size="2xl" position={"center"} onClose={() => props.onCloseModal(false)} popup>

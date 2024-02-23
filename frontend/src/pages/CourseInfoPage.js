@@ -92,6 +92,9 @@ export default function CourseInfoPage() {
                             <button onClick={() => setOnEdit(true)} className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
                                 แก้ไขข้อมูล
                             </button>
+                            <button onClick={() => setOnEdit(true)} className="px-6 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                ลบข้อมูล
+                            </button>
                         </div>
                     ) : (
                         <div className="h-screen flex justify-center items-center">
