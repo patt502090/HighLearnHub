@@ -5,6 +5,8 @@ const conf = {
   registerEndpoint: '/auth/local/register',
   jwtUserEndpoint: '/users/me?populate=role',
   jwtSessionStorageKey: 'auth.jwt',
+  googleConnectEndpoint: '/connect/google',
+
 }
 
 export default conf;

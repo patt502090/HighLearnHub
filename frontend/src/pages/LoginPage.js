@@ -76,8 +76,9 @@ export default function LoginPage() {
     }
   };
   const handleGoogleLoginClick = () => {
-    navigate(`${conf.apiUrlPrefix}${conf.googleConnectEndpoint}`);
+    window.location.href = `${conf.apiUrlPrefix}${conf.googleConnectEndpoint}`;
   };
+  
 
   const handleRegister = () => {
     navigate("/register");
