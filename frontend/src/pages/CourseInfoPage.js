@@ -19,7 +19,7 @@ export default function CourseInfoPage() {
     const [Infouser, setInfouser] = useState();
 
     useEffect(() => {
-        fetchCourse();
+        fetchCourse() //still bug react return before img fetch finish
     }, [onEdit]);
 
     useEffect(() => {
@@ -69,6 +69,10 @@ export default function CourseInfoPage() {
         }
     };
 
+    if (course === null) {
+        return <p>Loading...</p>;
+    }
+
     if (userRole === "admin") {
         return (
             <div className="background-image">
@@ -88,13 +92,15 @@ export default function CourseInfoPage() {
 
                             <BasicTabs data={course} />
                             <p className="text-lg font-medium mb-4">{course.attributes.description}</p>
-                            <p className="text-center text-2xl font-bold text-red-700 mb-4">ราคา: {course.attributes.price} บาท </p>
-                            <button onClick={() => setOnEdit(true)} className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-                                แก้ไขข้อมูล
-                            </button>
-                            <button onClick={() => setOnEdit(true)} className="px-6 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                                ลบข้อมูล
-                            </button>
+                            <div className="flex justify-between mx-3">
+                                <button onClick={() => setOnEdit(true)} className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+                                    แก้ไขข้อมูล
+                                </button>
+                                <p className="text-center text-2xl font-bold text-red-700 mb-4">ราคา: {course.attributes.price} บาท </p>
+                                <button onClick={() => setOnEdit(true)} className="px-6 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                    ลบข้อมูล
+                                </button>
+                            </div>
                         </div>
                     ) : (
                         <div className="h-screen flex justify-center items-center">

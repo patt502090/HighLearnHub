@@ -18,7 +18,6 @@ export default function EditCourseModal(props) {
 
     useEffect(() => {
         if (selectedImage) {
-            uploadImg(selectedImage)
             setImageUrl(URL.createObjectURL(selectedImage[0]));
         }
     }, [selectedImage]);
@@ -26,6 +25,9 @@ export default function EditCourseModal(props) {
     const uploadImg = async (e) => {
         const formData = new FormData()
 
+        formData.append('field', 'image');
+        formData.append('ref', 'api::course.course')
+        formData.append('refId', '2')
         formData.append('files', selectedImage[0])
 
         ax.post(conf.apiUrlPrefix +
@@ -39,8 +41,11 @@ export default function EditCourseModal(props) {
     }
 
     const handleSummit = (data) => {
+        if (selectedImage) {
+            uploadImg(selectedImage);
+        }
         ax.put(conf.apiUrlPrefix +
-            `/courses/${props.course.id}?populate=*`, {data : data.attributes})
+            `/courses/${props.course.id}?populate=*`, { data: data.attributes })
             .then((response) => {
                 console.log(response.data);
             }).catch((error) => {
