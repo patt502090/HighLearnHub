@@ -5,6 +5,7 @@ import ax from "../conf/ax";
 import Navbar from "../components/Navbar";
 import conf from "../conf/main";
 import { Progress } from "flowbite-react";
+import { Axios } from "axios";
 
 function VideoPage() {
   const { id } = useParams();
@@ -17,9 +18,11 @@ function VideoPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
   const [totalWatchTime, setTotalWatchTime] = useState(0);
-  const [durationSelected,setDurationSelected] = useState(0)
+  const [durationSelected, setDurationSelected] = useState(0);
+  const [imageCourse, setImageCourse] = useState(null);
 
   useEffect(() => {
+    setIsLoading(true);
     fetchData();
     fetchTotalWatchData();
   }, [id]);
@@ -37,7 +40,7 @@ function VideoPage() {
   const fetchData = async () => {
     try {
       const userDataResponse = await ax.get(
-        `${conf.apiUrlPrefix}/users/me?populate[bookings][populate][course][populate]=videos`
+        `${conf.apiUrlPrefix}/users/me?populate[bookings][populate][course][populate]=videos&populate[bookings][filters][course][id][$eq]=${id}`
       );
       const userData = userDataResponse.data;
       const bookingData = userData.bookings;
@@ -63,6 +66,7 @@ function VideoPage() {
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data: ", error);
+      setIsLoading(false);
     }
   };
 
@@ -79,6 +83,7 @@ function VideoPage() {
           data: {
             video: { connect: [{ id: selectedVideo.id }] },
             watch_time: 0,
+            course: { connect: [{ id: id }] },
             member: { connect: [{ id: userID }] },
           },
         });
@@ -97,7 +102,7 @@ function VideoPage() {
       console.log(selected);
       if (selected) {
         setSelectedVideo(selected);
-        setDurationSelected(selected.duration)
+        setDurationSelected(selected.duration);
         if (userID) {
           console.log("UserID", userID);
           const watchTimeResponse = await ax.get(
@@ -105,7 +110,7 @@ function VideoPage() {
           );
           console.log("WatchTimeResponse", watchTimeResponse);
           setCurrentTime(
-            Math.round(watchTimeResponse?.data.data[0].attributes.watch_time)
+            Math.round(watchTimeResponse?.data?.data[0]?.attributes?.watch_time)
           );
           console.log(
             "Watch Current Time Current",
@@ -129,17 +134,16 @@ function VideoPage() {
   );
 
   const calculateProgress = () => {
-    if (totalDuration === 0) return 0; 
+    if (totalDuration === 0) return 0;
     const progress = (totalWatchTime / totalDuration) * 100;
-    return Math.round(progress);
+    return Math.min(Math.round(progress), 100);
   };
-  
+
   const calculateProgressSelected = () => {
     if (durationSelected === 0) return 0;
     const progressSelected = (played / durationSelected) * 100;
     return Math.round(progressSelected);
   };
-  
 
   const fetchTotalWatchData = async () => {
     try {
@@ -159,6 +163,28 @@ function VideoPage() {
       console.error("Error fetching data:", error);
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const imageResponse = await ax.get(
+          `${conf.apiUrlPrefix}/courses?populate=image&filters[id][$eq]=${id}`
+        );
+        console.log("test",imageResponse);
+        const imageData = imageResponse.data.data.map((course) => ({
+          id: course.id,
+          image:
+            `${conf.urlPrefix}` + course.attributes.image.data.attributes.url,
+        }));
+
+        setImageCourse(imageData);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
 
   const CurrentTime = `&t=${currentTime}s`;
 
@@ -183,11 +209,17 @@ function VideoPage() {
 
     return formattedTime.trim();
   };
+  // console.log("image", imageCourse[0]);
 
   return (
     <>
       <Navbar />
       <div className="flex md:w-full h-screen bg-gray-100">
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+            <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
+          </div>
+        )}
         <div className="flex-none w-full md:w-1/5 p-4">
           <h2 className="ml-3 text-lg font-medium mt-10">{title}</h2>
           <div className="w-3/4 ml-3 mt-2">
@@ -220,9 +252,9 @@ function VideoPage() {
           </ul>
         </div>
         <div className="flex-grow p-10">
-          {selectedVideo && (
+          {selectedVideo ? (
             <>
-              <h2 className="text-lg font-medium text-center mb-7">
+              <h2 className="text-lg font-medium text-center mb-7 ">
                 {selectedVideo.title}
               </h2>
               <ReactPlayer
@@ -232,9 +264,22 @@ function VideoPage() {
                 }}
                 controls={true}
                 url={`${selectedVideo.url}${CurrentTime}`}
-                height="80%"
+                height="75%"
                 width="100%"
               />
+              <p className="mt-7 text-lg text-center text-slate-500">
+                {selectedVideo.description}
+              </p>
+            </>
+          ) : (
+            <>
+              {imageCourse && imageCourse.length > 0 && (
+                <img
+                  src={imageCourse[0]?.image}
+                  alt="Course Image"
+                  className="mx-auto h-5/6 rounded-lg shadow-lg object-cover"
+                />
+              )}
             </>
           )}
         </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
 import Navbar from "../components/Navbar";
 import conf from "../conf/main";
+import backgroundImage from "../assets/background.png";
 
 export default function HistoryPage() {
   const [courseData, setCourseData] = useState([]);
@@ -31,7 +32,12 @@ export default function HistoryPage() {
   return (
     <>
       <Navbar />
-      <div>
+      <div style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}>
         <head>
           <link
             rel="stylesheet"

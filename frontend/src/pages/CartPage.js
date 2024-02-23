@@ -4,6 +4,7 @@ import conf from "../conf/main";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Progessbar from "../components/Progessbar";
+import backgroundImage from "../assets/background.png";
 
 export default function CartPage() {
   const [coursebooked, setCoursebooked] = useState();
@@ -55,8 +56,13 @@ export default function CartPage() {
     <>
       <Navbar />
       <Progessbar></Progessbar>
-      <div className="flex flex-col items-center mt-6">
-        <h className="text-xl font-bold">Mycart</h>
+      <div className="flex flex-col items-center mt-6" style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}>
+        <h className="text-4xl font-bold">Mycart</h>
         <div className="flex flex-col items-center mt-6">
           <section className="py-17 bg-gray-100 font-poppins dark:bg-gray-700">
             <div className="px-4 py-6 mx-auto max-w-7xl lg:py-4 md:px-6">
