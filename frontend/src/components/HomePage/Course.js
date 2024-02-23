@@ -68,15 +68,15 @@ export default function Course(props) {
                   >
                     {item.type === "Live" ? "LIVE COURSE" : "ONLINE COURSE"}
                   </p>
-                <div className="h-[30px] md:h-[120px]">
-                  <p className="text-sm md:text-base font-medium max-w-md">
-                    {item.title}
-                  </p>
-                  {window.innerWidth > 900 && (
-                    <p className="font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">
-                      {item.description}
+                  <div className="h-[30px] md:h-[120px]">
+                    <p className="text-sm md:text-base font-medium max-w-md">
+                      {item.title}
                     </p>
-                  )}
+                    {window.innerWidth > 900 && (
+                      <p className="font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">
+                        {item.description}
+                      </p>
+                    )}
                   </div>
                   {item.type === "Live" ? (
                     <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xs md:text-base">
@@ -108,10 +108,27 @@ export default function Course(props) {
 
                   {item.type === "Online" ? (
                     <div className="md:flex md:flex-wrap gap-2 md:justify-between ">
-                      <Badge color="gray" icon={HiClock} className="mt-2 text-[10px] md:text-xs mx-3 md:mx-0 font-normal">
-                        {item.duration.hours} ชั่วโมง {item.duration.minutes}{" "}
-                        นาที
+                      <Badge
+                        color="gray"
+                        icon={HiClock}
+                        className="mt-2 text-[10px] md:text-xs mx-3 md:mx-0 font-normal"
+                      >
+                        {item.duration.minutes >= 60 && (
+                          <>
+                            {Math.floor(item.duration.minutes / 60)} ชั่วโมง{" "}
+                            {item.duration.minutes % 60 > 0 &&
+                              `${item.duration.minutes % 60} นาที`}{" "}
+                            {item.duration.seconds} วินาที
+                          </>
+                        )}
+                        {item.duration.minutes < 60 && (
+                          <>
+                            {item.duration.minutes} นาที {item.duration.seconds}{" "}
+                            วินาที
+                          </>
+                        )}
                       </Badge>
+
                       <p className="mt-2 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
                         {item.price} บาท{" "}
                       </p>

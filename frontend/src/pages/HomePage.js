@@ -11,9 +11,8 @@ import OnlineBestSeller from "../components/HomePage/OnlineBestSeller";
 import OnlineLatest from "../components/HomePage/OnlineLatest";
 import LiveCourse from "../components/HomePage/LiveCourse";
 import Searchbar from "../components/Searchbar";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 import Footer from "../components/Footer";
-
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -22,11 +21,10 @@ export default function HomePage() {
   const { state: ContextState } = useContext(AuthContext);
   const { userRole } = ContextState;
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         const courseResponse = await axios.get(
           "http://localhost:1337/api/courses?populate=image&populate=videos"
         );
@@ -35,32 +33,29 @@ export default function HomePage() {
           "http://localhost:1337/api/announcements?populate=image"
         );
 
-        const courseData = courseResponse?.data?.data?.map(
-          (course) => {
-            const totalDurationMinutes = course.attributes.videos.data.reduce(
-              (totalDuration, video) =>
-                totalDuration + video.attributes.duration,
-              0
-            );
+        const courseData = courseResponse?.data?.data?.map((course) => {
+          const totalDurationSeconds = course.attributes.videos.data.reduce(
+            (totalDuration, video) => totalDuration + video.attributes.duration,
+            0
+          );
 
-            const hours = Math.floor(totalDurationMinutes / 60);
-            const minutes = totalDurationMinutes % 60;
+          const minutes = Math.floor(totalDurationSeconds / 60);
+          const seconds = Math.floor(totalDurationSeconds % 60);
 
-            return {
-              id: course.id,
-              title: course.attributes.title,
-              price: course.attributes.price,
-              amount: course.attributes.amount,
-              maxamount: course.attributes.maxamount,
-              description: course.attributes.description,
-              image:
-                "http://localhost:1337" +
-                course.attributes.image.data.attributes.url,
-              type: course.attributes.study_type,
-              duration: { hours, minutes },
-            };
-          }
-        );
+          return {
+            id: course.id,
+            title: course.attributes.title,
+            price: course.attributes.price,
+            amount: course.attributes.amount,
+            maxamount: course.attributes.maxamount,
+            description: course.attributes.description,
+            image:
+              "http://localhost:1337" +
+              course.attributes.image.data.attributes.url,
+            type: course.attributes.study_type,
+            duration: { minutes, seconds },
+          };
+        });
 
         const announcementData = announcementResponse.data.data.map((item) => ({
           id: item.id,
@@ -74,13 +69,14 @@ export default function HomePage() {
       } catch (error) {
         console.error("Error fetching data: ", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
+  console.log(userRole);
   if (userRole === "admin") {
     return (
       <>
@@ -88,17 +84,17 @@ export default function HomePage() {
         <Searchbar data={course} />
         <Course data={course} />
       </>
-    )
+    );
   }
 
   return (
     <>
       <ContextProvider>
-        {(loading) ?
+        {loading ? (
           <div className="h-screen flex justify-center items-center">
             <CircularProgress />
           </div>
-          :
+        ) : (
           <>
             <Navbar />
             <Searchbar data={course} />
@@ -106,9 +102,11 @@ export default function HomePage() {
             <OnlineBestSeller />
             <OnlineLatest />
             <LiveCourse />
-            <Course data={course} />
+            <Course data={course}/>
             <Footer></Footer>
-            <Outlet /></>}
+            <Outlet />
+          </>
+        )}
       </ContextProvider>
     </>
   );

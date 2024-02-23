@@ -27,14 +27,14 @@ const OnlineLatest = () => {
         // console.log("ข้อมูลหลังเรียก API ของ OnlineLatest", onlineLatestResponse);
         const onlineLatestData = onlineLatestResponse.data.data.map(
           (course) => {
-            const totalDurationMinutes = course.attributes.videos.data.reduce(
+            const totalDurationSeconds = course.attributes.videos.data.reduce(
               (totalDuration, video) =>
                 totalDuration + video.attributes.duration,
               0
             );
 
-            const hours = Math.floor(totalDurationMinutes / 60);
-            const minutes = totalDurationMinutes % 60;
+            const minutes = Math.floor(totalDurationSeconds / 60);
+            const seconds = Math.floor(totalDurationSeconds % 60);
 
             return {
               id: course.id,
@@ -45,7 +45,7 @@ const OnlineLatest = () => {
               image:
                 "http://localhost:1337" +
                 course.attributes.image.data.attributes.url,
-              duration: { hours, minutes },
+              duration: { minutes, seconds },
             };
           }
         );
@@ -124,9 +124,25 @@ const OnlineLatest = () => {
 
                   <hr className="mt-6" />
                   <div className="flex flex-wrap gap-2 justify-between">
-                    <Badge color="gray" icon={HiClock} className="mt-2 text-[10px] md:text-xs mx-3 md:mx-0 font-normal">
-                      {course.duration.hours} ชั่วโมง {course.duration.minutes}{" "}
-                      นาที
+                    <Badge
+                      color="gray"
+                      icon={HiClock}
+                      className="mt-2 text-[10px] md:text-xs mx-3 md:mx-0 font-normal"
+                    >
+                      {course.duration.minutes >= 60 && (
+                        <>
+                          {Math.floor(course.duration.minutes / 60)} ชั่วโมง{" "}
+                          {course.duration.minutes % 60 > 0 &&
+                            `${course.duration.minutes % 60} นาที`}{" "}
+                          {course.duration.seconds} วินาที
+                        </>
+                      )}
+                      {course.duration.minutes < 60 && (
+                        <>
+                          {course.duration.minutes} นาที{" "}
+                          {course.duration.seconds} วินาที
+                        </>
+                      )}
                     </Badge>
 
                     <p className="text-right mt-3 font-semibold">
