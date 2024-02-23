@@ -81,7 +81,6 @@ export default function HomePage() {
     fetchData();
   }, []);
 
-  console.log(userRole);
   if (userRole === "admin") {
     return (
       <>

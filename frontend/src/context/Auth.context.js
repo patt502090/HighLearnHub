@@ -66,6 +66,7 @@ export const ContextProvider = props => {
     updateJwt(null)
     setLoginSuccess(false);
     setLoginError(null);
+    setUserRole(null);
   }
 
   return (
