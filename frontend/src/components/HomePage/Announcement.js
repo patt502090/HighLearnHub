@@ -26,6 +26,7 @@ export default function Announcements({ data }) {
               slidesPerView: 3,
             },
           }}
+          
         >
           {data?.map((announcement) => (
             <SwiperSlide key={announcement.id}>
