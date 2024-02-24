@@ -1,1 +1,1 @@
-still bug react return before img fetch finish
+onst [onChangeImg, setOnChangeImg] = useState(null);

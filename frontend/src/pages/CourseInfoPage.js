@@ -1,22 +1,25 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../context/Auth.context";
-import { useParams, Link } from "react-router-dom";
-import axios from "axios";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import BasicTabs from "../components/Tabs";
 import CircularProgress from '@mui/material/CircularProgress';
 import EditCourseModal from "./EditCourseModal";
 import conf from "../conf/main";
 import ax from "../conf/ax";
+import { Button, Modal } from "flowbite-react";
+import { IoTrashBin } from "react-icons/io5";
 
 
 export default function CourseInfoPage() {
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const { id } = useParams();
     const [course, setCourse] = useState(null);
     const { state: ContextState } = useContext(AuthContext);
     const { userRole } = ContextState;
     const [onEdit, setOnEdit] = useState(false);
     const [Infouser, setInfouser] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchCourse() //still bug react return before img fetch finish
@@ -37,6 +40,21 @@ export default function CourseInfoPage() {
             console.error("Error fetching course:", error);
         }
     };
+
+    const deleteCourse = async (id) => {
+        ax.delete(conf.apiUrlPrefix +
+            `/courses/${id}`)
+            .then((response) => {
+                console.log(response.data);
+            }).catch((error) => {
+                console.error(error);
+            })
+        setShowDeleteModal(false);
+        setTimeout(() => {
+            navigate('/')
+        }, 1000);
+    }
+    
 
     const Addcart = async (course) => {
         try {
@@ -97,7 +115,7 @@ export default function CourseInfoPage() {
                                     แก้ไขข้อมูล
                                 </button>
                                 <p className="text-center text-2xl font-bold text-red-700 mb-4">ราคา: {course.attributes.price} บาท </p>
-                                <button onClick={() => setOnEdit(true)} className="px-6 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                                <button onClick={() => setShowDeleteModal(true)} className="px-6 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:bg-red-600">
                                     ลบข้อมูล
                                 </button>
                             </div>
@@ -108,6 +126,34 @@ export default function CourseInfoPage() {
                         </div>
                     )}
                 </div>
+                <Modal
+                    show={showDeleteModal}
+                    size="md"
+                    onClose={() => setShowDeleteModal(false)}
+                    popup
+                >
+                    <Modal.Header />
+                    <Modal.Body>
+                        <div className="text-center">
+                            <IoTrashBin className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                ต้องการลบข้อมูลคอร์สนี้ออกจากระบบ ?
+                            </h3>
+                            <div className="flex justify-center gap-4">
+                                <Button color="failure" onClick={() => deleteCourse(id)}>
+                                    ตกลง
+                                </Button>
+                                <Button
+                                    color="gray"
+                                    className="px-6"
+                                    onClick={() => setShowDeleteModal(false)}
+                                >
+                                    ยกเลิก
+                                </Button>
+                            </div>
+                        </div>
+                    </Modal.Body>
+                </Modal>
             </div>
         );
     }
