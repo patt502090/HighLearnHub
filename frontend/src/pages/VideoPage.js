@@ -21,6 +21,8 @@ function VideoPage() {
   const [durationSelected, setDurationSelected] = useState(0);
   const [imageCourse, setImageCourse] = useState(null);
 
+  console.log(played);
+
   useEffect(() => {
     setIsLoading(true);
     fetchData();
@@ -30,11 +32,33 @@ function VideoPage() {
     if (!isLoading && selectedVideo) {
       updateWatchTime();
     }
-  }, [selectedVideo, played, userID, isLoading]);
+  }, [ played, userID, isLoading]);
 
   useEffect(() => {
     fetchTotalWatchData();
-  }, [played]);
+  }, [id, played]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const imageResponse = await ax.get(
+          `${conf.apiUrlPrefix}/courses?populate=image&filters[id][$eq]=${id}`
+        );
+        console.log("imageResponse", imageResponse);
+        const imageData = imageResponse.data.data.map((course) => ({
+          id: course.id,
+          image:
+            `${conf.urlPrefix}` + course.attributes.image.data.attributes.url,
+        }));
+
+        setImageCourse(imageData);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchData();
+  }, [id]);
 
   const fetchData = async () => {
     try {
@@ -43,11 +67,6 @@ function VideoPage() {
       );
       const userData = userDataResponse.data;
       const bookingData = userData.bookings;
-      const currentUserID = userData.id;
-
-      if (currentUserID) {
-        setUserID(currentUserID);
-      }
 
       const firstCourse = bookingData[0]?.course;
       if (firstCourse) {
@@ -105,27 +124,29 @@ function VideoPage() {
         if (userID) {
           console.log("UserID", userID);
           const watchTimeResponse = await ax.get(
-            `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userID}&filters[video][id][$eq]=${selected.id}`
+            `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userID}&filters[video][id][$eq]=${selected.id}&filters[course][id][$eq]=${id}`
           );
           console.log("WatchTimeResponse", watchTimeResponse);
-          setCurrentTime(
-            Math.round(watchTimeResponse?.data?.data[0]?.attributes?.watch_time)
-          );
-          console.log(
-            "Watch Current Time Current",
-            Math.round(watchTimeResponse?.data.data[0].attributes.watch_time)
-          );
-          console.log("Watch Time ID", watchTimeResponse?.data?.data[0]?.id);
           if (watchTimeResponse?.data?.data?.length > 0) {
+            setCurrentTime(
+              Math.round(watchTimeResponse?.data?.data[0]?.attributes?.watch_time)
+            );
+            console.log(
+              "Watch Current Time Current",
+              Math.round(watchTimeResponse?.data.data[0]?.attributes?.watch_time)
+            );
+            console.log("Watch Time ID", watchTimeResponse?.data?.data[0]?.id);
             setWatchTimeId(watchTimeResponse?.data?.data[0]?.id);
           } else {
-            setWatchTimeId(null);
+            setCurrentTime(0);
+            console.log("ไม่มีข้อมูลเวลาในการรับชม");
           }
         }
       }
       setIsLoading(false);
     }
   };
+  
 
   const totalDuration = videoData.reduce(
     (total, item) => total + item.duration,
@@ -150,6 +171,7 @@ function VideoPage() {
     try {
       const userStartResponse = await ax.get(`${conf.apiUrlPrefix}/users/me`);
       const userStartData = userStartResponse.data.id;
+      setUserID(userStartData)
       const watchTimesResponse = await ax.get(
         `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userStartData}&filters[course][id][$eq]=${id}`
       );
@@ -165,28 +187,6 @@ function VideoPage() {
       console.error("Error fetching data:", error);
     }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const imageResponse = await ax.get(
-          `${conf.apiUrlPrefix}/courses?populate=image&filters[id][$eq]=${id}`
-        );
-        console.log("imageResponse", imageResponse);
-        const imageData = imageResponse.data.data.map((course) => ({
-          id: course.id,
-          image:
-            `${conf.urlPrefix}` + course.attributes.image.data.attributes.url,
-        }));
-
-        setImageCourse(imageData);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-
-    fetchData();
-  }, [id]);
 
   const CurrentTime = `&t=${currentTime}s`;
 
@@ -237,29 +237,28 @@ function VideoPage() {
             <h3 className="ml-3 mt-2 text-xs md:text-sm text-slate-500">{`${calculateProgress()}% Complete`}</h3>
             <hr className="my-3" />
             <ul className="overflow-y-hidden">
-              {videoData.map((video) => (
-                <li
-                  key={video.id}
-                  onClick={() => handleVideoSelection(video.id)}
-                  className={`flex items-center cursor-pointer ${video.id === selectedVideo?.id
-                    ? "my-2 bg-gray-200 p-4 rounded"
-                    : "ml-4 my-4"
-                    }`}
-                >
-                  <span className="flex-grow text-sm md:text-base">
-                    {video.title}
-                  </span>
-                  {selectedVideo && video.id === selectedVideo.id && (
-                    <span className="text-xs md:text-sm text-gray-500 whitespace-nowrap">
-                      {formatTime(video.duration)}
-                      {calculateProgressSelected() >= 100 && (
-                        <span className="ml-2 text-green-500">Completed</span>
-                      )}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
+  {videoData.map((video) => (
+    <li
+      key={video.id}
+      onClick={() => handleVideoSelection(video.id)}
+      className={`flex items-center cursor-pointer ${video.id === selectedVideo?.id
+        ? "my-2 bg-gray-200 p-4 rounded"
+        : "ml-4 my-4"
+      }`}
+    >
+      <span className="flex-grow text-sm md:text-base">
+        {video.title}
+      </span>
+      <span className="text-xs md:text-sm text-gray-500 whitespace-nowrap">
+        {formatTime(video.duration)}
+        {video.id === selectedVideo?.id && calculateProgressSelected() >= 100 && (
+          <span className="ml-2 text-green-500">Complete</span>
+        )}
+      </span>
+    </li>
+  ))}
+</ul>
+
           </div>
           <div className="flex-grow p-4 md:p-10">
             {selectedVideo && (
