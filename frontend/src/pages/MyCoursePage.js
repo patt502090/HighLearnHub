@@ -5,6 +5,7 @@ import conf from "../conf/main";
 import { Link } from "react-router-dom";
 import { Progress } from "flowbite-react";
 import { AuthContext, ContextProvider } from "../context/Auth.context";
+import { Helmet } from "react-helmet";
 
 function calculatePercentage(watchTime, totalDuration) {
   if (watchTime === 0) {
@@ -73,6 +74,10 @@ export default function MyCoursePage() {
   return (
     <ContextProvider>
       <div className="h-full md:h-screen bg-gray-200">
+        <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>My Course</title>
+        </Helmet>
         <Navbar />
         <div className="flex flex-col items-center justify-items-center mt-10 w-80 sm:w-full mx-auto ">
           <div className="w-full xl:w-2/3 2xl:w-1/2 p-10 sm:p-20 2xl:p-16  bg-white shadow-lg rounded-lg ">
