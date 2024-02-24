@@ -25,7 +25,9 @@ function VideoPage() {
 
   useEffect(() => {
     setIsLoading(true);
-    fetchData();
+    fetchData().finally(() => {
+      setIsLoading(false);
+    });
   }, [id]);
 
   useEffect(() => {
@@ -35,7 +37,9 @@ function VideoPage() {
   }, [played, userID, isLoading]);
 
   useEffect(() => {
-    fetchTotalWatchData();
+    fetchTotalWatchData().finally(() => {
+      setIsLoading(false);
+    });
   }, [id, played]);
 
   useEffect(() => {
@@ -143,6 +147,7 @@ function VideoPage() {
             setWatchTimeId(watchTimeResponse?.data?.data[0]?.id);
           } else {
             setWatchTimeId(null);
+            setCurrentTime(null)
             console.log("ไม่มีข้อมูลเวลาในการรับชม");
           }
         }
@@ -226,18 +231,18 @@ function VideoPage() {
           </div>
         )}
         <div className="flex flex-col md:flex-row h-screen bg-gray-100">
-          <div className="w-full md:w-2/5 lg:w-1/5 p-4">
-            <h2 className="ml-3 text-sm md:text-lg font-medium mt-10">
+          <div className="w-full sm:w-2/5 2xl:w-3/12 p-4">
+            <h2 className="text-center md:text-left text-sm md:text-lg font-medium mt-10 sm:ml-2">
               {title}
             </h2>
-            <div className="w-3/4 ml-3 mt-2">
+            <div className="w-9/12 md:w-full mx-auto md:mx-0 mt-2">
               <Progress
                 progress={calculateProgress()}
                 size="sm"
                 color="yellow"
               />
             </div>
-            <h3 className="ml-3 mt-2 text-xs md:text-sm text-slate-500">{`${calculateProgress()}% Complete`}</h3>
+            <h3 className="mt-2 text-center md:text-left text-xs md:text-sm text-slate-500 sm:ml-2">{`${calculateProgress()}% Complete`}</h3>
             <hr className="my-3" />
             <ul className="overflow-y-hidden">
               {videoData.map((video) => (
@@ -253,12 +258,13 @@ function VideoPage() {
                   <span className="flex-grow text-sm md:text-base">
                     {video.title}
                   </span>
+                  {video.id === selectedVideo?.id &&
+                      calculateProgressSelected() >= 100 && (
+                        <span className="mr-3 text-green-500">Complete</span>
+                      )}
                   <span className="text-xs md:text-sm text-gray-500 whitespace-nowrap">
                     {formatTime(video.duration)}
-                    {video.id === selectedVideo?.id &&
-                      calculateProgressSelected() >= 100 && (
-                        <span className="ml-2 text-green-500">Complete</span>
-                      )}
+                    
                   </span>
                 </li>
               ))}

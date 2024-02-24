@@ -76,7 +76,7 @@ export default function MyCoursePage() {
       <div className="h-full md:h-screen bg-gray-200">
         <Helmet>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>My Course</title>
+          <title>คอร์สของฉัน</title>
         </Helmet>
         <Navbar />
         <div className="flex flex-col items-center justify-items-center mt-10 w-80 sm:w-full mx-auto ">

@@ -14,7 +14,7 @@ export default function Course(props) {
 
   return (
     <>
-      <div className="w-full md:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between">
+      <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between">
         <p className="font-medium text-2xl md:text-3xl pl-3 md:pl-0">
           คอร์สเรียนทั้งหมด
         </p>
@@ -44,11 +44,11 @@ export default function Course(props) {
           </Dropdown>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 md:gap-2 mx-1 md:mx-0">
+        <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-2 md:gap-6 mr-2 md:mx-0">
           {props.data?.map((item) => (
             <div
               key={item.id}
-              className={`hover:translate-y-[-10px] transition-transform duration-300 max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 m-1 md:m-2 ${
+              className={`hover:translate-y-[-10px] transition-transform duration-300 w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 m-1 md:m-2 ${
                 filterType === "All" || item.type === filterType
                   ? "block"
                   : "hidden"
@@ -72,9 +72,11 @@ export default function Course(props) {
                     <p className="text-sm md:text-base font-medium max-w-md">
                       {item.title}
                     </p>
-                      <p className="max-[600px]:hidden font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">
+                    {window.innerWidth > 900 && (
+                      <p className="font-light text-sm text-gray-500 overflow-hidden h-20 mt-1">
                         {item.description}
                       </p>
+                    )}
                   </div>
                   {item.type === "Live" ? (
                     <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xs md:text-base">
