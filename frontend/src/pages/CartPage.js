@@ -8,6 +8,7 @@ import backgroundImage from "../assets/background.png";
 
 export default function CartPage() {
   const [coursebooked, setCoursebooked] = useState();
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,10 +33,12 @@ export default function CartPage() {
   const calculateTotalPrice = () => {
     let totalPrice = 0;
     coursebooked?.forEach((item) => {
+      
       totalPrice +=
         item.attributes.price * item.attributes.bookings.data.length;
+        
     });
-    return totalPrice.toLocaleString();;
+    return totalPrice.toLocaleString();
   };
   const DeleteCourseBooked = async (id) => {
     try {
@@ -71,9 +74,10 @@ export default function CartPage() {
                   Your Cart
                 </h2>
                 <div className="p-6 mb-8 border bg-gray-50 dark:bg-gray-800 border-gray-800">
-
-                  <div className="py-4 mb-8 border-t border-b border-gray-200 dark:border-gray-700">
+                <h1>สินค้าทั้งหมด {coursebooked?.length} ชิ้น </h1>
+                <div className="py-4 mb-10 border-t border-b border-gray-200 dark:border-gray-700">
                     {coursebooked?.map((item) => (
+                    
                       <div className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700" key={item.id}>
                         <img
                           className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
@@ -112,7 +116,7 @@ export default function CartPage() {
                         </div>
                       </div>
                     ))}
-                  </div>
+                    </div>
 
                   <div className="flex flex-wrap justify-between">
                     <div className="w-full px-4 mb-4 lg:w-1/2 ">
