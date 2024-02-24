@@ -6,6 +6,9 @@ import { Outlet } from "react-router-dom";
 function App() {
   return (
     <>
+    <head>
+  <title>HTML Elements Reference</title>
+</head>
       <div className="background-image">
         <HomePage />
         <Outlet />
