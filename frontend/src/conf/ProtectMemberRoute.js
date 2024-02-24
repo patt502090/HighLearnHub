@@ -1,11 +1,9 @@
-import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { AuthContext } from "../context/Auth.context";
+import conf from './main';
 
 const ProtectMemberRoute = ({ children }) => {
-    const { state: ContextState } = useContext(AuthContext);
-    const { userRole } = ContextState;
-    return userRole === "member" ? children : <><Navigate to="/login" replace /></>;
+    const role = sessionStorage.getItem(conf.roleSessionStorageKey);
+    return role === conf.memberStorageKey ? children : <><Navigate to="/login" replace /></>;
 };
 
 export default ProtectMemberRoute;

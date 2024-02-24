@@ -71,7 +71,7 @@ export default function EditCourseModal(props) {
                     <div className="space-y-6">
                         <h3 className="text-xl text-center font-medium text-gray-900 dark:text-white">แก้ไขข้อมูลคอร์ส</h3>
                         <div className='flex items-center'>
-                            <div className="mr-3">
+                            <div className="mr-3 w-24 text-right">
                                 <Label htmlFor="courseTitle" value="ชื่อคอร์ส :" />
                             </div>
                             <TextInput
@@ -83,7 +83,7 @@ export default function EditCourseModal(props) {
                             />
                         </div>
                         <div className='flex items-center'>
-                            <div className="mr-3">
+                            <div className="mr-3 w-24 text-right">
                                 <Label htmlFor="courseSubject" value="วิชา :" />
                             </div>
                             <Select
@@ -100,7 +100,7 @@ export default function EditCourseModal(props) {
                             </Select>
                         </div>
                         <div className='flex items-center'>
-                            <div className="mr-3">
+                            <div className="mr-3 w-24 text-right">
                                 <Label htmlFor="courseTitle" value="ผู้สอน :" />
                             </div>
                             <TextInput
@@ -112,7 +112,7 @@ export default function EditCourseModal(props) {
                             />
                         </div>
                         <div className='flex items-center'>
-                            <div className="mr-3">
+                            <div className="mr-3 w-24 text-right">
                                 <Label htmlFor="coursePrice" value="ราคา :" />
                             </div>
                             <TextInput
@@ -126,8 +126,8 @@ export default function EditCourseModal(props) {
                             <span className='inline-block ml-2'>บาท</span>
                         </div>
                         <div className='flex items-center'>
-                            <div className="mr-3">
-                                <Label htmlFor="courseDescription" value="คำอธิบายคอร์ส :" />
+                            <div className="mr-3 ml-4 w-24 text-right">
+                                <Label htmlFor="courseDescription" value="คำอธิบาย :" />
                             </div>
                             <Textarea
                                 id="courseDescription"
@@ -138,8 +138,8 @@ export default function EditCourseModal(props) {
                             />
                         </div>
                         <div className='flex items-center'>
-                            <div className="mr-3">
-                                <Label htmlFor="courseDetail" value="รายละเอียดคอร์ส :" />
+                            <div className="mr-3 ml-4 w-24 text-right">
+                                <Label htmlFor="courseDetail" value="รายละเอียด :" />
                             </div>
                             <Textarea
                                 id="courseDetail"
@@ -150,8 +150,8 @@ export default function EditCourseModal(props) {
                             />
                         </div>
                         <div className='flex items-center'>
-                            <div className="mr-3">
-                                <Label htmlFor="courseStudyType" value="รูปแบบคอร์ส :" />
+                            <div className="mr-3 w-24 text-right">
+                                <Label htmlFor="courseStudyType" value="รูปแบบ :" />
                             </div>
                             <Select
                                 onChange={(event) => handleChanged({ study_type: event.target.value })}
@@ -164,8 +164,8 @@ export default function EditCourseModal(props) {
                             </Select>
                         </div>
                         <div className="flex">
-                            <div className="mr-3">
-                                <Label htmlFor="select-image" value="เปลี่ยนรูปปกคอร์ส :" />
+                            <div className="mr-3 w-24 text-right">
+                                <Label htmlFor="select-image" value="รูปปก :" />
                             </div>
                             <div>
                                 <input

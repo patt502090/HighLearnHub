@@ -13,6 +13,7 @@ import LiveCourse from "../components/HomePage/LiveCourse";
 import Searchbar from "../components/Searchbar";
 import CircularProgress from "@mui/material/CircularProgress";
 import Footer from "../components/Footer";
+import conf from "../conf/main";
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -76,7 +77,6 @@ export default function HomePage() {
     fetchData();
   }, []);
 
-  console.log(userRole);
   if (userRole === "admin") {
     return (
       <>

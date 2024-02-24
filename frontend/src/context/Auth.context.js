@@ -67,6 +67,7 @@ export const ContextProvider = props => {
     setLoginSuccess(false);
     setLoginError(null);
     setUserRole(null);
+    sessionStorage.removeItem(conf.roleSessionStorageKey)
   }
 
   return (

@@ -51,6 +51,7 @@ export default function LoginPage() {
         setLoading(false);
         if (result.data.role.name === "member") {
           changeRole(result.data.role.name)
+          sessionStorage.setItem(conf.roleSessionStorageKey, conf.memberStorageKey);
           setTimeout(() => {
             navigate("/");
           });
@@ -62,6 +63,7 @@ export default function LoginPage() {
         setLoading(false);
         if (result.data.role.name === "admin") {
           changeRole(result.data.role.name)
+          sessionStorage.setItem(conf.roleSessionStorageKey, conf.adminStorageKey);
           setTimeout(() => {
             navigate("/admin");
           });
