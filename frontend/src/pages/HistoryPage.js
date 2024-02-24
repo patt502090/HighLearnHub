@@ -14,7 +14,7 @@ export default function HistoryPage() {
       try {
         const response = await ax.get(
           conf.apiUrlPrefix +
-            "/courses?populate[bookings][filters][payment_status][$eq]=false&populate=image"
+            "/courses?populate[bookings][filters][payment_status][$eq]=true&populate=image"
         );
         console.log(response);
         const filterDatas = response.data.data.filter(
@@ -28,6 +28,14 @@ export default function HistoryPage() {
 
     fetchData();
   }, []);
+
+  const calculateDaysAgo = (timestamp) => {
+    const oneDay = 24 * 60 * 60 * 1000; 
+    const currentDate = new Date();
+    const paymentDate = new Date(timestamp);
+    const diffDays = Math.round(Math.abs((currentDate - paymentDate) / oneDay));
+    return diffDays;
+  };
 
   return (
     <>
@@ -98,8 +106,7 @@ export default function HistoryPage() {
                     <p className="ml-1">Bath</p>
                   </div>
                   <div className="ml-2 flex items-center text-sm font-normal text-gray-600 dark:text-white">
-                    <p>5d</p>
-                    <p className="ml-1">ago</p>
+                    <p>{calculateDaysAgo(course.attributes.bookings.data[0].attributes.createdAt)}d ago</p>
                   </div>
                 </div>
               </div>

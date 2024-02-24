@@ -1,41 +1,63 @@
-import React, { useEffect, useState } from "react";
-import ax from "../conf/ax";
-import conf from "../conf/main";
+import React from "react";
 import Navbar from "../components/Navbar";
-import backgroundImage from "../assets/background.png";
+import { Link } from "react-router-dom";
 
 export default function ApprovePaymentPage() {
-    const [uploadedFiles, setUploadedFiles] = useState([]);
+  return (
+    <>
+      <Navbar />
 
-    useEffect(() => {
-        fetchUploadedFiles();
-    }, []);
-
-    const fetchUploadedFiles = async () => {
-        try {
-            const response = await ax.get(`${conf.api_url}/uploadedFiles`);
-            setUploadedFiles(response.data);
-        } catch (error) {
-            console.error("Error fetching uploaded files:", error);
-        }
-    };
-
-    return (
-        <>
-            <Navbar />
-            <div className='flex flex-col items-center mt-6'>
-                <h2 className='text-xl font-bold'>ตรวจสอบการชำระเงิน</h2>
-                <div>
-                    {uploadedFiles.map(file => (
-                        <div key={file.id} className="p-6 mb-8 border bg-gray-50 dark:bg-gray-800 border-gray-800 rounded-md">
-                            <div className="flex items-center justify-between">
-                                <p className="text-lg font-semibold">{file.name}</p>
-                                <a href={file.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">View</a>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </>
-    );
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="px-6 py-3">
+                User name
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Product name
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Date
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Price
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Slip
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Action
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Action
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+              <td class="px-6 py-4">John</td>
+              <th
+                scope="row"
+                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >สรุปเนื้อหาติวคอร์ส</th>
+              <td class="px-6 py-4">2d ago</td>
+              <td class="px-6 py-4">$2999</td>
+              <td class="px-6 py-4">Files</td>
+              <td class="px-6 py-4">
+                <a class="font-medium text-red-600 dark:text-red-500 hover:underline">
+                  delete
+                </a>
+              </td>
+              <td class="px-6 py-4">
+                <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                  Approve
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
 }

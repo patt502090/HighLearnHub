@@ -76,7 +76,9 @@ export default function PaymentPage() {
                             <button onClick={handleFileDelete} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4 md:mb-0 md:mr-4">ลบไฟล์</button>
                         </>
                     )}
-                    <Link Link to="/finishpayment">
+                    <Link to={{
+                        pathname: "/finishpayment",
+                    }}>
                         <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4 md:mb-0 md:ml-4">ยืนยันการชำระเงิน</button>
                     </Link>
                 </div>
