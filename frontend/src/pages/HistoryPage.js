@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
-import Navbar from "../components/Navbar";
 import conf from "../conf/main";
 import backgroundImage from "../assets/background.png";
+import Navbar from "../components/Navbar";
 
 export default function HistoryPage() {
   const [courseData, setCourseData] = useState([]);
