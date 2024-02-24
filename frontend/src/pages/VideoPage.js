@@ -32,7 +32,7 @@ function VideoPage() {
     if (!isLoading && selectedVideo) {
       updateWatchTime();
     }
-  }, [ played, userID, isLoading]);
+  }, [played, userID, isLoading]);
 
   useEffect(() => {
     fetchTotalWatchData();
@@ -105,8 +105,8 @@ function VideoPage() {
             member: { connect: [{ id: userID }] },
           },
         });
-        console.log("สร้าง watch time สำเร็จ.");
-        setWatchTimeId(response?.data?.id);
+        console.log("สร้าง watch time สำเร็จ. ID:", response?.data?.data?.id);
+        setWatchTimeId(response?.data?.data?.id);
       }
     } catch (error) {
       console.error("Error posting watch time: ", error);
@@ -117,7 +117,7 @@ function VideoPage() {
     if (!isLoading) {
       setIsLoading(true);
       const selected = videoData.find((video) => video.id === videoId);
-      console.log(selected);
+      console.log("Selected", selected);
       if (selected) {
         setSelectedVideo(selected);
         setDurationSelected(selected.duration);
@@ -129,16 +129,20 @@ function VideoPage() {
           console.log("WatchTimeResponse", watchTimeResponse);
           if (watchTimeResponse?.data?.data?.length > 0) {
             setCurrentTime(
-              Math.round(watchTimeResponse?.data?.data[0]?.attributes?.watch_time)
+              Math.round(
+                watchTimeResponse?.data?.data[0]?.attributes?.watch_time
+              )
             );
             console.log(
               "Watch Current Time Current",
-              Math.round(watchTimeResponse?.data.data[0]?.attributes?.watch_time)
+              Math.round(
+                watchTimeResponse?.data.data[0]?.attributes?.watch_time
+              )
             );
             console.log("Watch Time ID", watchTimeResponse?.data?.data[0]?.id);
             setWatchTimeId(watchTimeResponse?.data?.data[0]?.id);
           } else {
-            setCurrentTime(0);
+            setWatchTimeId(null);
             console.log("ไม่มีข้อมูลเวลาในการรับชม");
           }
         }
@@ -146,7 +150,6 @@ function VideoPage() {
       setIsLoading(false);
     }
   };
-  
 
   const totalDuration = videoData.reduce(
     (total, item) => total + item.duration,
@@ -171,7 +174,7 @@ function VideoPage() {
     try {
       const userStartResponse = await ax.get(`${conf.apiUrlPrefix}/users/me`);
       const userStartData = userStartResponse.data.id;
-      setUserID(userStartData)
+      setUserID(userStartData);
       const watchTimesResponse = await ax.get(
         `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userStartData}&filters[course][id][$eq]=${id}`
       );
@@ -237,28 +240,29 @@ function VideoPage() {
             <h3 className="ml-3 mt-2 text-xs md:text-sm text-slate-500">{`${calculateProgress()}% Complete`}</h3>
             <hr className="my-3" />
             <ul className="overflow-y-hidden">
-  {videoData.map((video) => (
-    <li
-      key={video.id}
-      onClick={() => handleVideoSelection(video.id)}
-      className={`flex items-center cursor-pointer ${video.id === selectedVideo?.id
-        ? "my-2 bg-gray-200 p-4 rounded"
-        : "ml-4 my-4"
-      }`}
-    >
-      <span className="flex-grow text-sm md:text-base">
-        {video.title}
-      </span>
-      <span className="text-xs md:text-sm text-gray-500 whitespace-nowrap">
-        {formatTime(video.duration)}
-        {video.id === selectedVideo?.id && calculateProgressSelected() >= 100 && (
-          <span className="ml-2 text-green-500">Complete</span>
-        )}
-      </span>
-    </li>
-  ))}
-</ul>
-
+              {videoData.map((video) => (
+                <li
+                  key={video.id}
+                  onClick={() => handleVideoSelection(video.id)}
+                  className={`flex items-center cursor-pointer ${
+                    video.id === selectedVideo?.id
+                      ? "my-2 bg-gray-200 p-4 rounded"
+                      : "ml-4 my-4"
+                  }`}
+                >
+                  <span className="flex-grow text-sm md:text-base">
+                    {video.title}
+                  </span>
+                  <span className="text-xs md:text-sm text-gray-500 whitespace-nowrap">
+                    {formatTime(video.duration)}
+                    {video.id === selectedVideo?.id &&
+                      calculateProgressSelected() >= 100 && (
+                        <span className="ml-2 text-green-500">Complete</span>
+                      )}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
           <div className="flex-grow p-4 md:p-10">
             {selectedVideo && (

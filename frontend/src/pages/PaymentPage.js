@@ -24,6 +24,10 @@ export default function PaymentPage() {
         setSelectedFile(null);
     };
 
+    const handlePaymentConfirmation = () => {
+        localStorage.setItem("paymentSlip", selectedFile);
+    };
+    
     return (
         <>
             <Navbar />
@@ -79,7 +83,7 @@ export default function PaymentPage() {
                     <Link to={{
                         pathname: "/finishpayment",
                     }}>
-                        <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4 md:mb-0 md:ml-4">ยืนยันการชำระเงิน</button>
+                        <button onClick={handlePaymentConfirmation} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4 md:mb-0 md:ml-4">ยืนยันการชำระเงิน</button>
                     </Link>
                 </div>
             </div>
