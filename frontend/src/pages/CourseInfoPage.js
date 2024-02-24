@@ -33,9 +33,11 @@ export default function CourseInfoPage() {
         try {
             const response = await ax.get(conf.apiUrlPrefix + `/courses/${id}?populate=*`);
             setCourse(response.data.data);
+    
 
             const datauser = await ax.get(conf.apiUrlPrefix + `/users/me`);
             setInfouser(datauser.data.id)
+
         } catch (error) {
             console.error("Error fetching course:", error);
         }
@@ -86,7 +88,7 @@ export default function CourseInfoPage() {
             console.error("Error fetching Data:", error);
         }
     };
-
+    console.log(course)
     if (course === null) {
         return <p>Loading...</p>;
     }
@@ -175,13 +177,21 @@ export default function CourseInfoPage() {
                         <BasicTabs data={course} />
                         <p className="text-lg font-medium mb-4">{course.attributes.description}</p>
                         <p className="text-center text-2xl font-bold text-red-700 mb-4">ราคา: {course.attributes.price} บาท </p>
-                        <Link to={'/mycart'}>
+                        {course.attributes.bookings?.data.length !== 0  ? (
+
                             <button className="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600"
-                                onClick={() => Addcart()}
+   
+                            >
+                               สินค้าอยู่ในตะกร้าแล้ว
+                            </button>
+                        ):(<Link to={'/mycart'}>
+                            <button className="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600"
+                                onClick={() => Addcart()} 
                             >
                                 เพิ่มเข้าตะกร้า
                             </button>
-                        </Link>
+                        </Link>)
+                        }
                     </div>
                 ) : (
                     <div className="h-screen flex justify-center items-center">
