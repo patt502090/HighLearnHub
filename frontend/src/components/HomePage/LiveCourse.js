@@ -94,7 +94,7 @@ const LiveCourse = () => {
 
                   <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
                     จำนวนผู้ลงสมัคร{" "}
-                    <a class="hover:underline decoration-red-500/30">
+                    <a className="hover:underline decoration-red-500/30">
                       {course.amount}/{course.maxamount}
                     </a>{" "}
                     คน

@@ -90,7 +90,6 @@ const fetchLogin = async (username, password, callback) => {
       identifier: username,
       password
     })
-    console.log(response.data);
     if (response.data.jwt && response.data.user.id > 0) {
       callback(null, response.data)
     } else {

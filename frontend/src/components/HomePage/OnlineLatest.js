@@ -112,7 +112,7 @@ const OnlineLatest = () => {
 
                   <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-red-500">
                     จำนวนยอดสั่งซื้อ{" "}
-                    <a class="hover:underline decoration-red-500/30 ">
+                    <a className="hover:underline decoration-red-500/30 ">
                       {course.amount}
                     </a>{" "}
                     คอร์ส

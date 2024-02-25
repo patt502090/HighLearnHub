@@ -73,14 +73,14 @@ export default function MyCoursePage() {
 
   return (
     <ContextProvider>
-      <div className="h-full md:h-screen bg-gray-200">
+      <div className="h-screen md:h-screen background-image">
         <Helmet>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <title>คอร์สของฉัน</title>
         </Helmet>
         <Navbar />
-        <div className="flex flex-col items-center justify-items-center mt-10 w-80 sm:w-full mx-auto ">
-          <div className="w-full xl:w-2/3 2xl:w-1/2 p-10 sm:p-20 2xl:p-16  bg-white shadow-lg rounded-lg ">
+        <div className="mx-10 lg:mx-auto flex flex-col items-center justify-items-center w-auto mt-4 sm:w-full">
+          <div className="h-auto w-full xl:w-2/3 2xl:w-1/2 p-10 sm:p-20 2xl:p-16 bg-white shadow-lg rounded-lg ">
             <p className="text-2xl font-medium text-center mb-3 md:mb-8">
               คอร์สของฉัน
             </p>

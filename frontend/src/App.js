@@ -8,7 +8,6 @@ function App() {
     <>
       <div className="background-image">
         <HomePage />
-        <Outlet />
       </div>
     </>
   );

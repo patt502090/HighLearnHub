@@ -35,8 +35,7 @@ root.render(
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/registerAccount" element={<RegisterAccountPage />} />
           <Route path="/member/:id" element={<CourseInfoPage />} />
-          <Route path="/admin" element={
-            <ProtectAdminRoute><App /></ProtectAdminRoute>} />
+          <Route path="/admin" element={<ProtectAdminRoute><App /></ProtectAdminRoute>} />
           <Route path="/admin/:id" element={
             <ProtectAdminRoute><CourseInfoPage /></ProtectAdminRoute>} />
           <Route path="/profile/:id" element={<ProfilePage />} />
@@ -49,7 +48,7 @@ root.render(
           <Route path="*" element={<PageNotFound />} />
           <Route path="/connect/google/redirect" element={<LoginRedirect />} />
           <Route path="/approve" element={<ApprovePaymentPage />} />
-          <Route path="/addcourse" element={<AddCoursePage />} />
+          <Route path="/admin/addcourse" element={<AddCoursePage />} />
         </Routes>
       </Router>
     </ContextProvider>

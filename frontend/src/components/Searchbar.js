@@ -41,7 +41,7 @@ function Searchbar(props) {
 
   return (
     <>
-      <body className="bg-gray-300">
+      <div className="bg-gray-300">
         <div className="container mx-auto flex justify-center items-center h-30 p-4 relative">
           <button
             type="button"
@@ -111,7 +111,7 @@ function Searchbar(props) {
             </div>
           </form>
         </div>
-      </body>
+      </div>
 
       <Modal
         show={showSubjectFilterModal}

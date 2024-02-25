@@ -19,7 +19,6 @@ export default function LoginPage() {
   const authContext = useContext(AuthContext);
   const { login,changeRole } = authContext || {};
   const navigate = useNavigate();
-  console.log(changeRole);
 
 
   const handleEmailChange = (e) => {
@@ -44,10 +43,9 @@ export default function LoginPage() {
       });
 
       result = await ax.get(`${conf.apiUrlPrefix}${conf.jwtUserEndpoint}`);
-      console.log("ข้อมูล Member ที่เข้าสู่ระบบ :", result.data);
+      // console.log("ข้อมูล Member ที่เข้าสู่ระบบ :", result.data);
 
       if (result.data.role.name) {
-        console.log("role:", result.data.role.name);
         setLoading(false);
         if (result.data.role.name === "member") {
           changeRole(result.data.role.name)
@@ -59,7 +57,6 @@ export default function LoginPage() {
         }
       }
       if (result.data.role.name) {
-        console.log("role:", result.data.role.name);
         setLoading(false);
         if (result.data.role.name === "admin") {
           changeRole(result.data.role.name)

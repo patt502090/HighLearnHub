@@ -5,7 +5,6 @@ import "../App.css";
 import Navbar from "../components/Navbar";
 import Course from "../components/HomePage/Course";
 import Announcements from "../components/HomePage/Announcement";
-import { Toaster } from "react-hot-toast";
 import axios from "axios";
 import OnlineBestSeller from "../components/HomePage/OnlineBestSeller";
 import OnlineLatest from "../components/HomePage/OnlineLatest";
@@ -13,7 +12,6 @@ import LiveCourse from "../components/HomePage/LiveCourse";
 import Searchbar from "../components/Searchbar";
 import CircularProgress from "@mui/material/CircularProgress";
 import Footer from "../components/Footer";
-import conf from "../conf/main";
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -83,6 +81,7 @@ export default function HomePage() {
         <Navbar />
         <Searchbar data={course} />
         <Course data={course} userRole={ContextState.userRole} />
+        <Footer/>
       </>
     );
   }
