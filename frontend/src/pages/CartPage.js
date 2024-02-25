@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Progessbar from "../components/Progessbar";
 import backgroundImage from "../assets/background.png";
+import { IoTrashOutline } from "react-icons/io5";
 
 export default function CartPage() {
   const [coursebooked, setCoursebooked] = useState();
@@ -33,7 +34,6 @@ export default function CartPage() {
   const calculateTotalPrice = () => {
     let totalPrice = 0;
     coursebooked?.forEach((item) => {
-      
       totalPrice +=
         item.attributes.price * item.attributes.bookings.data.length;
         
@@ -90,18 +90,9 @@ export default function CartPage() {
                             className="absolute top-0 right-0 mt-2 mr-2 bg-red-500 rounded-full p-2 inline-flex items-center text-white hover:text-white-500 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
                             style={{ width: "30px", height: "30px" }}
                             onClick={() => DeleteCourseBooked(item.attributes.bookings.data[0].id)}
+                            
                           >
-                            <span className="sr-only">Close menu</span>
-                            <svg
-                              className="h-6 w-6"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                              aria-hidden="true"
-                            >
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
+                            <IoTrashOutline />
                           </button>
                           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                             {item.attributes.title}

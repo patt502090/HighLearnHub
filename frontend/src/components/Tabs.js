@@ -1,11 +1,28 @@
 import { Tabs } from "flowbite-react";
 import { HiAdjustments } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
+import { IoSettingsOutline } from "react-icons/io5";
+import { ImBin } from "react-icons/im";
 
 export default function BasicTabs(props) {
   const data = props.data.attributes;
 
   return (
+  <div style={{position: "relative"}}>
+<div style={{ position: "absolute", top: 0, right: 0 }}>
+        <button
+          onClick={() => props.OnEdition(true)}
+          className="px-3 py-3 bg-gray-500 text-white rounded-full hover:bg-gray-600 focus:outline-none focus:bg-blue-600"
+        >
+          <IoSettingsOutline />
+        </button>
+        <button
+          onClick={() => props.OnDelete(true)}
+          className="px-3 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:bg-red-600 ml-2"
+        >
+          <ImBin/>
+        </button>
+      </div>
     <Tabs aria-label="Default tabs" className="w-full justify-center">
       <Tabs.Item title="รายละเอียด" icon={MdDashboard}>
         <ul class="grid lg:grid-cols-2  text-base font-base text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
@@ -106,5 +123,7 @@ export default function BasicTabs(props) {
         </div>
       </Tabs.Item>
     </Tabs>
+
+</div>
   );
 }

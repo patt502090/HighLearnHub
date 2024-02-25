@@ -8,7 +8,9 @@ import EditCourseModal from "./EditCourseModal";
 import conf from "../conf/main";
 import ax from "../conf/ax";
 import { Button, Modal } from "flowbite-react";
-import { IoTrashBin } from "react-icons/io5";
+import { IoTrashBin, IoSettingsOutline } from "react-icons/io5";
+import { HiMiniWrenchScrewdriver } from "react-icons/hi2";
+
 
 export default function CourseInfoPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -18,6 +20,7 @@ export default function CourseInfoPage() {
   const { userRole } = ContextState;
   const [onEdit, setOnEdit] = useState(false);
   const [Infouser, setInfouser] = useState();
+  const [onEdition, setOnEdition] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -117,34 +120,21 @@ export default function CourseInfoPage() {
                 {course.attributes.title}
               </h1>
 
-              <BasicTabs data={course} />
+
+
+              <BasicTabs data={course} OnDelete={setShowDeleteModal} OnEdition={setOnEdition} />
+
               <p className="text-lg font-medium mb-4 text-slate-700">
                 {course.attributes.description}
               </p>
               <div className="flex justify-between mx-3">
-                <button
-                  onClick={() => setOnEdit(true)}
-                  className="px-6 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-                >
-                  แก้ไขข้อมูล
-                </button>
+
                 <p className="text-center text-2xl font-bold text-red-700 mt-2">
                   ราคา: {course.attributes.price} บาท{" "}
                 </p>
-                <button
-                  onClick={() => setShowDeleteModal(true)}
-                  className="px-6 py-3 bg-red-500 text-white rounded-full hover:bg-red-600 focus:outline-none focus:bg-red-600"
-                >
-                  ลบข้อมูล
-                </button>
+
               </div>
-              <Button
-                gradientDuoTone="pinkToOrange"
-                className="mt-4 w-full mx-auto"
-                onClick={() => handleManageVideoPage(course.id)}
-              >
-                จัดการวิดิโอและบทเรียน
-              </Button>
+
             </div>
           ) : (
             <div className="h-screen flex justify-center items-center">
@@ -180,6 +170,45 @@ export default function CourseInfoPage() {
             </div>
           </Modal.Body>
         </Modal>
+        <div>
+          <Modal
+            show={onEdition}
+            size="md"
+            onClose={() => setOnEdition(false)}
+            popup
+          >
+            <Modal.Header />
+            <Modal.Body>
+              <div className="text-center">
+                <HiMiniWrenchScrewdriver className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                  การแก้ไขข้อมูลของคอร์ส
+                </h3>
+                <div className="flex justify-center gap-4">
+                  <Button
+                    gradientDuoTone="pinkToOrange"
+                    className="mt-4 w-full mx-auto"
+                    onClick={() => handleManageVideoPage(course.id)}
+                  >
+                    วิดีโอและบทเรียน
+                  </Button>
+                  <Button
+                    gradientDuoTone="pinkToOrange"
+                    className="mt-4 w-full mx-auto"
+                    onClick={() => {
+                      setOnEdit(true);
+                      setOnEdition(false)
+                    }}
+                  >
+                    รายละเอียดคอร์ส
+                  </Button>
+
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
+        </div>
+
       </div>
     );
   }
@@ -201,15 +230,16 @@ export default function CourseInfoPage() {
               {course.attributes.title}
             </h1>
             <BasicTabs data={course} />
+
             <p className="text-md sm:text-lg font-normal sm:font-medium mb-4">
               {course.attributes.description}
             </p>
 
             <p className="text-md text-center font-bold text-red-700 sm:text-2xl mb-4">
-                 ราคา: {course.attributes.price} บาท
-                </p>
+              ราคา: {course.attributes.price} บาท
+            </p>
             <div className=" items-center">
-  
+
               <div>
                 {course.attributes.bookings?.data.length !== 0 ? (
                   <button className="px-10 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
@@ -225,7 +255,7 @@ export default function CourseInfoPage() {
                     </button>
                   </Link>
                 )}
-              </div>    
+              </div>
             </div>
           </div>
         ) : (
