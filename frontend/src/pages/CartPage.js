@@ -6,6 +6,7 @@ import Navbar from "../components/Navbar";
 import Progessbar from "../components/Progessbar";
 import backgroundImage from "../assets/background.png";
 import { IoTrashOutline } from "react-icons/io5";
+import { Helmet } from "react-helmet";
 
 export default function CartPage() {
   const [coursebooked, setCoursebooked] = useState();
@@ -59,6 +60,10 @@ export default function CartPage() {
     <>
       <Navbar />
       <Progessbar></Progessbar>
+      <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>ตะกร้าของฉัน</title>
+        </Helmet>
       <div className="flex flex-col items-center mt-6" style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: "cover",

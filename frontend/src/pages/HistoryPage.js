@@ -3,6 +3,7 @@ import ax from "../conf/ax";
 import conf from "../conf/main";
 import backgroundImage from "../assets/background.png";
 import Navbar from "../components/Navbar";
+import { Helmet } from "react-helmet";
 
 export default function HistoryPage() {
   const [courseData, setCourseData] = useState([]);
@@ -47,6 +48,10 @@ export default function HistoryPage() {
             href="https://horizon-tailwind-react-corporate-7s21b54hb-horizon-ui.vercel.app/static/css/main.d7f96858.css"
           />
         </head>
+        <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>ประวัติการสั่งซื้อ</title>
+        </Helmet>
         <div className="h-screen flex flex-col justify-center items-center h-[60vh] pt-4">
           <div className="relative flex flex-col items-center rounded-[10px] border-[1px] border-gray-200 w-[576px] mx-auto p-4 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none">
             <div className="flex items-center justify-between rounded-t-3xl p-3 w-full">

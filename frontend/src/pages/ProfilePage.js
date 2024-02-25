@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import backgroundImage from "../assets/background.png";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 
 function ProfilePage() {
   const [userData, setUserData] = useState({});
@@ -82,6 +83,10 @@ function ProfilePage() {
   return (
     <div>
       <Navbar />
+      <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>โปรไฟล์ของฉัน</title>
+        </Helmet>
       <div
         className="flex flex-col items-center justify-items-center pt-24 w-80 sm:w-full mx-auto bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${backgroundImage})` }}

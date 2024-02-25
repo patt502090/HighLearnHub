@@ -19,7 +19,7 @@ export default function AddCoursePage() {
         description: '',
         detail: '',
         study_type: '',
-        maxamount: null
+        maxamount: 0
     });
 
     useEffect(() => {
