@@ -1,1 +1,0 @@
-onst [onChangeImg, setOnChangeImg] = useState(null);

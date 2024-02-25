@@ -58,7 +58,7 @@ function Searchbar(props) {
             >
               <path d="M5 3a2 2 0 0 0-1.5 3.3l5.4 6v5c0 .4.3.9.6 1.1l3.1 2.3c1 .7 2.5 0 2.5-1.2v-7.1l5.4-6C21.6 5 20.7 3 19 3H5Z" />
             </svg>
-            ตัวกรอง
+            ฝากเเก้หน่อยเเก้ไม่เป็นอ่ะ
           </button>
           <form className="flex items-center justify-center relative">
             <label
@@ -84,6 +84,17 @@ function Searchbar(props) {
                     d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                   />
                 </svg>
+                <svg
+                  className="w-6 h-6 text-black dark:text-white " style={{ marginLeft: '200px' }}
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  onClick={() => setShowSubjectFilterModal(false)}
+          
+                >
+                  <path d="M5 3a2 2 0 0 0-1.5 3.3l5.4 6v5c0 .4.3.9.6 1.1l3.1 2.3c1 .7 2.5 0 2.5-1.2v-7.1l5.4-6C21.6 5 20.7 3 19 3H5Z" />
+                </svg>
               </div>
               <input
                 type="search"
@@ -92,6 +103,7 @@ function Searchbar(props) {
                 placeholder="Search Courses"
                 required
                 onChange={(e) => handleSearchInput(e.target.value)}
+                onClick={() => setShowSubjectFilterModal(false)}
               />
               <div
                 id="dropdown"
@@ -134,9 +146,7 @@ function Searchbar(props) {
                     name="type[New]"
                     class="h-5 w-5 rounded border-gray-300"
                   />
-                  <label class="ml-3 text-sm font-medium">
-                    คณิต
-                  </label>
+                  <label class="ml-3 text-sm font-medium">คณิต</label>
                 </div>
                 <div class="flex items-center">
                   <input
@@ -144,9 +154,7 @@ function Searchbar(props) {
                     name="type[Used]"
                     class="h-5 w-5 rounded border-gray-300"
                   />
-                  <label  class="ml-3 text-sm font-medium">
-                  ฟิสิกส์
-                  </label>
+                  <label class="ml-3 text-sm font-medium">ฟิสิกส์</label>
                 </div>
 
                 <div class="flex items-center">
@@ -156,9 +164,7 @@ function Searchbar(props) {
                     class="h-5 w-5 rounded border-gray-300"
                   />
 
-                  <label class="ml-3 text-sm font-medium">
-                    คอม
-                  </label>
+                  <label class="ml-3 text-sm font-medium">คอม</label>
                 </div>
 
                 <div class="pt-2">
@@ -181,9 +187,7 @@ function Searchbar(props) {
                     name="Price"
                     class="h-5 w-5 rounded border-gray-300"
                   />
-                  <label  class="ml-3 text-sm font-medium">
-                    0-1000
-                  </label>
+                  <label class="ml-3 text-sm font-medium">0-1000</label>
                 </div>
 
                 <div class="flex items-center">
@@ -193,9 +197,7 @@ function Searchbar(props) {
                     class="h-5 w-5 rounded border-gray-300"
                   />
 
-                  <label class="ml-3 text-sm font-medium">
-                    1000-2000
-                  </label>
+                  <label class="ml-3 text-sm font-medium">1000-2000</label>
                 </div>
 
                 <div class="flex items-center">
@@ -205,9 +207,7 @@ function Searchbar(props) {
                     class="h-5 w-5 rounded border-gray-300"
                   />
 
-                  <label  class="ml-3 text-sm font-medium">
-                    2000-3000
-                  </label>
+                  <label class="ml-3 text-sm font-medium">2000-3000</label>
                 </div>
 
                 <div class="pt-2">
