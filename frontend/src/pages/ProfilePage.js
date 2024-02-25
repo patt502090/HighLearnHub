@@ -9,6 +9,8 @@ import Navbar from "../components/Navbar";
 
 function ProfilePage() {
   const [userData, setUserData] = useState({});
+  const [newImage, setNewImage] = useState(null);
+  const [editedUserData, setEditedUserData] = useState({});
   const { id } = useParams();
 
   useEffect(() => {
@@ -19,7 +21,6 @@ function ProfilePage() {
         );
         const userData = await userResponse.json();
         setUserData(userData);
-        console.log(userData);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -27,41 +28,209 @@ function ProfilePage() {
 
     fetchData();
   }, [id]);
+
+  const handleEditClick = () => {
+    setEditedUserData(userData);
+    setNewImage(null); // Reset image when edit button is clicked
+  };
+
+  const fetchData = async () => {
+    try {
+      const userResponse = await fetch(`http://localhost:1337/api/users/${id}`);
+      const userData = await userResponse.json();
+      setUserData(userData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`http://localhost:1337/api/users/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedUserData),
+      });
+      const data = await response.json();
+      console.log("Updated user data:", data);
+      
+      if (newImage) {
+        const formData = new FormData();
+        formData.append("image", newImage);
+        const imageResponse = await fetch(`http://localhost:1337/api/users/${id}`, {
+          method: "POST",
+          body: formData,
+        });
+        const imageData = await imageResponse.json();
+        console.log("Uploaded new image:", imageData);
+      }
+      
+      fetchData();
+      setEditedUserData({});
+    } catch (error) {
+      console.error("Error updating user data:", error);
+    }
+  };
+
+  const handleCancel = () => {
+    setEditedUserData({});
+  };
+
   return (
     <div>
-    
       <Navbar />
       <div
-        className="flex flex-col items-center justify-items-center mt-8 w-80 sm:w-full mx-auto"
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
+        className="flex flex-col items-center justify-items-center mt-8 w-80 sm:w-full mx-auto bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
       >
-        <div className="border-1 shadow-lg shadow-gray-700 rounded-lg bg-white bg-opacity-90">
-          <div className="flex rounded-t-lg bg-top-color sm:px-2 w-full">
-            <div className="h-40 w-40 overflow-hidden sm:rounded-full sm:relative sm:p-0 top-10 left-5 p-3">
-              <img
-                className="object-cover w-full h-[100px] rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
-                src="https://static.thenounproject.com/png/642902-200.png"
-                alt=""
+        <div className="border border-gray-300 shadow-lg rounded-lg bg-white bg-opacity-90 p-8 w-full sm:w-5/6 md:w-3/4 lg:w-2/3">
+          <div className="flex flex-col items-center ">
+            <div className="h-40 w-40 overflow-hidden rounded-full mb-4 relative">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setNewImage(e.target.files[0])}
+                className="hidden"
+                id="imageInput"
               />
+              <label
+                htmlFor="imageInput"
+                className="cursor-pointer"
+              >
+                <img
+                  className="object-cover w-full h-full"
+                  src={
+                    newImage
+                      ? URL.createObjectURL(newImage)
+                      : "https://static.thenounproject.com/png/642902-200.png"
+                  }
+                  alt=""
+                />
+              </label>
             </div>
 
-            <div className="w-2/3 sm:text-center pl-5 mt-10 text-start" style={{ marginTop: '70px' }}>
-              <p className="font-poppins font-bold text-heading sm:text-4xl text-2xl">
-                {userData && `${userData.first_name}`}
+            <div className="ml-5">
+              <p className="font-bold text-3xl">
+                {userData && `${userData.first_name} ${userData.last_name}`}
               </p>
-              <p className="font-poppins font-bold text-heading sm:text-4xl text-2xl">
-                {userData && `${userData.last_name}`}
-              </p>
+              <button
+                onClick={handleEditClick}
+                className="text-red-500 hover:underline focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50"
+              >
+                แก้ไขข้อมูลส่วนตัว
+              </button>
             </div>
           </div>
-          <div className="flex items-center justify-center bg-gray-200 py-3 rounded-lg" style={{ marginTop: '50px'}}>
+          {Object.keys(editedUserData).length > 0 && (
+            <div className="mt-8">
+              <h2 className="text-lg font-bold mb-2">แก้ไขข้อมูลส่วนตัว</h2>
+              <div className="border-b border-gray-400"></div>
+              <div className="mt-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      htmlFor="first_name"
+                      className="font-bold text-gray-700 block mb-1"
+                    >
+                      ชื่อ
+                    </label>
+                    <input
+                      id="first_name"
+                      type="text"
+                      value={editedUserData.first_name}
+                      onChange={(e) =>
+                        setEditedUserData({
+                          ...editedUserData,
+                          first_name: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="last_name"
+                      className="font-bold text-gray-700 block mb-1"
+                    >
+                      นามสกุล
+                    </label>
+                    <input
+                      id="last_name"
+                      type="text"
+                      value={editedUserData.last_name}
+                      onChange={(e) =>
+                        setEditedUserData({
+                          ...editedUserData,
+                          last_name: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="contact"
+                      className="font-bold text-gray-700 block mb-1"
+                    >
+                      เบอร์โทรศัพท์
+                    </label>
+                    <input
+                      id="contact"
+                      type="text"
+                      value={editedUserData.contact}
+                      onChange={(e) =>
+                        setEditedUserData({
+                          ...editedUserData,
+                          contact: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="font-bold text-gray-700 block mb-1"
+                    >
+                      อีเมล
+                    </label>
+                    <input
+                      id="email"
+                      type="text"
+                      value={editedUserData.email}
+                      onChange={(e) =>
+                        setEditedUserData({
+                          ...editedUserData,
+                          email: e.target.value,
+                        })
+                      }
+                      className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <button
+                    onClick={handleSave}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    บันทึก
+                  </button>
+                  <button
+                    onClick={handleCancel}
+                    className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded ml-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                  >
+                    ยกเลิก
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="mt-8">
             <List>
-              <ListItem disablePadding href="">
+              <ListItem disablePadding>
                 <ListItemButton>
                   <svg
                     className="w-6 h-6 text-gray-800 dark:text-white"
@@ -80,10 +249,9 @@ function ProfilePage() {
                 </ListItemButton>
               </ListItem>
             </List>
-            <div className="border-r-2 border-black h-14 mx-8"></div>
             <Link to="/history">
               <List>
-                <ListItem disablePadding href="">
+                <ListItem disablePadding>
                   <ListItemButton>
                     <svg
                       className="w-6 h-6 text-gray-800 dark:text-white"
@@ -101,28 +269,22 @@ function ProfilePage() {
             </Link>
           </div>
 
-          <div className="p-2" style={{ marginTop: '0px' }}>
-            <div className="flex flex-col sm:flex-row sm:mt-10">
-              <div className="flex flex-col sm:w-1/3">
-                <div className="py-3 sm:order-none order-3">
-                  <h2 className="text-lg font-poppins font-bold text-top-color">
-                    ข้อมูลส่วนตัว
-                  </h2>
-                  <div className="border-b border-gray-400 mt-4"></div>
-                  <div className="mt-4">
-                    <p className="text-base font-medium text-gray-700 mb-2">
-                      ชื่อ-นามสกุล:{" "}
-                      {userData && `${userData.first_name} ${userData.last_name}`}
-                    </p>
-                    <p className="text-base font-medium text-gray-700 mb-2">
-                      เบอร์โทรศัพท์: {userData && `${userData.contact} `}
-                    </p>
-                    <p className="text-base font-medium text-gray-700 mb-2">
-                      อีเมล: {userData && `${userData.email}`}
-                    </p>
-                  </div>
-                </div>
-              </div>
+          <div className="mt-8">
+            <h2 className="text-lg font-bold">ข้อมูลส่วนตัว</h2>
+            <div className="border-b border-gray-400 mt-4"></div>
+            <div className="mt-4">
+              <p className="text-base text-gray-700">
+                <span className="font-bold">ชื่อ-นามสกุล: </span>
+                {userData && `${userData.first_name} ${userData.last_name}`}
+              </p>
+              <p className="text-base text-gray-700">
+                <span className="font-bold">เบอร์โทรศัพท์: </span>
+                {userData && `${userData.contact}`}
+              </p>
+              <p className="text-base text-gray-700">
+                <span className="font-bold">อีเมล: </span>
+                {userData && `${userData.email}`}
+              </p>
             </div>
           </div>
         </div>
