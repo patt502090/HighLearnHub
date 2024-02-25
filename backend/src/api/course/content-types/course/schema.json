@@ -73,6 +73,9 @@
       "relation": "oneToMany",
       "target": "api::watch-time.watch-time",
       "mappedBy": "course"
+    },
+    "like": {
+      "type": "string"
     }
   }
 }

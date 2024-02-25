@@ -2,15 +2,28 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Badge, Dropdown, DropdownItem } from "flowbite-react";
 import { HiClock } from "react-icons/hi";
+import { AiOutlineLike, AiFillLike } from "react-icons/ai"; // เพิ่ม AiFillLike
+// เพิ่ม AiFillLike เพื่อใช้ในการแสดงไอคอน Like ที่ถูกกดแล้ว
 
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
   const [dropdownLabel, setDropdownLabel] = useState("ทั้งหมด");
+  const [likes, setLikes] = useState({});
+
   const { userRole } = props;
+
   const handleFilter = (type, label) => {
     setFilterType(type);
     setDropdownLabel(label);
   };
+
+  const handleLike = (courseId) => {
+    setLikes((prevLikes) => ({
+      ...prevLikes,
+      [courseId]: (prevLikes[courseId] || 0) + 1,
+    }));
+  };
+
   return (
     <>
       <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between">
@@ -139,6 +152,15 @@ export default function Course(props) {
                   )}
                 </div>
               </Link>
+              <div className="absolute bottom-0 right-0 p-3">
+                <button
+                  className="flex items-center space-x-1 text-gray-500 hover:text-gray-700"
+                  onClick={() => handleLike(item.id)}
+                >
+                  {likes[item.id] ? <AiFillLike className="w-4 h-4 text-blue-500" /> : <AiOutlineLike className="w-4 h-4" />}
+                  <span>{likes[item.id] || 0}</span>
+                </button>
+              </div>
             </div>
           ))}
         </div>

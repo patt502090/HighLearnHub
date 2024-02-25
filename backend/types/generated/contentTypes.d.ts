@@ -918,6 +918,7 @@ export interface ApiCourseCourse extends Schema.CollectionType {
       'oneToMany',
       'api::watch-time.watch-time'
     >;
+    like: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

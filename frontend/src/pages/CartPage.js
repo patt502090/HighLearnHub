@@ -4,6 +4,7 @@ import conf from "../conf/main";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Progessbar from "../components/Progessbar";
+import backgroundImage from "../assets/background.png";
 
 export default function CartPage() {
   const [coursebooked, setCoursebooked] = useState();
@@ -47,7 +48,7 @@ export default function CartPage() {
         `/bookings/${id}`
       );
 
-      setCoursebooked(coursebooked.filter(course => course.attributes.bookings.data[0].id !== id))
+      setCoursebooked(coursebooked.filter(course => course.attributes.bookings.data[0].id != id))
     } catch (error) {
       console.error("Error fetching Data:", error);
     }
@@ -56,16 +57,21 @@ export default function CartPage() {
   console.log(coursebooked);
   return (
     <>
-    <div className="background-image">
       <Navbar />
       <Progessbar></Progessbar>
-      <div className="flex flex-col items-center mt-6">
-        <h className="text-xl font-bold">หน้าตะกร้าสินค้า</h>
+      <div className="flex flex-col items-center mt-6" style={{
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}>
+        <h className="text-4xl font-bold">Mycart</h>
         <div className="flex flex-col items-center mt-6">
           <section className="py-17 bg-gray-100 font-poppins dark:bg-gray-700">
             <div className="px-4 py-6 mx-auto max-w-7xl lg:py-4 md:px-6">
               <div>
                 <h2 className="mb-8 text-4xl font-bold dark:text-gray-400">
+                  Your Cart
                 </h2>
                 <div className="p-6 mb-8 border bg-gray-50 dark:bg-gray-800 border-gray-800">
                 <h1>สินค้าทั้งหมด {coursebooked?.length} ชิ้น </h1>
@@ -134,7 +140,6 @@ export default function CartPage() {
           <div >
           </div>
         </div>
-      </div>
       </div>
     </>
   );

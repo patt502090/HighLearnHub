@@ -6,33 +6,13 @@ import ListItemButton from "@mui/material/ListItemButton";
 import { Link } from "react-router-dom";
 import backgroundImage from "../assets/background.png";
 import Navbar from "../components/Navbar";
+import axios from "axios";
 
 function ProfilePage() {
   const [userData, setUserData] = useState({});
   const [newImage, setNewImage] = useState(null);
   const [editedUserData, setEditedUserData] = useState({});
   const { id } = useParams();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userResponse = await fetch(
-          `http://localhost:1337/api/users/${id}`
-        );
-        const userData = await userResponse.json();
-        setUserData(userData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [id]);
-
-  const handleEditClick = () => {
-    setEditedUserData(userData);
-    setNewImage(null); // Reset image when edit button is clicked
-  };
 
   const fetchData = async () => {
     try {
@@ -44,8 +24,18 @@ function ProfilePage() {
     }
   };
 
+  useEffect(() => {
+    fetchData();
+  }, [id]);
+
+  const handleEditClick = () => {
+    setEditedUserData(userData);
+    setNewImage(null);
+  };
+
   const handleSave = async () => {
     try {
+      // Save user data
       const response = await fetch(`http://localhost:1337/api/users/${id}`, {
         method: "PUT",
         headers: {
@@ -55,18 +45,29 @@ function ProfilePage() {
       });
       const data = await response.json();
       console.log("Updated user data:", data);
-      
+
+      // Upload image to Strapi (if new image is selected)
       if (newImage) {
         const formData = new FormData();
-        formData.append("image", newImage);
-        const imageResponse = await fetch(`http://localhost:1337/api/users/${id}`, {
-          method: "POST",
-          body: formData,
-        });
-        const imageData = await imageResponse.json();
+        formData.append("files", newImage);
+        formData.append("refId", id);
+        formData.append("ref", "user");
+        formData.append("field", "avatar");
+
+        const imageResponse = await axios.post(
+          `http://localhost:1337/upload`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        const imageData = imageResponse.data;
         console.log("Uploaded new image:", imageData);
       }
-      
+
+      // Fetch new data after update and image upload
       fetchData();
       setEditedUserData({});
     } catch (error) {
@@ -88,27 +89,15 @@ function ProfilePage() {
         <div className="border border-gray-300 shadow-lg rounded-lg bg-white bg-opacity-90 p-8 w-full sm:w-5/6 md:w-3/4 lg:w-2/3">
           <div className="flex flex-col items-center ">
             <div className="h-40 w-40 overflow-hidden rounded-full mb-4 relative">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setNewImage(e.target.files[0])}
-                className="hidden"
-                id="imageInput"
+              <img
+                className="object-cover w-full h-full"
+                src={
+                  newImage
+                    ? URL.createObjectURL(newImage)
+                    : "https://static.thenounproject.com/png/642902-200.png"
+                }
+                alt=""
               />
-              <label
-                htmlFor="imageInput"
-                className="cursor-pointer"
-              >
-                <img
-                  className="object-cover w-full h-full"
-                  src={
-                    newImage
-                      ? URL.createObjectURL(newImage)
-                      : "https://static.thenounproject.com/png/642902-200.png"
-                  }
-                  alt=""
-                />
-              </label>
             </div>
 
             <div className="ml-5">
@@ -207,6 +196,20 @@ function ProfilePage() {
                         })
                       }
                       className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="imageInput"
+                      className="font-bold text-gray-700 block mb-1 cursor-pointer"
+                    >
+                      อัปโหลดรูป
+                    </label>
+                    <input
+                      id="imageInput"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setNewImage(e.target.files[0])}
                     />
                   </div>
                 </div>
