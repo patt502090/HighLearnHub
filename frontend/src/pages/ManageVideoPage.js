@@ -54,7 +54,7 @@ const ManageVideoPage = () => {
     
     <div>
       <Navbar />
-      <div className="container mx-auto my-8">
+      <div className="container pt-24 mx-auto ">
         <h1 className="text-2xl underline font-medium text-center text-black-600 mb-8 tracking-wide">
           จัดการวิดีโอและแก้ไขบทเรียน
         </h1>
