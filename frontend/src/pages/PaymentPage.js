@@ -27,19 +27,15 @@ export default function PaymentPage() {
     const handlePaymentConfirmation = () => {
         localStorage.setItem("paymentSlip", selectedFile);
     };
-    
+
     return (
         <>
+        <div className="background-image">
             <Navbar />
             <Progessbar></Progessbar>
-            <div className='flex flex-col items-center mt-6' style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}>
-                <h2 className='text-xl font-bold'>PaymentPage</h2>
-                <section className="py-17 bg-gray-100 font-poppins dark:bg-gray-700">
+            <div className='flex flex-col items-center mt-6'>
+                <h2 className='text-xl font-bold'>หน้าชำระเงิน</h2>
+                <section className="mt-6 py-17 bg-gray-100 font-poppins dark:bg-gray-700">
                     <div className="px-4 py-6 mx-auto max-w-7xl lg:py-4 md:px-6">
                         <div>
                             <div className="p-6 mb-8 border bg-gray-50 dark:bg-gray-800 border-gray-800 rounded-md">
@@ -86,6 +82,7 @@ export default function PaymentPage() {
                         <button onClick={handlePaymentConfirmation} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4 md:mb-0 md:ml-4">ยืนยันการชำระเงิน</button>
                     </Link>
                 </div>
+            </div>
             </div>
         </>
     )

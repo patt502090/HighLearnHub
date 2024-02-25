@@ -78,8 +78,7 @@ export default function HomePage() {
   if (userRole === "admin") {
     return (
       <>
-        <Navbar />
-        <Searchbar data={course} />
+        <Navbar data={course} />
         <Course data={course} userRole={ContextState.userRole} />
         <Footer/>
       </>
@@ -95,8 +94,7 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            <Navbar />
-            <Searchbar data={course} />
+            <Navbar data={course}/>
             <Announcements data={announcements} />
             <OnlineBestSeller />
             <OnlineLatest />

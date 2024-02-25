@@ -41,29 +41,11 @@ function Searchbar(props) {
 
   return (
     <>
-      <div className="bg-gray-300">
-        <div className="container mx-auto flex justify-center items-center h-30 p-4 relative">
-          <button
-            type="button"
-            className="flex text-black border-none justify-center font-medium rounded-full text-sm px-5 py-2.5 text-center"
-            onClick={() => setShowSubjectFilterModal(true)}
-          >
-            <svg
-              className="w-6 h-6 text-black dark:text-white"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              onClick={() => setShowSubjectFilterModal(false)}
-            >
-              <path d="M5 3a2 2 0 0 0-1.5 3.3l5.4 6v5c0 .4.3.9.6 1.1l3.1 2.3c1 .7 2.5 0 2.5-1.2v-7.1l5.4-6C21.6 5 20.7 3 19 3H5Z" />
-            </svg>
-            ฝากเเก้หน่อยเเก้ไม่เป็นอ่ะ
-          </button>
+        <div className="container mx-auto flex justify-center items-center relative">
           <form className="flex items-center justify-center relative">
             <label
               htmlFor="default-search"
-              className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+              className="text-sm font-medium text-gray-900 sr-only dark:text-white"
             >
               Search
             </label>
@@ -84,17 +66,7 @@ function Searchbar(props) {
                     d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                   />
                 </svg>
-                <svg
-                  className="w-6 h-6 text-black dark:text-white " style={{ marginLeft: '200px' }}
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  onClick={() => setShowSubjectFilterModal(false)}
-          
-                >
-                  <path d="M5 3a2 2 0 0 0-1.5 3.3l5.4 6v5c0 .4.3.9.6 1.1l3.1 2.3c1 .7 2.5 0 2.5-1.2v-7.1l5.4-6C21.6 5 20.7 3 19 3H5Z" />
-                </svg>
+                
               </div>
               <input
                 type="search"
@@ -121,9 +93,9 @@ function Searchbar(props) {
                 )}
               </div>
             </div>
+                  
           </form>
         </div>
-      </div>
 
       <Modal
         show={showSubjectFilterModal}

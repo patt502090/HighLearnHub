@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import ax from "../conf/ax";
 import conf from "../conf/main";
 import Navbar from "../components/Navbar";
-import { useLocation } from "react-router-dom";
 export default function ApprovePaymentPage() {
   const [coursebooked, setCoursebooked] = useState([]);
   const [paymentSlip, setPaymentSlip] = useState(null);
@@ -53,7 +52,6 @@ export default function ApprovePaymentPage() {
   return (
     <>
       <Navbar />
-
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

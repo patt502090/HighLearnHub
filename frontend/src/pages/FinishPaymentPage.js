@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Progessbar from "../components/Progessbar";
-import backgroundImage from "../assets/background.png";
 
 function FinishPaymentPage() {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -10,22 +9,18 @@ function FinishPaymentPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowConfirmation(true);
-    }, 3000);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <>
+    <div className="background-image">
       <Navbar />
       <Progessbar></Progessbar>
-      <div className="flex flex-col justify-center items-center h-[100vh] pt-4" style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}>
-        <div className="relative flex flex-col items-center rounded-[10px] border-[1px] border-gray-200 w-[576px] mx-auto p-4 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none">
+      <div className="flex flex-col justify-center items-center h-screen">
+        <div className="relative flex flex-col items-center rounded-[10px] border-[1px] border-gray-200 lg:w-[576px] mx-auto p-4 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none">
           <div className="flex items-center justify-center rounded-t-3xl p-3 w-full text-lg font-bold">
             {showConfirmation ? "รอการตรวจสอบ" : "ชำระเงินเสร็จสิ้น"}
           </div>
@@ -60,12 +55,13 @@ function FinishPaymentPage() {
           )}
         </div>
       </div>
-      <div className="flex justify-center mt-0 mb-10">
+      <div className="flex justify-center mt-0">
         <Link to="/mycourse">
-          <button className="py-5 px-11 font-bold text-center text-gray-100 uppercase bg-blue-500 rounded-md hover:bg-blue-600" >
+          <button className="py-5 px-11 mb-10 font-bold text-center text-gray-100 uppercase bg-blue-500 rounded-md hover:bg-blue-600" >
             คอร์สของฉัน
           </button>
         </Link>
+      </div>
       </div>
     </>
   );
