@@ -80,7 +80,7 @@ export default function MyCoursePage() {
       <div className="h-screen md:h-screen background-image">
         <div className="h-screen">
         <Navbar />
-        <div className="mx-10 lg:mx-auto flex flex-col items-center justify-items-center w-auto mt-4 sm:w-full">
+        <div className="mx-10 lg:mx-auto flex flex-col items-center justify-items-center w-auto pt-[92px] sm:w-full">
           <div className="h-auto w-full xl:w-2/3 2xl:w-1/2 p-10 sm:p-20 2xl:p-16 bg-white shadow-lg rounded-lg ">
             <p className="text-2xl font-medium text-center mb-3 md:mb-8">
               คอร์สของฉัน

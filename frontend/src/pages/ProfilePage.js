@@ -82,7 +82,7 @@ function ProfilePage() {
     <div>
       <Navbar />
       <div
-        className="flex flex-col items-center justify-items-center mt-8 w-80 sm:w-full mx-auto bg-cover bg-center bg-no-repeat"
+        className="flex flex-col items-center justify-items-center pt-24 w-80 sm:w-full mx-auto bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${backgroundImage})` }}
       >
         <div className="border border-gray-300 shadow-lg rounded-lg bg-white bg-opacity-90 p-8 w-full sm:w-5/6 md:w-3/4 lg:w-2/3">

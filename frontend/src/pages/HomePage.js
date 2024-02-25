@@ -79,8 +79,9 @@ export default function HomePage() {
     return (
       <>
         <Navbar data={course} />
+        <Announcements data={announcements} />
         <Course data={course} userRole={ContextState.userRole} />
-        <Footer/>
+        <Footer />
       </>
     );
   }
@@ -94,12 +95,12 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            <Navbar data={course}/>
+            <Navbar data={course} />
             <Announcements data={announcements} />
             <OnlineBestSeller />
             <OnlineLatest />
             <LiveCourse />
-            <Course data={course}/>
+            <Course data={course} />
             <Footer></Footer>
             <Outlet />
           </>

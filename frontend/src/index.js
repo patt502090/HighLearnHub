@@ -48,7 +48,7 @@ root.render(
           <Route path="/mycourse/:id" element={<VideoPage />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="/connect/google/redirect" element={<LoginRedirect />} />
-          <Route path="/approve" element={<ApprovePaymentPage />} />
+          <Route path="/admin/approve" element={<ApprovePaymentPage />} />
           <Route path="/admin/addcourse" element={<AddCoursePage />} />
           <Route path="/manage-video/:id" element={<ManageVideoPage />} />
         </Routes>

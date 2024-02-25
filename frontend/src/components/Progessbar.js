@@ -16,7 +16,7 @@ export default function Progessbar() {
     }, [location]);
 
     return (
-        <div className="flex flex-col max-w-2xl mx-auto text-[#232A70]" style={{ marginTop: "20px" }}>
+        <div className="flex flex-col max-w-2xl mx-auto text-[#232A70] pt-24">
             <div className="flex justify-between items-start text-center gap-4">
                 <div className={`flex flex-col justify-center items-center ${currentStep >= 1 ? "text-black" : "text-gray-400"}`}>
                     <div className={`bg-[#232A70] w-8 h-8 text-white font-bold text-sm rounded-full flex items-center justify-center ${currentStep >= 1 ? "bg-[#232A70]" : "bg-gray-400"}`}>1</div>

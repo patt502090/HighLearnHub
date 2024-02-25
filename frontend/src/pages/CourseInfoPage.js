@@ -103,7 +103,7 @@ export default function CourseInfoPage() {
           <></>
         )}
         <Navbar />
-        <div className="max-w-4xl mx-auto p-6 text-center">
+        <div className="max-w-4xl mx-auto p-6 pt-24 text-center">
           {course ? (
             <div className="bg-white shadow-md rounded-md p-6">
               {course.attributes.image && (
@@ -187,7 +187,7 @@ export default function CourseInfoPage() {
   return (
     <div className="background-image">
       <Navbar />
-      <div className="max-w-4xl mx-auto p-6 text-center">
+      <div className="max-w-4xl mx-auto p-6 pt-24 text-center">
         {course ? (
           <div className="bg-white shadow-md rounded-md p-6">
             {course.attributes.image && (

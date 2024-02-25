@@ -3,6 +3,12 @@
   pointer-events: none;
 }
 
+header {
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+}
+
 body {
   font-family: "Prompt", sans-serif;
 }

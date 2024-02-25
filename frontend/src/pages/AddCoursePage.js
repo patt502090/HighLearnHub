@@ -65,7 +65,7 @@ export default function AddCoursePage() {
     return (
         <>
             <Navbar />
-            <div className="h-screen md:h-screen background-image">
+            <div className="pt-24 h-screen md:h-screen background-image">
                 <div className="mx-10 lg:mx-auto flex flex-col items-center justify-items-center w-auto sm:w-full">
                     <div className="mt-4 w-full xl:w-2/3 2xl:w-1/2 p-8 sm:p-16 2xl:p-12 bg-white shadow-lg rounded-lg ">
                         <h3 className="text-2xl text-center font-medium text-gray-900 dark:text-white mb-6">เพิ่มคอร์ส</h3>

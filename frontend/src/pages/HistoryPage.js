@@ -39,20 +39,15 @@ export default function HistoryPage() {
 
   return (
     <>
+    <div className="background-image">
       <Navbar />
-      <div style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}>
         <head>
           <link
             rel="stylesheet"
             href="https://horizon-tailwind-react-corporate-7s21b54hb-horizon-ui.vercel.app/static/css/main.d7f96858.css"
           />
         </head>
-        <div className="flex flex-col justify-center items-center h-[60vh] pt-4">
+        <div className="h-screen flex flex-col justify-center items-center h-[60vh] pt-4">
           <div className="relative flex flex-col items-center rounded-[10px] border-[1px] border-gray-200 w-[576px] mx-auto p-4 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none">
             <div className="flex items-center justify-between rounded-t-3xl p-3 w-full">
               <div className="text-lg font-bold text-navy-700 dark:text-white">

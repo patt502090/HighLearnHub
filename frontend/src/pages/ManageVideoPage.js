@@ -4,7 +4,7 @@ import { Table } from "flowbite-react";
 import ReactPlayer from "react-player";
 
 const ManageVideoPage = () => {
-    
+
   const [videos, setVideos] = React.useState([
     {
       id: 1,
@@ -22,34 +22,36 @@ const ManageVideoPage = () => {
   ]);
 
   return (
-    <div>
+    <div className="background-image">
       <Navbar />
-      <div className="container mx-auto my-8">
-        <Table hover striped>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Video</th>
-            </tr>
-          </thead>
-          <tbody>
-            {videos.map((video) => (
-              <tr key={video.id}>
-                <td>{video.title}</td>
-                <td>{video.description}</td>
-                <td>
-                  <ReactPlayer
-                    url={video.url}
-                    width="100%"
-                    height="auto"
-                    controls
-                  />
-                </td>
+      <div className="h-screen">
+        <div className="container mx-auto pt-32 mb-8">
+          <Table hover striped>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Video</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {videos.map((video) => (
+                <tr key={video.id}>
+                  <td>{video.title}</td>
+                  <td>{video.description}</td>
+                  <td>
+                    <ReactPlayer
+                      url={video.url}
+                      width="100%"
+                      height="auto"
+                      controls
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
       </div>
     </div>
   );

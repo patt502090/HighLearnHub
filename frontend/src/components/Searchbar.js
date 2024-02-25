@@ -41,7 +41,7 @@ function Searchbar(props) {
 
   return (
     <>
-        <div className="container mx-auto flex justify-center items-center relative">
+        <div className="container mx-auto flex justify-center items-center">
           <form className="flex items-center justify-center relative">
             <label
               htmlFor="default-search"
@@ -71,7 +71,7 @@ function Searchbar(props) {
               <input
                 type="search"
                 id="default-search"
-                className="w-64 p-2 pl-8 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="w-40 lg:w-72 p-2 pl-8 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search Courses"
                 required
                 onChange={(e) => handleSearchInput(e.target.value)}
@@ -96,7 +96,6 @@ function Searchbar(props) {
                   
           </form>
         </div>
-
       <Modal
         show={showSubjectFilterModal}
         size="md"
