@@ -5,6 +5,7 @@ import { Button } from "flowbite-react";
 import backgroundImage from "../assets/background.png";
 import conf from "../conf/main";
 import { ContextProvider } from "../context/Auth.context";
+import { Helmet } from "react-helmet";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -23,6 +24,10 @@ export default function LoginPage() {
 
   return (
     <ContextProvider>
+       <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>ยินดีต้อนรับเข้าสู่บัญชีผู้ใช้</title>
+        </Helmet>
       <div
         className="flex items-center justify-center h-screen w-screen"
         style={{

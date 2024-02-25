@@ -9,6 +9,7 @@ import conf from "../conf/main";
 import ax from "../conf/ax";
 import { Button, Modal } from "flowbite-react";
 import { IoTrashBin } from "react-icons/io5";
+import { Helmet } from "react-helmet";
 
 export default function CourseInfoPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -187,6 +188,10 @@ export default function CourseInfoPage() {
   return (
     <div className="background-image">
       <Navbar />
+      <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>รายละเอียดคอร์ส</title>
+        </Helmet>
       <div className="max-w-4xl mx-auto p-6 pt-24 text-center">
         {course ? (
           <div className="bg-white shadow-md rounded-md p-6">

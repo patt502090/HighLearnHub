@@ -12,6 +12,7 @@ import LiveCourse from "../components/HomePage/LiveCourse";
 import Searchbar from "../components/Searchbar";
 import CircularProgress from "@mui/material/CircularProgress";
 import Footer from "../components/Footer";
+import { Helmet } from "react-helmet";
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -89,6 +90,10 @@ export default function HomePage() {
   return (
     <>
       <ContextProvider>
+      <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>HighLearnHub</title>
+        </Helmet>
         {loading ? (
           <div className="h-screen flex justify-center items-center">
             <CircularProgress />

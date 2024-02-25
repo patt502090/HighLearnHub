@@ -8,6 +8,7 @@ import conf from "../conf/main";
 import ax from "../conf/ax";
 import { AuthContext, ContextProvider } from "../context/Auth.context";
 import toast, { Toaster } from "react-hot-toast";
+import { Helmet } from "react-helmet";
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
@@ -85,6 +86,10 @@ export default function LoginPage() {
 
   return (
     <ContextProvider>
+      <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>เข้าสู่ระบบ</title>
+        </Helmet>
       <Toaster position="top-right" reverseOrder={false} />
       <div
         className="flex items-center justify-center h-screen w-screen"

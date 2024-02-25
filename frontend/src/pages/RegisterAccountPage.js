@@ -9,6 +9,7 @@ import ax from "../conf/ax";
 import { ContextProvider } from "../context/Auth.context";
 import { FaPhoneSquareAlt } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
+import { Helmet } from "react-helmet";
 
 export default function RegisterAccountPage() {
   const [loading, setLoading] = useState(false);
@@ -81,6 +82,10 @@ export default function RegisterAccountPage() {
 
   return (
     <ContextProvider>
+      <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>ลงทะเบียน</title>
+        </Helmet>
       <Toaster position="top-right" reverseOrder={false} />
       <div
         className="flex items-center justify-center h-screen w-screen"
