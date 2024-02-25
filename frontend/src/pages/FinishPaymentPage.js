@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Progessbar from "../components/Progessbar";
+import { Helmet } from "react-helmet";
 
 function FinishPaymentPage() {
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -19,6 +20,10 @@ function FinishPaymentPage() {
     <div className="background-image">
       <Navbar />
       <Progessbar></Progessbar>
+      <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>ชำระเงินเสร็จสิ้น</title>
+        </Helmet>
       <div className="flex flex-col justify-center items-center h-screen">
         <div className="relative flex flex-col items-center rounded-[10px] border-[1px] border-gray-200 lg:w-[576px] mx-auto p-4 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none">
           <div className="flex items-center justify-center rounded-t-3xl p-3 w-full text-lg font-bold">

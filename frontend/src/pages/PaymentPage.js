@@ -5,6 +5,7 @@ import Progessbar from "../components/Progessbar";
 import backgroundImage from "../assets/background.png";
 import ax from "../conf/ax";
 import conf from "../conf/main";
+import { Helmet } from "react-helmet";
 
 export default function PaymentPage() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -52,6 +53,10 @@ export default function PaymentPage() {
             <div className="background-image">
                 <Navbar />
                 <Progessbar></Progessbar>
+                <Helmet>
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                    <title>ดำเนินการชำระเงิน</title>
+                </Helmet>
                 <div className='flex flex-col items-center mt-6'>
                     <h2 className='text-xl font-bold'>หน้าชำระเงิน</h2>
                     <section className="mt-6 py-17 bg-gray-100 font-poppins dark:bg-gray-700">
