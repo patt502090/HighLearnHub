@@ -109,6 +109,18 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
                                         </ListItem>
                                     </List>
                                 </Link>
+                                <Link to="/admin/approve">
+                                    <List>
+                                        <ListItem disablePadding href=''>
+                                            <ListItemButton>
+                                            <svg class="w-6 h-6 text-green-600 dark:text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                                <p className='ml-2'>ยืนยัน</p>
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </List>
+                                </Link>
                                 <div className="absolute inset-x-0 bottom-0 h-16">
                                     <hr className="border-blue-gray-50" />
                                     <div className="flex items-center gap-4">
