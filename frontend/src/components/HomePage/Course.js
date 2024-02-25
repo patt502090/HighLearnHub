@@ -6,18 +6,38 @@ import { HiClock } from "react-icons/hi";
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
   const [dropdownLabel, setDropdownLabel] = useState("ทั้งหมด");
-
+  const { userRole } = props;
   const handleFilter = (type, label) => {
     setFilterType(type);
     setDropdownLabel(label);
   };
-
   return (
     <>
       <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between">
         <p className="font-medium text-2xl md:text-3xl pl-3 md:pl-0">
           คอร์สเรียนทั้งหมด
         </p>
+        {userRole === "admin" && (
+          <div className="flex my-10 mr-3 md:mr-0">
+            <Link to="/addcourse">
+              <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md flex items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 mr-2"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M14 8V2H6v6H2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8h-4zM8 4h4v4H8V4zm0 12v-2h4v2H8zm8-2V8h-2V6h2a1 1 0 0 1 1 1v7h-1zm-8-3h4v2H8v-2z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                เพิ่มคอร์ส
+              </button>
+            </Link>
+          </div>
+        )}
         <div className="flex my-10 mr-3 md:mr-0">
           <Dropdown label={dropdownLabel} className="mr-2">
             <DropdownItem

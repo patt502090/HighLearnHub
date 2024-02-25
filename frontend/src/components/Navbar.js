@@ -33,9 +33,6 @@ const Navbar = () => {
         <header className="bg-gray-400">
           <div className="container mx-auto flex justify-between items-center p-4 ">
             <div className="flex">
-              <SidebarWithBurgerMenu
-                userData={user}
-              />
               <Link to={"/home"}>
                 <img src="https://media.discordapp.net/attachments/705005230944813076/1208313872990347264/HLH_2.png?ex=65e2d4fc&is=65d05ffc&hm=10fa3e09ca49cc6796caf9f0ed0e5b4518a1a1708628c840c6c0d821d89555e7&=&format=webp&quality=lossless&width=625&height=312" alt="Logo" className="h-11 w-auto ml-2" />
               </Link>
@@ -60,6 +57,9 @@ const Navbar = () => {
                 >
                   ออกจากระบบ
                 </Button>
+                <SidebarWithBurgerMenu
+                userData={user}
+              />
               </div>
             ) : (
               <Button gradientDuoTone="purpleToBlue" className="px-3">

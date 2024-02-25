@@ -3,7 +3,6 @@ import ax from "../conf/ax";
 import conf from "../conf/main";
 import Navbar from "../components/Navbar";
 import { useLocation } from "react-router-dom";
-
 export default function ApprovePaymentPage() {
   const [coursebooked, setCoursebooked] = useState([]);
   const [paymentSlip, setPaymentSlip] = useState(null);
@@ -39,6 +38,16 @@ export default function ApprovePaymentPage() {
     const paymentDate = new Date(timestamp);
     const diffDays = Math.round(Math.abs((currentDate - paymentDate) / oneDay));
     return diffDays;
+  };
+
+  const approvePayment = async (bookingId) => {
+    try {
+      await ax.put(conf.apiUrlPrefix + `/bookings/${bookingId}`, {
+        payment_status: true
+      });
+    } catch (error) {
+      console.error("Error updating payment status:", error);
+    }
   };
 
   return (
@@ -91,12 +100,12 @@ export default function ApprovePaymentPage() {
                   )}
                 </td>
                 <td className="px-6 py-4">
-                  <a className="font-medium text-red-600 dark:text-red-500 hover:underline">
+                  <a className="font-medium text-red-600 dark:text-red-500 hover:underline" >
                     delete
                   </a>
                 </td>
                 <td className="px-6 py-4">
-                  <a className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                  <a className="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => approvePayment(course.attributes.bookings.data[0].id)}>
                     Approve
                   </a>
                 </td>

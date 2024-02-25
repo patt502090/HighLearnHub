@@ -82,7 +82,7 @@ export default function HomePage() {
       <>
         <Navbar />
         <Searchbar data={course} />
-        <Course data={course} />
+        <Course data={course} userRole={ContextState.userRole} />
       </>
     );
   }

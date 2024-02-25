@@ -21,6 +21,7 @@ import ProtectAdminRoute from "./conf/ProtectRoute";
 import ProtectMemberRoute from "./conf/ProtectMemberRoute";
 import LoginRedirect from "./pages/LoginRedirect";
 import ApprovePaymentPage from "./pages/ApprovePaymentPage";
+import AddCoursePage from "./pages/AddCoursePage";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -48,6 +49,7 @@ root.render(
           <Route path="*" element={<PageNotFound />} />
           <Route path="/connect/google/redirect" element={<LoginRedirect />} />
           <Route path="/approve" element={<ApprovePaymentPage />} />
+          <Route path="/addcourse" element={<AddCoursePage />} />
         </Routes>
       </Router>
     </ContextProvider>
