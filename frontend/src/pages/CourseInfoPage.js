@@ -139,7 +139,7 @@ export default function CourseInfoPage() {
                 </button>
               </div>
               <Button
-                gradientDuoTone="purpleToBlue"
+                gradientDuoTone="pinkToOrange"
                 className="mt-4 w-full mx-auto"
                 onClick={() => handleManageVideoPage(course.id)}
               >

@@ -6,6 +6,8 @@ import Navbar from "../components/Navbar";
 import conf from "../conf/main";
 import { Progress } from "flowbite-react";
 import { ContextProvider } from "../context/Auth.context";
+import Footer from "../components/VideoPage/Footer";
+import Modal from "../components/VideoPage/Modal";
 
 function VideoPage() {
   const { id } = useParams();
@@ -20,8 +22,15 @@ function VideoPage() {
   const [totalWatchTime, setTotalWatchTime] = useState(0);
   const [durationSelected, setDurationSelected] = useState(0);
   const [imageCourse, setImageCourse] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  console.log(played);
+  const handleLeaveRoom = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -147,7 +156,7 @@ function VideoPage() {
             setWatchTimeId(watchTimeResponse?.data?.data[0]?.id);
           } else {
             setWatchTimeId(null);
-            setCurrentTime(null)
+            setCurrentTime(null);
             console.log("ไม่มีข้อมูลเวลาในการรับชม");
           }
         }
@@ -259,12 +268,11 @@ function VideoPage() {
                     {video.title}
                   </span>
                   {video.id === selectedVideo?.id &&
-                      calculateProgressSelected() >= 100 && (
-                        <span className="mr-3 text-green-500">Complete</span>
-                      )}
+                    calculateProgressSelected() >= 100 && (
+                      <span className="mr-3 text-green-500">Complete</span>
+                    )}
                   <span className="text-xs md:text-sm text-gray-500 whitespace-nowrap">
                     {formatTime(video.duration)}
-                    
                   </span>
                 </li>
               ))}
@@ -297,12 +305,14 @@ function VideoPage() {
                   <img
                     src={imageCourse[0]?.image}
                     alt="Course Image"
-                    className="mx-auto h-5/6 rounded-lg shadow-lg object-cover"
+                    className="mx-auto sm:h-5/6 rounded-lg shadow-lg object-cover"
                   />
                 )}
               </>
             )}
           </div>
+          <Footer onLeaveRoom={handleLeaveRoom} />
+          <Modal isOpen={isModalOpen} onClose={closeModal} />
         </div>
       </>
     </ContextProvider>
