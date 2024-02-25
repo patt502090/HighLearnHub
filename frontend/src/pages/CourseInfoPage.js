@@ -18,6 +18,8 @@ export default function CourseInfoPage() {
   const { userRole } = ContextState;
   const [onEdit, setOnEdit] = useState(false);
   const [Infouser, setInfouser] = useState();
+  const [own, setOwn] = useState(false)
+  const [ownCourseDisplay, setOwnCourseDisplay] = useState()
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,6 +28,7 @@ export default function CourseInfoPage() {
 
   useEffect(() => {
     fetchCourse();
+    checkIfUserHaveBooking();
   }, [id]);
 
   const fetchCourse = async () => {
@@ -34,9 +37,20 @@ export default function CourseInfoPage() {
         conf.apiUrlPrefix + `/courses/${id}?populate=*`
       );
       setCourse(response.data.data);
-
       const datauser = await ax.get(conf.apiUrlPrefix + `/users/me`);
       setInfouser(datauser.data.id);
+    } catch (error) {
+      console.error("Error fetching course:", error);
+    }
+  };
+
+  const checkIfUserHaveBooking = async () => {
+    try {
+      const response = await ax.get(
+        conf.apiUrlPrefix + `/alreadyHaveBooking/${id}`
+      );
+      setOwn(response.data[0])
+
     } catch (error) {
       console.error("Error fetching course:", error);
     }
@@ -60,6 +74,36 @@ export default function CourseInfoPage() {
     navigate(`/manage-video/${id}`);
   };
 
+  useEffect(() => {
+    if (own) { 
+      if (own.payment_status === true) {
+        setOwnCourseDisplay(<Link to={"/mycourse"}>
+          <button className="px-10 py-3 bg-blue-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+            คุณมีคอร์สนี้แล้ว
+          </button>
+        </Link>)
+      }
+      else {
+        setOwnCourseDisplay(<Link to={"/mycart"}>
+          <button className="px-10 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+            คอร์สอยู่ในตะกร้าแล้ว
+          </button>
+        </Link>
+        );
+      }
+    }
+    else {
+      setOwnCourseDisplay(<Link to={"/mycart"}>
+        <button
+          className="px-14 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600"
+          onClick={() => Addcart()}
+        >
+          เพิ่มเข้าตะกร้า
+        </button>
+      </Link>)
+    }
+  },[course])
+
   const Addcart = async (course) => {
     try {
       const bookedDate = new Date(); // สร้างวันที่และเวลาปัจจุบัน
@@ -73,22 +117,24 @@ export default function CourseInfoPage() {
       expiryDate.setDate(expiryDate.getDate() + 3);
       const expiryDateString = expiryDate.toISOString().split("T")[0]; // แยกวันที่ออกมา
 
-      const response = await ax.post(conf.apiUrlPrefix + `/bookings`, {
+      const response = await ax.post(conf.apiUrlPrefix + `/createBooking`, {
         data: {
           booked_date: `${date} ${time}`,
           expiry_date: `${expiryDateString} ${time}`, // ใช้วันที่หมดอายุที่ถูกปรับแล้ว
           course: parseInt(id),
-          user: parseInt(Infouser),
+          publishedAt : new Date()
         },
       });
     } catch (error) {
       console.error("Error fetching Data:", error);
     }
   };
-  console.log(course);
+
   if (course === null) {
     return <p>Loading...</p>;
   }
+
+  
 
   if (userRole === "admin") {
     return (
@@ -206,15 +252,18 @@ export default function CourseInfoPage() {
             </p>
 
             <p className="text-md text-center font-bold text-red-700 sm:text-2xl mb-4">
-                 ราคา: {course.attributes.price} บาท
-                </p>
+              ราคา: {course.attributes.price} บาท
+            </p>
             <div className=" items-center">
-  
+
               <div>
-                {course.attributes.bookings?.data.length !== 0 ? (
-                  <button className="px-10 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-                    สินค้าอยู่ในตะกร้าแล้ว
-                  </button>
+                {ownCourseDisplay}
+                {/* {(own) ? (
+                  <Link to={"/mycart"}>
+                    <button className="px-10 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+                      สินค้าอยู่ในตะกร้าแล้ว
+                    </button>
+                  </Link>
                 ) : (
                   <Link to={"/mycart"}>
                     <button
@@ -224,8 +273,8 @@ export default function CourseInfoPage() {
                       เพิ่มเข้าตะกร้า
                     </button>
                   </Link>
-                )}
-              </div>    
+                )} */}
+              </div>
             </div>
           </div>
         ) : (

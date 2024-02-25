@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Badge, Dropdown, DropdownItem } from "flowbite-react";
 import { HiClock } from "react-icons/hi";
-import { AiOutlineLike, AiFillLike } from "react-icons/ai"; // เพิ่ม AiFillLike
-// เพิ่ม AiFillLike เพื่อใช้ในการแสดงไอคอน Like ที่ถูกกดแล้ว
+import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");

@@ -70,7 +70,7 @@ export default function MyCoursePage() {
 
     fetchData();
   }, [user]);
-
+  
   return (
     <ContextProvider>
       <Helmet>

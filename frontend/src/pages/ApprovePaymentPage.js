@@ -13,7 +13,6 @@ export default function ApprovePaymentPage() {
           conf.apiUrlPrefix +
           "/courses?populate[bookings][filters][payment_status][$eq]=false&populate=image"
         );
-        console.log(response);
         const filterDatas = response.data.data.filter(
           (item) => item.attributes.bookings.data.length !== 0
         );

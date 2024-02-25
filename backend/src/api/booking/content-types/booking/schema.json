@@ -34,11 +34,18 @@
       "target": "api::course.course",
       "inversedBy": "bookings"
     },
-    "payment": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::payment.payment",
-      "inversedBy": "booking"
+    "payment_datetime": {
+      "type": "datetime"
+    },
+    "payment_confirm_img": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

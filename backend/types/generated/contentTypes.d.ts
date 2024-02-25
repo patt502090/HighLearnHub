@@ -722,11 +722,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::booking.booking'
     >;
-    payments: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::payment.payment'
-    >;
     first_name: Attribute.String;
     last_name: Attribute.String;
     image: Attribute.Media;
@@ -858,11 +853,8 @@ export interface ApiBookingBooking extends Schema.CollectionType {
       'manyToOne',
       'api::course.course'
     >;
-    payment: Attribute.Relation<
-      'api::booking.booking',
-      'oneToOne',
-      'api::payment.payment'
-    >;
+    payment_datetime: Attribute.DateTime;
+    payment_confirm_img: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -930,49 +922,6 @@ export interface ApiCourseCourse extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::course.course',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiPaymentPayment extends Schema.CollectionType {
-  collectionName: 'payments';
-  info: {
-    singularName: 'payment';
-    pluralName: 'payments';
-    displayName: 'payment';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    method: Attribute.Enumeration<['paypal', 'online-banking', 'cash']>;
-    total: Attribute.Integer;
-    payment_date: Attribute.DateTime;
-    user: Attribute.Relation<
-      'api::payment.payment',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    booking: Attribute.Relation<
-      'api::payment.payment',
-      'oneToOne',
-      'api::booking.booking'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::payment.payment',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::payment.payment',
       'oneToOne',
       'admin::user'
     > &
@@ -1090,7 +1039,6 @@ declare module '@strapi/types' {
       'api::announcement.announcement': ApiAnnouncementAnnouncement;
       'api::booking.booking': ApiBookingBooking;
       'api::course.course': ApiCourseCourse;
-      'api::payment.payment': ApiPaymentPayment;
       'api::video.video': ApiVideoVideo;
       'api::watch-time.watch-time': ApiWatchTimeWatchTime;
     }
