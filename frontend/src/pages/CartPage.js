@@ -58,18 +58,21 @@ export default function CartPage() {
   console.log(coursebooked);
   return (
     <>
+    <div className=" bg-fixed" style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          
+        }}>
+
       <Navbar />
       <Progessbar></Progessbar>
       <Helmet>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <title>ตะกร้าของฉัน</title>
         </Helmet>
-      <div className="flex flex-col items-center mt-6" style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}>
+      <div className="flex flex-col items-center mt-6" >
         <h className="text-4xl font-bold">Mycart</h>
         <div className="flex flex-col items-center mt-6">
           <section className="py-17 bg-gray-100 font-poppins dark:bg-gray-700">
@@ -82,13 +85,15 @@ export default function CartPage() {
                 <h1>สินค้าทั้งหมด {coursebooked?.length} ชิ้น </h1>
                 <div className="py-4 mb-10 border-t border-b border-gray-200 dark:border-gray-700">
                     {coursebooked?.map((item) => (
-                    
-                      <div className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700" key={item.id}>
+                      
+                      <div className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700" key={item.id}
+                      style={{ minWidth: "300px", maxWidth: "600px" }}
+                      >
                         <img
                           className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
                           src={"http://localhost:1337" + item.attributes.image.data.attributes.url}
                           alt=""
-                        />
+                          />
                         <div className="flex flex-col justify-between p-4 relative w-full">
                           <button
                             type="button"
@@ -128,7 +133,7 @@ export default function CartPage() {
             <Link Link to="/payment">
               <button className="block w-full py-5 px-11 font-bold text-center text-gray-100 uppercase bg-green-400 rounded-md hover:bg-blue-600"
                 style={{ marginTop: "20px", marginBottom: "20px" }}
-              >
+                >
                 ชำระเงิน
               </button>
             </Link>
@@ -137,6 +142,7 @@ export default function CartPage() {
           </div>
         </div>
       </div>
+                </div>
     </>
   );
 
