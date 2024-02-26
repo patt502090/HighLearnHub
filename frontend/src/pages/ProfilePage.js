@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 import backgroundImage from "../assets/background.png";
 import Navbar from "../components/Navbar";
 import ax from "../conf/ax";
-import { Helmet } from "react-helmet";
 import conf from "../conf/main";
+import { Helmet } from "react-helmet";
 
 function ProfilePage() {
   const [userData, setUserData] = useState({});
