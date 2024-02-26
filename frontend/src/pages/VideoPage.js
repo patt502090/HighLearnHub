@@ -138,8 +138,12 @@ function VideoPage() {
         setDurationSelected(selected.duration);
         if (userID) {
           console.log("UserID", userID);
-          const watchTimeResponse = await ax.get(
-            `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userID}&filters[video][id][$eq]=${selected.id}&filters[course][id][$eq]=${id}`
+          const watchTimeResponse = await ax.post(
+            `${conf.apiUrlPrefix}/mycourse`, {
+              data : {
+                id : id
+              }
+            }
           );
           console.log("WatchTimeResponse", watchTimeResponse);
           if (watchTimeResponse?.data?.data?.length > 0) {
@@ -191,8 +195,12 @@ function VideoPage() {
       const userStartResponse = await ax.get(`${conf.apiUrlPrefix}/users/me`);
       const userStartData = userStartResponse.data.id;
       setUserID(userStartData);
-      const watchTimesResponse = await ax.get(
-        `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userStartData}&filters[course][id][$eq]=${id}`
+      const watchTimesResponse = await ax.post(
+        `${conf.apiUrlPrefix}/mycourse`, {
+          data : {
+            id : id
+          }
+        }
       );
       console.log("watchTimesResponse", watchTimesResponse);
       const watchTimesData = watchTimesResponse.data.data;
