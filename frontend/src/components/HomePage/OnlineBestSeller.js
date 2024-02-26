@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 import "swiper/css/navigation";
 import { Navigation, Pagination } from "swiper/modules";
 import "./SwiperButton.css";
-import axios from "axios";
 import { Badge } from "flowbite-react";
 import { HiClock } from "react-icons/hi";
+import ax from "../../conf/ax";
+import conf from "../../conf/main";
 
 const OnlineBestSeller = () => {
   const [onlineSelling, setOnlineSelling] = useState([]);
@@ -21,8 +22,8 @@ const OnlineBestSeller = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const onlineSellingResponse = await axios.get(
-          "http://localhost:1337/api/courses?populate=image&filters[study_type][$eq]=Online&sort=amount:desc&pagination[pageSize]=10&populate=videos"
+        const onlineSellingResponse = await ax.get(
+          `${conf.apiUrlPrefix}/courses?populate=image&filters[study_type][$eq]=Online&sort=amount:desc&pagination[pageSize]=10&populate=videos`
         );
         // console.log("ข้อมูลหลังเรียก API ของ OnlineSelling", onlineSellingResponse);
         const onlineSellingData = onlineSellingResponse.data.data.map(
@@ -139,8 +140,8 @@ const OnlineBestSeller = () => {
                       )}
                       {course.duration.minutes < 60 && (
                         <>
-                          {course.duration.minutes} นาที {course.duration.seconds}{" "}
-                          วินาที
+                          {course.duration.minutes} นาที{" "}
+                          {course.duration.seconds} วินาที
                         </>
                       )}
                     </Badge>

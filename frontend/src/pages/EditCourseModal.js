@@ -15,7 +15,7 @@ export default function EditCourseModal(props) {
   const [study_type, setStudy_type] = useState(
     props.course.attributes.study_type || null
   );
-  const {loading, setLoading} = props;
+  const { loading, setLoading } = props;
   console.log(loading);
 
   const handleChanged = (e) => {
@@ -58,7 +58,7 @@ export default function EditCourseModal(props) {
     })
       .then((response) => {
         console.log(response.data);
-      }) 
+      })
       .catch((error) => {
         console.error(error);
       });
@@ -209,20 +209,37 @@ export default function EditCourseModal(props) {
                   </Select>
                 </div>
                 {props?.course?.attributes?.study_type && study_type === "Live" && (
-                  <div className="flex items-center mt-4">
-                    <div className="mr-3 w-24 text-right">
-                      <Label htmlFor="maxAmount" value="นักเรียนเต็ม :" />
+                  <div className="flex flex-col mt-4">
+                    <div className="flex items-center">
+                      <div className="mr-3 w-24 text-right">
+                        <Label htmlFor="maxAmount" value="นักเรียนเต็ม :" />
+                      </div>
+                      <TextInput
+                        type="number"
+                        id="maxAmount"
+                        name="maxAmount"
+                        onChange={(event) =>
+                          handleChanged({ maxamount: event.target.value })
+                        }
+                        value={placeholder?.maxamount}
+                        placeholder={props?.course?.attributes?.maxamount}
+                      />
                     </div>
-                    <TextInput
-                      type="number"
-                      id="maxAmount"
-                      name="maxAmount"
-                      onChange={(event) =>
-                        handleChanged({ maxamount: event.target.value })
-                      }
-                      value={placeholder?.maxamount}
-                      placeholder={props?.course?.attributes?.maxamount}
-                    />
+                    <div className="flex items-center mt-4">
+                      <div className="mr-3 w-24 text-right">
+                        <Label htmlFor="schedule_text" value="ช่วงเวลา :" />
+                      </div>
+                      <TextInput
+                        type="text"
+                        id="schedule_text"
+                        name="schedule_text"
+                        onChange={(event) =>
+                          handleChanged({ schedule_text: event.target.value })
+                        }
+                        value={placeholder?.schedule_text}
+                        placeholder={props?.course?.attributes?.schedule_text}
+                      />
+                    </div>
                   </div>
                 )}
 

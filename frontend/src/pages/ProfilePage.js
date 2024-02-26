@@ -9,18 +9,18 @@ import Navbar from "../components/Navbar";
 import ax from "../conf/ax";
 import conf from "../conf/main";
 import { Helmet } from "react-helmet";
+import { Transition } from "react-transition-group";
 
 function ProfilePage() {
   const [userData, setUserData] = useState({});
   const [newImage, setNewImage] = useState(null);
   const [editedUserData, setEditedUserData] = useState({});
+  const [showEditForm, setShowEditForm] = useState(false);
   const { id } = useParams();
-  console.log(id);
-  console.log("editedUserData",editedUserData)
+
   const fetchData = async () => {
     try {
       const userResponse = await ax.get(`${conf.apiUrlPrefix}/users/me`);
-      console.log(userResponse.data);
       setUserData(userResponse.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -34,23 +34,18 @@ function ProfilePage() {
   const handleEditClick = () => {
     setEditedUserData(userData);
     setNewImage(null);
+    setShowEditForm(true);
   };
-  console.log("id:",id)
+
   const handleSave = async () => {
     try {
-      // Save user data
       const response = await ax.put(`${conf.apiUrlPrefix}/users/${id}`, {
-        
-          first_name: editedUserData.first_name,
-          last_name : editedUserData.last_name,
-          phonenum : editedUserData.phonenum,
-          email : editedUserData.email
-        
+        first_name: editedUserData.first_name,
+        last_name: editedUserData.last_name,
+        phonenum: editedUserData.phonenum,
+        email: editedUserData.email,
       });
 
-      console.log("User Data",response?.data)
-
-      // Upload image to Strapi (if new image is selected)
       if (newImage) {
         const formData = new FormData();
         formData.append("files", newImage);
@@ -58,22 +53,16 @@ function ProfilePage() {
         formData.append("ref", "user");
         formData.append("field", "avatar");
 
-        const imageResponse = await ax.post(
-          `${conf.urlPrefix}/upload`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        const imageData = imageResponse.data;
-        console.log("Uploaded new image:", imageData);
+        await ax.post(`${conf.urlPrefix}/upload`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
       }
 
-      // Fetch new data after update and image upload
       fetchData();
       setEditedUserData({});
+      setShowEditForm(false);
     } catch (error) {
       console.error("Error updating user data:", error);
     }
@@ -81,6 +70,7 @@ function ProfilePage() {
 
   const handleCancel = () => {
     setEditedUserData({});
+    setShowEditForm(false);
   };
 
   return (
@@ -113,124 +103,136 @@ function ProfilePage() {
               </p>
             </div>
           </div>
-          {Object.keys(editedUserData).length > 0 && (
-            <div className="mt-8">
-              <h2 className="text-lg font-bold mb-2">แก้ไขข้อมูลส่วนตัว</h2>
-              <div className="border-b border-gray-400"></div>
-              <div className="mt-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label
-                      htmlFor="first_name"
-                      className="font-bold text-gray-700 block mb-1"
-                    >
-                      ชื่อ
-                    </label>
-                    <input
-                      id="first_name"
-                      type="text"
-                      value={editedUserData.first_name}
-                      onChange={(e) =>
-                        setEditedUserData({
-                          ...editedUserData,
-                          first_name: e.target.value,
-                        })
-                      }
-                      className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="last_name"
-                      className="font-bold text-gray-700 block mb-1"
-                    >
-                      นามสกุล
-                    </label>
-                    <input
-                      id="last_name"
-                      type="text"
-                      value={editedUserData.last_name}
-                      onChange={(e) =>
-                        setEditedUserData({
-                          ...editedUserData,
-                          last_name: e.target.value,
-                        })
-                      }
-                      className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="contact"
-                      className="font-bold text-gray-700 block mb-1"
-                    >
-                      เบอร์โทรศัพท์
-                    </label>
-                    <input
-                      id="phonenum"
-                      type="text"
-                      value={editedUserData.phonenum}
-                      onChange={(e) =>
-                        setEditedUserData({
-                          ...editedUserData,
-                          phonenum: e.target.value,
-                        })
-                      }
-                      className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="font-bold text-gray-700 block mb-1"
-                    >
-                      อีเมล
-                    </label>
-                    <input
-                      id="email"
-                      type="text"
-                      value={editedUserData.email}
-                      onChange={(e) =>
-                        setEditedUserData({
-                          ...editedUserData,
-                          email: e.target.value,
-                        })
-                      }
-                      className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="imageInput"
-                      className="font-bold text-gray-700 block mb-1 cursor-pointer"
-                    >
-                      อัปโหลดรูป
-                    </label>
-                    <input
-                      id="imageInput"
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => setNewImage(e.target.files[0])}
-                    />
-                  </div>
-                </div>
+
+          <Transition
+            in={showEditForm}
+            timeout={300}
+            mountOnEnter
+            unmountOnExit
+          >
+            {(state) => (
+              <div
+                className={`mt-8 px-4 py-2 border-t border-gray-400 ${
+                  state === "entered" ? "" : "hidden"
+                }`}
+              >
+                <h2 className="text-lg font-bold mb-2">แก้ไขข้อมูลส่วนตัว</h2>
+                <div className="border-b border-gray-400"></div>
                 <div className="mt-4">
-                  <button
-                    onClick={handleSave}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    บันทึก
-                  </button>
-                  <button
-                    onClick={handleCancel}
-                    className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded ml-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                  >
-                    ยกเลิก
-                  </button>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        htmlFor="first_name"
+                        className="font-bold text-gray-700 block mb-1"
+                      >
+                        ชื่อ
+                      </label>
+                      <input
+                        id="first_name"
+                        type="text"
+                        value={editedUserData.first_name}
+                        onChange={(e) =>
+                          setEditedUserData({
+                            ...editedUserData,
+                            first_name: e.target.value,
+                          })
+                        }
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="last_name"
+                        className="font-bold text-gray-700 block mb-1"
+                      >
+                        นามสกุล
+                      </label>
+                      <input
+                        id="last_name"
+                        type="text"
+                        value={editedUserData.last_name}
+                        onChange={(e) =>
+                          setEditedUserData({
+                            ...editedUserData,
+                            last_name: e.target.value,
+                          })
+                        }
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="phonenum"
+                        className="font-bold text-gray-700 block mb-1"
+                      >
+                        เบอร์โทรศัพท์
+                      </label>
+                      <input
+                        id="phonenum"
+                        type="text"
+                        value={editedUserData.phonenum}
+                        onChange={(e) =>
+                          setEditedUserData({
+                            ...editedUserData,
+                            phonenum: e.target.value,
+                          })
+                        }
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className="font-bold text-gray-700 block mb-1"
+                      >
+                        อีเมล
+                      </label>
+                      <input
+                        id="email"
+                        type="text"
+                        value={editedUserData.email}
+                        onChange={(e) =>
+                          setEditedUserData({
+                            ...editedUserData,
+                            email: e.target.value,
+                          })
+                        }
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="imageInput"
+                        className="font-bold text-gray-700 block mb-1 cursor-pointer"
+                      >
+                        อัปโหลดรูป
+                      </label>
+                      <input
+                        id="imageInput"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setNewImage(e.target.files[0])}
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-4 flex justify-end">
+                    <button
+                      onClick={handleSave}
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      บันทึก
+                    </button>
+                    <button
+                      onClick={handleCancel}
+                      className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded ml-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                    >
+                      ยกเลิก
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </Transition>
 
           <div className="mt-8">
             <h2 className="text-lg font-bold">ข้อมูลส่วนตัว</h2>

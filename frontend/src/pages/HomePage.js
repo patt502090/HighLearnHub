@@ -5,15 +5,14 @@ import "../App.css";
 import Navbar from "../components/Navbar";
 import Course from "../components/HomePage/Course";
 import Announcements from "../components/HomePage/Announcement";
-import axios from "axios";
 import OnlineBestSeller from "../components/HomePage/OnlineBestSeller";
 import OnlineLatest from "../components/HomePage/OnlineLatest";
 import LiveCourse from "../components/HomePage/LiveCourse";
-import Searchbar from "../components/Searchbar";
 import CircularProgress from "@mui/material/CircularProgress";
 import Footer from "../components/Footer";
 import { Helmet } from "react-helmet";
-
+import ax from "../conf/ax";
+import conf from "../conf/main";
 export default function HomePage() {
   const [course, setCourse] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
@@ -25,12 +24,13 @@ export default function HomePage() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const courseResponse = await axios.get(
-          "http://localhost:1337/api/courses?populate=image&populate=videos"
+        const courseResponse = await ax.get(`${conf.apiUrlPrefix}/courses?populate=image&populate=videos`
         );
 
-        const announcementResponse = await axios.get(
-          "http://localhost:1337/api/announcements?populate=image"
+        console.log("courseResponse",courseResponse)
+
+        const announcementResponse = await ax.get(
+          `${conf.apiUrlPrefix}/announcements?populate=image`
         );
 
         const courseData = courseResponse?.data?.data?.map((course) => {
@@ -49,11 +49,10 @@ export default function HomePage() {
             amount: course.attributes.amount,
             maxamount: course.attributes.maxamount,
             description: course.attributes.description,
-            image:
-              "http://localhost:1337" +
-              course.attributes.image.data.attributes.url,
+            image:`${conf.urlPrefix}`+course.attributes.image.data.attributes.url,
             type: course.attributes.study_type,
             duration: { minutes, seconds },
+            date: course.attributes.schedule_text,
           };
         });
 
@@ -61,7 +60,7 @@ export default function HomePage() {
           id: item.id,
           title: item.attributes.title,
           image:
-            "http://localhost:1337" + item.attributes.image.data.attributes.url,
+            `${conf.urlPrefix}` + item.attributes.image.data.attributes.url,
         }));
 
         setCourse(courseData);
