@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Badge, Dropdown, DropdownItem } from "flowbite-react";
 import { HiClock } from "react-icons/hi";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import axios from "axios";
 
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
@@ -15,13 +16,28 @@ export default function Course(props) {
     setFilterType(type);
     setDropdownLabel(label);
   };
-
   const handleLike = (courseId) => {
     setLikes((prevLikes) => ({
       ...prevLikes,
       [courseId]: (prevLikes[courseId] || 0) + 1,
     }));
   };
+
+  // const handleLike = async (courseId) => {
+  //   try {
+  //     const response = await axios.put(`http://localhost:1337/courses/${courseId}/like`);
+  //     if (response.data.ok === 1) {
+  //       setLikes((prevLikes) => ({
+  //         ...prevLikes,
+  //         [courseId]: response.data.like
+  //       }));
+  //     } else {
+  //       console.error('Failed to update like');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error updating like:', error);
+  //   }
+  // };
 
   return (
     <>
@@ -151,7 +167,7 @@ export default function Course(props) {
                   )}
                 </div>
               </Link>
-              <div className="absolute bottom-0 right-0 p-3">
+              <div className="fixed bottom-0 right-0 p-3">
                 <button
                   className="flex items-center space-x-1 text-gray-500 hover:text-gray-700"
                   onClick={() => handleLike(item.id)}

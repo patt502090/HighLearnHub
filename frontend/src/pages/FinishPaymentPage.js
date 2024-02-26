@@ -10,7 +10,7 @@ function FinishPaymentPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowConfirmation(true);
-    }, 100);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
