@@ -6,20 +6,22 @@ import ListItemButton from "@mui/material/ListItemButton";
 import { Link } from "react-router-dom";
 import backgroundImage from "../assets/background.png";
 import Navbar from "../components/Navbar";
-import axios from "axios";
+import ax from "../conf/ax";
 import { Helmet } from "react-helmet";
+import conf from "../conf/main";
 
 function ProfilePage() {
   const [userData, setUserData] = useState({});
   const [newImage, setNewImage] = useState(null);
   const [editedUserData, setEditedUserData] = useState({});
   const { id } = useParams();
-
+  console.log(id);
+  console.log("editedUserData",editedUserData)
   const fetchData = async () => {
     try {
-      const userResponse = await fetch(`http://localhost:1337/api/users/${id}`);
-      const userData = await userResponse.json();
-      setUserData(userData);
+      const userResponse = await ax.get(`${conf.apiUrlPrefix}/users/me`);
+      console.log(userResponse.data);
+      setUserData(userResponse.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -33,19 +35,20 @@ function ProfilePage() {
     setEditedUserData(userData);
     setNewImage(null);
   };
-
+  console.log("id:",id)
   const handleSave = async () => {
     try {
       // Save user data
-      const response = await fetch(`http://localhost:1337/api/users/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(editedUserData),
+      const response = await ax.put(`${conf.apiUrlPrefix}/users/${id}`, {
+        
+          first_name: editedUserData.first_name,
+          last_name : editedUserData.last_name,
+          phonenum : editedUserData.phonenum,
+          email : editedUserData.email
+        
       });
-      const data = await response.json();
-      console.log("Updated user data:", data);
+
+      console.log("User Data",response?.data)
 
       // Upload image to Strapi (if new image is selected)
       if (newImage) {
@@ -55,8 +58,8 @@ function ProfilePage() {
         formData.append("ref", "user");
         formData.append("field", "avatar");
 
-        const imageResponse = await axios.post(
-          `http://localhost:1337/upload`,
+        const imageResponse = await ax.post(
+          `${conf.urlPrefix}/upload`,
           formData,
           {
             headers: {
@@ -85,8 +88,8 @@ function ProfilePage() {
       <Navbar />
       <Helmet>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>โปรไฟล์ของฉัน</title>
-        </Helmet>
+        <title>โปรไฟล์ของฉัน</title>
+      </Helmet>
       <div
         className="flex flex-col items-center justify-items-center pt-24 w-80 sm:w-full mx-auto bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -171,13 +174,13 @@ function ProfilePage() {
                       เบอร์โทรศัพท์
                     </label>
                     <input
-                      id="contact"
+                      id="phonenum"
                       type="text"
-                      value={editedUserData.contact}
+                      value={editedUserData.phonenum}
                       onChange={(e) =>
                         setEditedUserData({
                           ...editedUserData,
-                          contact: e.target.value,
+                          phonenum: e.target.value,
                         })
                       }
                       className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -287,7 +290,7 @@ function ProfilePage() {
               </p>
               <p className="text-base text-gray-700">
                 <span className="font-bold">เบอร์โทรศัพท์: </span>
-                {userData && `${userData.contact}`}
+                {userData && `${userData.phonenum}`}
               </p>
               <p className="text-base text-gray-700">
                 <span className="font-bold">อีเมล: </span>
