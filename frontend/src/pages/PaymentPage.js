@@ -41,8 +41,13 @@ export default function PaymentPage() {
       console.log(dataId)
 
     
+      
+
     const Createorder = async () => {
         try {
+            const bookedDate = new Date(); // สร้างวันที่และเวลาปัจจุบัน   
+            const date = bookedDate.toISOString().split("T")[0]; // แยกวันที่ (อันดับแรกของ ISO string)
+            const time = bookedDate.toISOString().split("T")[1].split(".")[0]; // แยกเวลา (อันดับสองของ ISO string)
             const bookingIds = dataId.map(item => item.bookingId);
             const userIds = dataId.map(item => item.userId);
             const PostData = await ax.post(
@@ -52,6 +57,7 @@ export default function PaymentPage() {
             { data: {
                 "user": userIds[0],
                 "bookings":bookingIds,
+                "payment_date":`${date}${time}`,
               },
        }
             );
