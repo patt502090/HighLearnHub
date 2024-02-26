@@ -72,6 +72,7 @@ export default function ManageVideoModal({ data, onCloseModal, openModal }) {
     handleUpdateVideo(data.id, editedVideoFormatted);
     onCloseModal(false);
   };
+  
 
   const handleCancel = () => {
     onCloseModal(false);

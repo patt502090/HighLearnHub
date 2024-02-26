@@ -24,6 +24,7 @@ function VideoPage() {
   const [durationSelected, setDurationSelected] = useState(0);
   const [imageCourse, setImageCourse] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  console.log(played)
 
   const handleLeaveRoom = () => {
     setIsModalOpen(true);
@@ -235,7 +236,7 @@ function VideoPage() {
     <ContextProvider>
       <>
         <Navbar />
-        <div className="pt-16">
+        <div className="py-16">
           <Helmet>
             <meta
               name="viewport"
@@ -302,6 +303,7 @@ function VideoPage() {
                     url={`${selectedVideo.url}${CurrentTime}`}
                     height="75%"
                     width="100%"
+                  
                   />
                   <p className="mt-7 text-sm md:text-lg text-center text-slate-500">
                     {selectedVideo.description}
@@ -314,7 +316,7 @@ function VideoPage() {
                     <img
                       src={imageCourse[0]?.image}
                       alt="Course Image"
-                      className="mx-auto sm:h-5/6 rounded-lg shadow-lg object-cover"
+                      className="mx-auto sm:h-4/5 2xl:h-5/6 rounded-lg shadow-lg "
                     />
                   )}
                 </>
