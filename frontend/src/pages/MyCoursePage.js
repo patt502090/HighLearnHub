@@ -39,11 +39,16 @@ export default function MyCoursePage() {
             0
           );
 
-          const watchTimeResponse = await ax.get(
-            `${conf.apiUrlPrefix}/watch-times?populate=member&[filters][member][id][$eq]=${user.id}&[filters][course][id][$eq]=${booking.course.id}`
+          const watchTimeResponse = await ax.post(
+            `${conf.apiUrlPrefix}/mycourse`, {
+              data : {
+                id : booking.course.id
+              }
+            }
           );
-          const totalWatchTime = watchTimeResponse.data.data.reduce(
-            (total, watchTime) => total + watchTime.attributes.watch_time,
+          console.log(watchTimeResponse);
+          const totalWatchTime = watchTimeResponse.data.reduce(
+            (total, watchTime) => total + watchTime.watch_time,
             0
           );
 
@@ -72,7 +77,7 @@ export default function MyCoursePage() {
   }, [user]);
   
   return (
-    <ContextProvider>
+<>
       <Helmet>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <title>คอร์สของฉัน</title>
@@ -139,6 +144,6 @@ export default function MyCoursePage() {
         </div>
         </div>
       </div>
-    </ContextProvider>
+      </>
   );
 }

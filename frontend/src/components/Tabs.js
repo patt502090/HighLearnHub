@@ -16,6 +16,7 @@ export default function BasicTabs(props) {
   const data = props.data.attributes;
   const [firstVideo, setFirstVideo] = useState(null);
   const id = props.data.id;
+  const [review, setReview] = useState('');
 
   useEffect(() => {
     fetchFirstVideo();
@@ -293,6 +294,7 @@ export default function BasicTabs(props) {
                 </span>
               </div>
             </Tabs.Item>
+            
         </Tabs>
       )}
     </>

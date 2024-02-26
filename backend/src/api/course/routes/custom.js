@@ -11,6 +11,11 @@ module.exports = {
             method: "PUT",
             path: "/courses/:id/like",
             handler: "course.like",
+        },
+        { 
+            method: "POST",
+            path: "/mycourse",
+            handler: "course.mycourse",
         }
     ]
 };

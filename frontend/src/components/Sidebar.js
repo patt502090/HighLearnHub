@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
@@ -7,17 +8,42 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import { Link } from 'react-router-dom';
-import { AuthContext, ContextProvider } from "../context/Auth.context";
+import { AuthContext } from "../context/Auth.context";
 
 export default function SidebarWithBurgerMenu({ userData, logout }) {
     const { state: ContextState } = useContext(AuthContext);
     const { userRole } = ContextState;
+    const profileURL = sessionStorage.getItem("profileURL")
     const [state, setState] = React.useState({
         top: false,
         left: false,
         bottom: false,
         right: false,
     });
+    const [loginStreak, setLoginStreak] = useState(1);
+    const [lastLoginDate, setLastLoginDate] = useState(null);
+
+    useEffect(() => {
+        const savedStreak = localStorage.getItem('loginStreak');
+        const savedLastLoginDate = localStorage.getItem('lastLoginDate');
+        if (savedStreak) {
+            setLoginStreak(parseInt(savedStreak));
+        }
+        if (savedLastLoginDate) {
+            setLastLoginDate(new Date(savedLastLoginDate));
+        }
+    }, []);
+
+    const handleLogin = () => {
+        const currentDate = new Date();
+        if (!lastLoginDate || currentDate - lastLoginDate >= 24 * 60 * 60 * 1000) {
+            localStorage.setItem('loginStreak', loginStreak + 1);
+            localStorage.setItem('lastLoginDate', currentDate.toString());
+            setLoginStreak(prevStreak => prevStreak + 1);
+            setLastLoginDate(currentDate);
+        }
+    };
+    
     const toggleDrawer = (right, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
@@ -56,16 +82,22 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
                                     <p variant="h5" color="blue-gray">
                                         HighLearnHub
                                     </p>
-
                                 </div>
-                                <hr />
-                                <Link to={`/profile/${userData && userData.id}`}>
+                                <hr className='lg:hidden' />
+                                <Link to={`/profile/${userData && userData.id}`} className='lg:hidden'>
                                     <List>
                                         <ListItem disablePadding href=''>
                                             <ListItemButton>
-                                                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path fillRule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clipRule="evenodd" />
-                                                </svg>
+                                                {profileURL ?
+                                                    <img
+                                                        className="object-cover w-6 h-6 rounded-full"
+                                                        src={profileURL}
+                                                        alt='proflie'>
+                                                    </img>
+                                                    :
+                                                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path fillRule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clipRule="evenodd" />
+                                                    </svg>}
                                                 <p className='ml-2'>{userData.username}</p>
                                             </ListItemButton>
                                         </ListItem>
@@ -91,7 +123,6 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
                                                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                                     <path fillRule="evenodd" d="M2 12a10 10 0 1 1 20 0 10 10 0 0 1-20 0Zm11-4.2a1 1 0 1 0-2 0V11H7.8a1 1 0 1 0 0 2H11v3.2a1 1 0 1 0 2 0V13h3.2a1 1 0 1 0 0-2H13V7.8Z" clipRule="evenodd" />
                                                 </svg>
-
                                                 <p className='ml-2'>เพิ่มคอร์ส</p>
                                             </ListItemButton>
                                         </ListItem>
@@ -113,9 +144,9 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
                                     <List>
                                         <ListItem disablePadding href=''>
                                             <ListItemButton>
-                                            <svg class="w-6 h-6 text-green-600 dark:text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                            </svg>
+                                                <svg class="w-6 h-6 text-green-600 dark:text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                </svg>
                                                 <p className='ml-2'>ยืนยัน</p>
                                             </ListItemButton>
                                         </ListItem>
@@ -174,15 +205,26 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
                             </p>
 
                         </div>
-                        <hr />
-                        <Link to={`/profile/${userData && userData.id}`}>
+                        <hr className='lg:hidden' />
+                        <Link to={`/profile/${userData && userData.id}`} className='lg:hidden'>
                             <List>
                                 <ListItem disablePadding href=''>
                                     <ListItemButton>
-                                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                            <path fillRule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clipRule="evenodd" />
-                                        </svg>
+                                        {profileURL ?
+                                            <img
+                                                className="object-cover w-6 h-6 rounded-full"
+                                                src={profileURL}
+                                                alt='proflie'>
+                                            </img>
+                                            :
+                                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                <path fillRule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clipRule="evenodd" />
+                                            </svg>}
                                         <p className='ml-2'>{userData.username}</p>
+                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" style={{marginLeft:"10px"}} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8.6 3.2a1 1 0 0 0-1.6 1 3.5 3.5 0 0 1-.8 3.6c-.6.8-4 5.6-1 10.7A7.7 7.7 0 0 0 12 22a8 8 0 0 0 7-3.8 7.8 7.8 0 0 0 .6-6.5 8.7 8.7 0 0 0-2.6-4 1 1 0 0 0-1.6.7 10 10 0 0 1-.8 3.4 9.9 9.9 0 0 0-2.2-5.5A14.4 14.4 0 0 0 9 3.5l-.4-.3Z"/>
+                                        </svg>
+                                        <p className='ml-2'>{loginStreak}</p>
                                     </ListItemButton>
                                 </ListItem>
                             </List>

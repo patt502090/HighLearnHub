@@ -30,7 +30,6 @@ export const ContextProvider = props => {
   const setLoginError = (loginError) => setState({ loginError });
   const setUserRole = (userRole) => setState({ userRole });
 
-
   const handleLoginResult = (error, result) => {
     setLoginPending(false);
     if (result && result.user) {

@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import SidebarWithBurgerMenu from "./Sidebar";
 import { Button, Modal } from "flowbite-react";
-import { AuthContext, ContextProvider } from "../context/Auth.context";
+import { AuthContext } from "../context/Auth.context";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -12,11 +12,13 @@ const Navbar = ({ data }) => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { state: ContextState, logout } = useContext(AuthContext);
   const { user } = ContextState;
+  const profileURL = sessionStorage.getItem("profileURL")
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
     setShowLogoutModal(false);
+    sessionStorage.removeItem("profileURL");
 
     toast.success("ออกจากระบบสำเร็จ!");
     setTimeout(() => {
@@ -25,8 +27,7 @@ const Navbar = ({ data }) => {
   };
 
   return (
-    <ContextProvider>
-      <Toaster position="top-center" reverseOrder={false} />
+    <>      <Toaster position="top-center" reverseOrder={false} />
       <header>
         <div>
           <div className="bg-gray-400">
@@ -37,13 +38,29 @@ const Navbar = ({ data }) => {
                 </Link>
               </div>
               {user ? (
-                <div className="flex">
+                <div className="flex justify-items-center items-center">
                   {(data) ? <Searchbar data={data} /> : <></>}
+                  <div>
+                    {profileURL ?
+                      <img
+                        className="max-lg:hidden ml-2 object-cover w-8 h-8 rounded-full cursor-pointer"
+                        src={profileURL}
+                        alt='proflie'
+                        onClick={() => navigate(`/profile/${user.id}`)}>
+                      </img>
+                      :
+                      <svg onClick={() => navigate(`/profile/${user.id}`)} class=" max-lg:hidden cursor-pointer ml-2 w-7 h-7 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a9 9 0 0 0 5-1.5 4 4 0 0 0-4-3.5h-2a4 4 0 0 0-4 3.5 9 9 0 0 0 5 1.5Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                      </svg>
+                    }
+                  </div>
                   <SidebarWithBurgerMenu
                     userData={user}
                     logout={setShowLogoutModal}
+                    profileURL={profileURL}
                   />
                 </div>
+
               ) : (
                 <Button gradientDuoTone="purpleToBlue" className="px-3">
                   <NavLink to="/login" className="hover:underline">
@@ -85,7 +102,7 @@ const Navbar = ({ data }) => {
         <div className="h-4 bg-gray-300">
         </div>
       </header>
-    </ContextProvider>
+    </>
   );
 };
 
