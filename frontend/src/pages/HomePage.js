@@ -27,7 +27,7 @@ export default function HomePage() {
         const courseResponse = await ax.get(`${conf.apiUrlPrefix}/courses?populate=image&populate=videos`
         );
 
-        console.log("courseResponse",courseResponse)
+        // console.log("courseResponse",courseResponse)
 
         const announcementResponse = await ax.get(
           `${conf.apiUrlPrefix}/announcements?populate=image`
@@ -64,7 +64,7 @@ export default function HomePage() {
             `${conf.urlPrefix}` + item.attributes.image.data.attributes.url,
         }));
 
-        console.log("กรองข้อมูลแล้ว",courseData)
+        // console.log("กรองข้อมูลแล้ว",courseData)
 
         setCourse(courseData);
         setAnnouncements(announcementData);
@@ -107,7 +107,7 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            <Navbar data={course} />
+            <Navbar data={course}/>
             <Announcements data={announcements} />
             <OnlineBestSeller />
             <OnlineLatest />

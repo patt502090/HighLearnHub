@@ -10,7 +10,6 @@ export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
   const [dropdownLabel, setDropdownLabel] = useState("ทั้งหมด");
   const [likes, setLikes] = useState({});
-  console.log(props.data)
 
   useEffect(() => {
     const savedLikes = JSON.parse(localStorage.getItem("likes")) || {};

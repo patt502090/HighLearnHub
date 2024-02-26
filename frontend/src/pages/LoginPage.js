@@ -44,12 +44,13 @@ export default function LoginPage() {
       });
 
       result = await ax.get(`${conf.apiUrlPrefix}${conf.jwtUserEndpoint}`);
-      // console.log("ข้อมูล Member ที่เข้าสู่ระบบ :", result.data);
-
+      changeRole(result.data.role.name);
+      if (result.data.image) {
+        sessionStorage.setItem("profileURL", `${conf.urlPrefix}${result.data.image.url}`);
+      }
       if (result.data.role.name) {
         setLoading(false);
         if (result.data.role.name === "member") {
-          changeRole(result.data.role.name)
           sessionStorage.setItem(conf.roleSessionStorageKey, conf.memberStorageKey);
           setTimeout(() => {
             navigate("/");
@@ -60,7 +61,6 @@ export default function LoginPage() {
       if (result.data.role.name) {
         setLoading(false);
         if (result.data.role.name === "admin") {
-          changeRole(result.data.role.name)
           sessionStorage.setItem(conf.roleSessionStorageKey, conf.adminStorageKey);
           setTimeout(() => {
             navigate("/admin");

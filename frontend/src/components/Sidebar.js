@@ -7,11 +7,12 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import { Link } from 'react-router-dom';
-import { AuthContext, ContextProvider } from "../context/Auth.context";
+import { AuthContext } from "../context/Auth.context";
 
 export default function SidebarWithBurgerMenu({ userData, logout }) {
     const { state: ContextState } = useContext(AuthContext);
     const { userRole } = ContextState;
+    const profileURL = sessionStorage.getItem("profileURL")
     const [state, setState] = React.useState({
         top: false,
         left: false,
@@ -56,16 +57,22 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
                                     <p variant="h5" color="blue-gray">
                                         HighLearnHub
                                     </p>
-
                                 </div>
-                                <hr />
-                                <Link to={`/profile/${userData && userData.id}`}>
+                                <hr className='lg:hidden' />
+                                <Link to={`/profile/${userData && userData.id}`} className='lg:hidden'>
                                     <List>
                                         <ListItem disablePadding href=''>
                                             <ListItemButton>
-                                                <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path fillRule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clipRule="evenodd" />
-                                                </svg>
+                                                {profileURL ?
+                                                    <img
+                                                        className="object-cover w-6 h-6 rounded-full"
+                                                        src={profileURL}
+                                                        alt='proflie'>
+                                                    </img>
+                                                    :
+                                                    <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path fillRule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clipRule="evenodd" />
+                                                    </svg>}
                                                 <p className='ml-2'>{userData.username}</p>
                                             </ListItemButton>
                                         </ListItem>
@@ -91,7 +98,6 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
                                                 <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                                     <path fillRule="evenodd" d="M2 12a10 10 0 1 1 20 0 10 10 0 0 1-20 0Zm11-4.2a1 1 0 1 0-2 0V11H7.8a1 1 0 1 0 0 2H11v3.2a1 1 0 1 0 2 0V13h3.2a1 1 0 1 0 0-2H13V7.8Z" clipRule="evenodd" />
                                                 </svg>
-
                                                 <p className='ml-2'>เพิ่มคอร์ส</p>
                                             </ListItemButton>
                                         </ListItem>
@@ -113,9 +119,9 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
                                     <List>
                                         <ListItem disablePadding href=''>
                                             <ListItemButton>
-                                            <svg class="w-6 h-6 text-green-600 dark:text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                            </svg>
+                                                <svg class="w-6 h-6 text-green-600 dark:text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                </svg>
                                                 <p className='ml-2'>ยืนยัน</p>
                                             </ListItemButton>
                                         </ListItem>
@@ -174,14 +180,21 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
                             </p>
 
                         </div>
-                        <hr />
-                        <Link to={`/profile/${userData && userData.id}`}>
+                        <hr className='lg:hidden' />
+                        <Link to={`/profile/${userData && userData.id}`} className='lg:hidden'>
                             <List>
                                 <ListItem disablePadding href=''>
                                     <ListItemButton>
-                                        <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                            <path fillRule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clipRule="evenodd" />
-                                        </svg>
+                                        {profileURL ?
+                                            <img
+                                                className="object-cover w-6 h-6 rounded-full"
+                                                src={profileURL}
+                                                alt='proflie'>
+                                            </img>
+                                            :
+                                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                <path fillRule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clipRule="evenodd" />
+                                            </svg>}
                                         <p className='ml-2'>{userData.username}</p>
                                     </ListItemButton>
                                 </ListItem>
