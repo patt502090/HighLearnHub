@@ -103,6 +103,12 @@
       "relation": "oneToMany",
       "target": "api::watch-time.watch-time",
       "mappedBy": "member"
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "user"
     }
   }
 }

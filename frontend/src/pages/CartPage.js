@@ -10,7 +10,6 @@ import { Helmet } from "react-helmet";
 
 export default function CartPage() {
   const [coursebooked, setCoursebooked] = useState();
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,6 +23,8 @@ export default function CartPage() {
           (item) => item.attributes.bookings.data.length !== 0
         );
         setCoursebooked(filterDatas);
+        
+        
       } catch (error) {
         console.error("Error fetching Data:", error);
       }
