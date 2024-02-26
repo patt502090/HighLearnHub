@@ -84,19 +84,18 @@ function ProfilePage() {
   };
 
   return (
-    <div>
+    <div className="background-image">
       <Navbar />
       <Helmet>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>โปรไฟล์ของฉัน</title>
       </Helmet>
       <div
-        className="flex flex-col items-center justify-items-center pt-24 w-80 sm:w-full mx-auto bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${backgroundImage})` }}
+        className="h-screen flex flex-col items-center justify-items-center pt-24 w-80 sm:w-full mx-auto"
       >
-        <div className="border border-gray-300 shadow-lg rounded-lg bg-white bg-opacity-90 p-8 w-full sm:w-5/6 md:w-3/4 lg:w-2/3">
-          <div className="flex flex-col items-center ">
-            <div className="h-40 w-40 overflow-hidden rounded-full mb-4 relative">
+        <div className="border border-gray-300 shadow-lg rounded-lg bg-white bg-opacity-90 p-8 w-full sm:w-5/6 md:w-3/4 lg:w-[80%]">
+          <div className="flex flex-col items-center mx-auto">
+            <div className="h-40 w-40 lg:h-52 lg:w-52 overflow-hidden rounded-full mb-4 relative">
               <img
                 className="object-cover w-full h-full"
                 src={
@@ -108,16 +107,10 @@ function ProfilePage() {
               />
             </div>
 
-            <div className="ml-5">
-              <p className="font-bold text-3xl">
+            <div className="">
+              <p className="font-bold text-3xl max-lg:text-xl">
                 {userData && `${userData.first_name} ${userData.last_name}`}
               </p>
-              <button
-                onClick={handleEditClick}
-                className="text-red-500 hover:underline focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50"
-              >
-                แก้ไขข้อมูลส่วนตัว
-              </button>
             </div>
           </div>
           {Object.keys(editedUserData).length > 0 && (
@@ -240,52 +233,17 @@ function ProfilePage() {
           )}
 
           <div className="mt-8">
-            <List>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <svg
-                    className="w-6 h-6 text-gray-800 dark:text-white"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <p className="ml-2">ข้อมูลส่วนตัว</p>
-                </ListItemButton>
-              </ListItem>
-            </List>
-            <Link to="/history">
-              <List>
-                <ListItem disablePadding>
-                  <ListItemButton>
-                    <svg
-                      className="w-6 h-6 text-gray-800 dark:text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M20.25 8.75h-4.5V7.5c0-.69-.56-1.25-1.25-1.25h-3a1.25 1.25 0 0 0-1.25 1.25V8.75h-4.5a1.25 1.25 0 0 0-1.25 1.25v10a1.25 1.25 0 0 0 1.25 1.25h13.5a1.25 1.25 0 0 0 1.25-1.25v-10a1.25 1.25 0 0 0-1.25-1.25zm-8.75-1.25h3a.25.25 0 0 1 .25.25v1h-3v-1a.25.25 0 0 1 .25-.25zm-7.25 12.5v-10h13.5v10h-13.5z" />
-                      <path d="M7 11.75h2.5v1.5H7zm0 3.25h10v1.5H7z" />
-                    </svg>
-                    <p className="ml-2">ประวัติการสั่งซื้อ</p>
-                  </ListItemButton>
-                </ListItem>
-              </List>
-            </Link>
-          </div>
-
-          <div className="mt-8">
             <h2 className="text-lg font-bold">ข้อมูลส่วนตัว</h2>
+            <button
+                onClick={handleEditClick}
+                className="text-red-500 hover:underline focus:outline-none focus:ring-2 focus:ring-red-600 focus:ring-opacity-50"
+              >
+                แก้ไขข้อมูลส่วนตัว
+              </button>
             <div className="border-b border-gray-400 mt-4"></div>
             <div className="mt-4">
               <p className="text-base text-gray-700">
-                <span className="font-bold">ชื่อ-นามสกุล: </span>
+                <span className="font-bold">ชื่อ: </span>
                 {userData && `${userData.first_name} ${userData.last_name}`}
               </p>
               <p className="text-base text-gray-700">
@@ -295,6 +253,10 @@ function ProfilePage() {
               <p className="text-base text-gray-700">
                 <span className="font-bold">อีเมล: </span>
                 {userData && `${userData.email}`}
+              </p>
+              <p className="text-base text-gray-700">
+                <span className="font-bold">เบอร์โทรศัพท์: </span>
+                {userData && `${userData.phonenum}`}
               </p>
             </div>
           </div>
