@@ -112,16 +112,17 @@ function VideoPage() {
         });
         console.log("อัปเดต watch time สำเร็จ.");
       } else {
-        const response = await ax.post(`${conf.apiUrlPrefix}/watch-times`, {
+        console.log('debugged : ',userID);
+        const response = await ax.post(`${conf.apiUrlPrefix}/init_watch_time`, {
           data: {
-            video: { connect: [{ id: selectedVideo.id }] },
+            video: selectedVideo.id ,
             watch_time: 0,
-            course: { connect: [{ id: id }] },
-            member: { connect: [{ id: userID }] },
+            course: id,
+            published_At: new Date()
           },
         });
-        console.log("สร้าง watch time สำเร็จ. ID:", response?.data?.data?.id);
-        setWatchTimeId(response?.data?.data?.id);
+        console.log("สร้าง watch time สำเร็จ. ID:", response?.data?.id);
+        setWatchTimeId(response?.data?.id);
       }
     } catch (error) {
       console.error("Error posting watch time: ", error);
@@ -140,26 +141,26 @@ function VideoPage() {
           console.log("UserID", userID);
           const watchTimeResponse = await ax.post(
             `${conf.apiUrlPrefix}/mycourse`, {
-            data: {
-              id: id
+              data : {
+                id : id
+              }
             }
-          }
           );
           console.log("WatchTimeResponse", watchTimeResponse);
           if (watchTimeResponse?.data?.length > 0) {
             setCurrentTime(
               Math.round(
-                watchTimeResponse?.data?.data[0]?.attributes?.watch_time
+                watchTimeResponse?.data?.watch_time
               )
             );
             console.log(
               "Watch Current Time Current",
               Math.round(
-                watchTimeResponse?.data.data[0]?.attributes?.watch_time
+                watchTimeResponse?.data.watch_time
               )
             );
-            console.log("Watch Time ID", watchTimeResponse?.data?.data[0]?.id);
-            setWatchTimeId(watchTimeResponse?.data?.data[0]?.id);
+            console.log("Watch Time ID", watchTimeResponse?.data?.id);
+            setWatchTimeId(watchTimeResponse?.data?.id);
           } else {
             setWatchTimeId(null);
             setCurrentTime(null);
@@ -197,17 +198,17 @@ function VideoPage() {
       setUserID(userStartData);
       const watchTimesResponse = await ax.post(
         `${conf.apiUrlPrefix}/mycourse`, {
-        data: {
-          id: id
+          data : {
+            id : id
+          }
         }
-      }
       );
       console.log("watchTimesResponse", watchTimesResponse);
-      const watchTimesData = watchTimesResponse.data.data;
+      const watchTimesData = watchTimesResponse.data;
       console.log("watchTimesData", watchTimesData);
       let totalWatchTime = 0;
       watchTimesData.forEach((watchTime) => {
-        totalWatchTime += watchTime.attributes.watch_time;
+        totalWatchTime += watchTime.watch_time;
       });
       setTotalWatchTime(totalWatchTime);
     } catch (error) {
@@ -276,10 +277,11 @@ function VideoPage() {
                   <li
                     key={video.id}
                     onClick={() => handleVideoSelection(video.id)}
-                    className={`flex items-center cursor-pointer ${video.id === selectedVideo?.id
+                    className={`flex items-center cursor-pointer ${
+                      video.id === selectedVideo?.id
                         ? "my-2 bg-gray-200 p-4 rounded"
                         : "ml-4 my-4"
-                      }`}
+                    }`}
                   >
                     <span className="flex-grow text-sm md:text-base overflow-hidden">
                       {video.title}
@@ -310,7 +312,7 @@ function VideoPage() {
                     url={`${selectedVideo.url}${CurrentTime}`}
                     height="75%"
                     width="100%"
-
+                  
                   />
                   <p className="mt-7 text-sm md:text-lg text-center text-slate-500">
                     {selectedVideo.description}
