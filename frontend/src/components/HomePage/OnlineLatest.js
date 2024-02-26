@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 import "swiper/css/navigation";
 import { Navigation, Pagination } from "swiper/modules";
 import "./SwiperButton.css";
-import axios from "axios";
 import { Badge } from "flowbite-react";
 import { HiClock } from "react-icons/hi";
+import ax from "../../conf/ax";
+import conf from "../../conf/main";
 
 const OnlineLatest = () => {
   const [onlineLatest, setOnlineLatest] = useState([]);
@@ -21,8 +22,8 @@ const OnlineLatest = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const onlineLatestResponse = await axios.get(
-          "http://localhost:1337/api/courses?populate=image&filters[study_type][$eq]=Online&sort=createdAt:desc&pagination[pageSize]=10&populate=videos"
+        const onlineLatestResponse = await ax.get(
+          `${conf.apiUrlPrefix}/courses?populate=image&filters[study_type][$eq]=Online&sort=createdAt:desc&pagination[pageSize]=10&populate=videos`
         );
         // console.log("ข้อมูลหลังเรียก API ของ OnlineLatest", onlineLatestResponse);
         const onlineLatestData = onlineLatestResponse.data.data.map(

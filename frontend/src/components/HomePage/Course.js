@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Badge, Dropdown, DropdownItem } from "flowbite-react";
 import { HiClock } from "react-icons/hi";
@@ -6,23 +6,24 @@ import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import axios from "axios";
 import ax from "../../conf/ax";
 import conf from "../../conf/main";
+import { FaCalendarDays } from "react-icons/fa6";
 
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
   const [dropdownLabel, setDropdownLabel] = useState("ทั้งหมด");
   const [likes, setLikes] = useState({});
   const { userRole } = props;
-  
+
   useEffect(() => {
     const savedLikes = JSON.parse(localStorage.getItem("likes")) || {};
     setLikes(savedLikes);
   }, []);
-  
+
   const handleFilter = (type, label) => {
     setFilterType(type);
     setDropdownLabel(label);
   };
-  
+
   const handleLike = async (courseId) => {
     try {
       const response = await ax.put(`/courses/${courseId}/like`);
@@ -30,21 +31,21 @@ export default function Course(props) {
         setLikes((prevLikes) => {
           const updatedLikes = { ...prevLikes };
           if (prevLikes[courseId]) {
-            delete updatedLikes[courseId]; 
+            delete updatedLikes[courseId];
           } else {
-            updatedLikes[courseId] = true; 
+            updatedLikes[courseId] = true;
           }
-          localStorage.setItem("likes", JSON.stringify(updatedLikes)); 
+          localStorage.setItem("likes", JSON.stringify(updatedLikes));
           return updatedLikes;
         });
       } else {
-        console.error('Failed to update like');
+        console.error("Failed to update like");
       }
     } catch (error) {
-      console.error('Error updating like:', error);
+      console.error("Error updating like:", error);
     }
   };
-  
+
   return (
     <>
       <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between">
@@ -167,9 +168,27 @@ export default function Course(props) {
                       </p>
                     </div>
                   ) : (
-                    <p className="mr-1 md:mr-0 mt-3 md:font-semibold text-center md:text-right text-[13px] md:text-base">
-                      {item.price} บาท{" "}
-                    </p>
+                    <div className="md:flex md:flex-wrap gap-2 md:justify-between ">
+                      <Badge
+                        color="gray"
+                        icon={FaCalendarDays}
+                        className="mt-2 text-[10px] md:text-xs mx-3 md:mx-0 font-normal item"
+                      >
+                        {item?.date ? (
+                          <>
+                            {item?.date && (
+                              <span className="items-center">{item.date}</span>
+                            )}
+                          </>
+                        ) : (
+                          "ไม่ระบุวันที่"
+                        )}
+                      </Badge>
+
+                      <p className="mt-2 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
+                        {item.price} บาท{" "}
+                      </p>
+                    </div>
                   )}
                 </div>
               </Link>
@@ -178,7 +197,11 @@ export default function Course(props) {
                   className="flex items-center space-x-1 text-gray-500 hover:text-gray-700"
                   onClick={() => handleLike(item.id)}
                 >
-                  {likes[item.id] ? <AiFillLike className="w-4 h-4 text-blue-500" /> : <AiOutlineLike className="w-4 h-4" />}
+                  {likes[item.id] ? (
+                    <AiFillLike className="w-4 h-4 text-blue-500" />
+                  ) : (
+                    <AiOutlineLike className="w-4 h-4" />
+                  )}
                   <span>{likes[item.id] || 0}</span>
                 </button>
               </div>
