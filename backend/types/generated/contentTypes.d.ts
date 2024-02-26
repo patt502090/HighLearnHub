@@ -858,7 +858,6 @@ export interface ApiBookingBooking extends Schema.CollectionType {
       'manyToOne',
       'api::course.course'
     >;
-    payment_datetime: Attribute.DateTime;
     order: Attribute.Relation<
       'api::booking.booking',
       'manyToOne',
@@ -945,6 +944,7 @@ export interface ApiOrderOrder extends Schema.CollectionType {
     singularName: 'order';
     pluralName: 'orders';
     displayName: 'Order';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -961,6 +961,7 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
+    payment_date: Attribute.DateTime;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

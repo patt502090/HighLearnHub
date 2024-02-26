@@ -34,9 +34,6 @@
       "target": "api::course.course",
       "inversedBy": "bookings"
     },
-    "payment_datetime": {
-      "type": "datetime"
-    },
     "order": {
       "type": "relation",
       "relation": "manyToOne",
