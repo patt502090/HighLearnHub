@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 import "swiper/css/navigation";
 import { Navigation, Pagination } from "swiper/modules";
 import "./SwiperButton.css";
-import axios from "axios";
 import { Badge } from "flowbite-react";
+import { FaCalendarDays } from "react-icons/fa6";
+import ax from "../../conf/ax";
+import conf from "../../conf/main";
 
 const LiveCourse = () => {
   const [liveCourse, setliveCourse] = useState([]);
@@ -20,8 +22,8 @@ const LiveCourse = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const liveCourseResponse = await axios.get(
-          "http://localhost:1337/api/courses?populate=image&filters[study_type][$eq]=Live&sort=amount:desc&pagination[pageSize]=10&populate=videos"
+        const liveCourseResponse = await ax.get(
+          `${conf.apiUrlPrefix}/courses?populate=image&filters[study_type][$eq]=Live&sort=amount:desc&pagination[pageSize]=10&populate=videos`
         );
         const liveCourseData = liveCourseResponse.data.data.map((course) => ({
           id: course.id,
@@ -33,6 +35,7 @@ const LiveCourse = () => {
           image:
             "http://localhost:1337" +
             course.attributes.image.data.attributes.url,
+          date: course.attributes.schedule_text,
         }));
         setliveCourse(liveCourseData);
       } catch (error) {
@@ -45,7 +48,9 @@ const LiveCourse = () => {
 
   return (
     <div className="w-full md:w-4/5 mx-auto h-full mb:20">
-      <p className="font-medium mx-auto mt-20 text-center md:text-left text-2xl md:text-3xl">คอร์สเรียนสดออนไลน์แนะนำ</p>
+      <p className="font-medium mx-auto mt-20 text-center md:text-left text-2xl md:text-3xl">
+        คอร์สเรียนสดออนไลน์แนะนำ
+      </p>
       <p className="font-base mx-auto mt-5 text-center md:text-left text-1xl">
         พัฒนาทักษะอย่างใกล้ชิดกับผู้สอน
       </p>
@@ -104,9 +109,19 @@ const LiveCourse = () => {
                     <Badge color="purple">RECOMMEND</Badge>
                   </div>
                   <hr className="mt-6" />
-                  <p className="text-right mr-1 mt-3 font-semibold">
-                    {course.price} บาท{" "}
-                  </p>
+                  <div className="flex flex-wrap gap-2 justify-between">
+                    <Badge
+                      color="gray"
+                      icon={FaCalendarDays}
+                      className="mt-2 text-[10px] md:text-xs mx-3 md:mx-0 font-normal"
+                    >
+                      <>{course.date}</>
+                    </Badge>
+
+                    <p className="text-right mt-3 font-semibold">
+                      {course.price} บาท{" "}
+                    </p>
+                  </div>
                 </div>
               </div>
             </SwiperSlide>

@@ -24,6 +24,7 @@ function VideoPage() {
   const [durationSelected, setDurationSelected] = useState(0);
   const [imageCourse, setImageCourse] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  console.log(played)
 
   const handleLeaveRoom = () => {
     setIsModalOpen(true);
@@ -233,95 +234,99 @@ function VideoPage() {
 
   return (
     <ContextProvider>
-    <>
-    <Navbar/>
-    <div className="pt-16">
-        <Helmet>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>วิดิโอสำหรับเรียน</title>
-        </Helmet>
-        {isLoading && (
-          <div className="fixed left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
-            <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
-          </div>
-        )}
-        <div className="flex flex-col md:flex-row h-screen bg-gray-100">
-          <div className="w-full sm:w-2/5 2xl:w-3/12 p-4">
-            <h2 className="text-center md:text-left text-sm md:text-lg font-medium mt-10 sm:ml-2">
-              {title}
-            </h2>
-            <div className="w-9/12 md:w-full mx-auto md:mx-0 mt-2">
-              <Progress
-                progress={calculateProgress()}
-                size="sm"
-                color="yellow"
-              />
+      <>
+        <Navbar />
+        <div className="py-16">
+          <Helmet>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0"
+            />
+            <title>วิดิโอสำหรับเรียน</title>
+          </Helmet>
+          {isLoading && (
+            <div className="fixed left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
+              <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
             </div>
-            <h3 className="mt-2 text-center md:text-left text-xs md:text-sm text-slate-500 sm:ml-2">{`${calculateProgress()}% Complete`}</h3>
-            <hr className="my-3" />
-            <ul className="overflow-y-hidden">
-              {videoData.map((video) => (
-                <li
-                  key={video.id}
-                  onClick={() => handleVideoSelection(video.id)}
-                  className={`flex items-center cursor-pointer ${
-                    video.id === selectedVideo?.id
-                      ? "my-2 bg-gray-200 p-4 rounded"
-                      : "ml-4 my-4"
-                  }`}
-                >
-                  <span className="flex-grow text-sm md:text-base">
-                    {video.title}
-                  </span>
-                  {video.id === selectedVideo?.id &&
-                    calculateProgressSelected() >= 100 && (
-                      <span className="mr-3 text-green-500">Complete</span>
-                    )}
-                  <span className="text-xs md:text-sm text-gray-500 whitespace-nowrap">
-                    {formatTime(video.duration)}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="flex-grow p-4 md:p-10">
-            {selectedVideo && (
-              <>
-                <h2 className="text-md md:text-lg font-medium text-center mb-3 md:mb-7 ">
-                  {selectedVideo.title}
-                </h2>
-                <ReactPlayer
-                  key={selectedVideo.id}
-                  onProgress={(progress) => {
-                    setPlayed(progress.playedSeconds);
-                  }}
-                  controls={true}
-                  url={`${selectedVideo.url}${CurrentTime}`}
-                  height="75%"
-                  width="100%"
+          )}
+          <div className="flex flex-col md:flex-row h-screen bg-gray-100">
+            <div className="w-full sm:w-2/5 2xl:w-3/12 p-4">
+              <h2 className="text-center md:text-left text-sm md:text-lg font-medium mt-10 sm:ml-2">
+                {title}
+              </h2>
+              <div className="w-9/12 md:w-full mx-auto md:mx-0 mt-2">
+                <Progress
+                  progress={calculateProgress()}
+                  size="sm"
+                  color="yellow"
                 />
-                <p className="mt-7 text-sm md:text-lg text-center text-slate-500">
-                  {selectedVideo.description}
-                </p>
-              </>
-            )}
-            {!selectedVideo && (
-              <>
-                {imageCourse && imageCourse.length > 0 && (
-                  <img
-                    src={imageCourse[0]?.image}
-                    alt="Course Image"
-                    className="mx-auto sm:h-5/6 rounded-lg shadow-lg object-cover"
+              </div>
+              <h3 className="mt-2 text-center md:text-left text-xs md:text-sm text-slate-500 sm:ml-2">{`${calculateProgress()}% Complete`}</h3>
+              <hr className="my-3" />
+              <ul className="overflow-y-hidden">
+                {videoData.map((video) => (
+                  <li
+                    key={video.id}
+                    onClick={() => handleVideoSelection(video.id)}
+                    className={`flex items-center cursor-pointer ${
+                      video.id === selectedVideo?.id
+                        ? "my-2 bg-gray-200 p-4 rounded"
+                        : "ml-4 my-4"
+                    }`}
+                  >
+                    <span className="flex-grow text-sm md:text-base overflow-hidden">
+                      {video.title}
+                    </span>
+                    {video.id === selectedVideo?.id &&
+                      calculateProgressSelected() >= 100 && (
+                        <span className="mr-3 text-green-500">Complete</span>
+                      )}
+                    <span className="text-xs md:text-sm text-gray-500 whitespace-nowrap">
+                      {formatTime(video.duration)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex-grow p-4 md:p-10">
+              {selectedVideo && (
+                <>
+                  <h2 className="text-md md:text-lg font-medium text-center mb-3 md:mb-7 ">
+                    {selectedVideo.title}
+                  </h2>
+                  <ReactPlayer
+                    key={selectedVideo.id}
+                    onProgress={(progress) => {
+                      setPlayed(progress.playedSeconds);
+                    }}
+                    controls={true}
+                    url={`${selectedVideo.url}${CurrentTime}`}
+                    height="75%"
+                    width="100%"
+                  
                   />
-                )}
-              </>
-            )}
+                  <p className="mt-7 text-sm md:text-lg text-center text-slate-500">
+                    {selectedVideo.description}
+                  </p>
+                </>
+              )}
+              {!selectedVideo && (
+                <>
+                  {imageCourse && imageCourse.length > 0 && (
+                    <img
+                      src={imageCourse[0]?.image}
+                      alt="Course Image"
+                      className="mx-auto sm:h-4/5 2xl:h-5/6 rounded-lg shadow-lg "
+                    />
+                  )}
+                </>
+              )}
+            </div>
+            <Footer onLeaveRoom={handleLeaveRoom} />
+            <Modal isOpen={isModalOpen} onClose={closeModal} />
           </div>
-          <Footer onLeaveRoom={handleLeaveRoom} />
-          <Modal isOpen={isModalOpen} onClose={closeModal} />
         </div>
-    </div>
-    </>
+      </>
     </ContextProvider>
   );
 }

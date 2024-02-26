@@ -1,43 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Badge, Dropdown, DropdownItem } from "flowbite-react";
 import { HiClock } from "react-icons/hi";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
-import axios from "axios";
+import ax from "../../conf/ax";
+import { FaCalendarDays } from "react-icons/fa6";
 
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
   const [dropdownLabel, setDropdownLabel] = useState("ทั้งหมด");
   const [likes, setLikes] = useState({});
+  console.log(props.data)
 
-  const { userRole } = props;
+  useEffect(() => {
+    const savedLikes = JSON.parse(localStorage.getItem("likes")) || {};
+    setLikes(savedLikes);
+  }, []);
 
   const handleFilter = (type, label) => {
     setFilterType(type);
     setDropdownLabel(label);
   };
-  const handleLike = (courseId) => {
-    setLikes((prevLikes) => ({
-      ...prevLikes,
-      [courseId]: (prevLikes[courseId] || 0) + 1,
-    }));
-  };
 
-  // const handleLike = async (courseId) => {
-  //   try {
-  //     const response = await axios.put(`http://localhost:1337/courses/${courseId}/like`);
-  //     if (response.data.ok === 1) {
-  //       setLikes((prevLikes) => ({
-  //         ...prevLikes,
-  //         [courseId]: response.data.like
-  //       }));
-  //     } else {
-  //       console.error('Failed to update like');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error updating like:', error);
-  //   }
-  // };
+  const handleLike = async (courseId) => {
+    try {
+      const response = await ax.put(`/courses/${courseId}/like`);
+      if (response.data.ok === 1) {
+        setLikes((prevLikes) => {
+          const updatedLikes = { ...prevLikes };
+          if (prevLikes[courseId]) {
+            delete updatedLikes[courseId];
+          } else {
+            updatedLikes[courseId] = true;
+          }
+          localStorage.setItem("likes", JSON.stringify(updatedLikes));
+          return updatedLikes;
+        });
+      } else {
+        console.error("Failed to update like");
+      }
+    } catch (error) {
+      console.error("Error updating like:", error);
+    }
+  };
 
   return (
     <>
@@ -161,18 +166,40 @@ export default function Course(props) {
                       </p>
                     </div>
                   ) : (
-                    <p className="mr-1 md:mr-0 mt-3 md:font-semibold text-center md:text-right text-[13px] md:text-base">
-                      {item.price} บาท{" "}
-                    </p>
+                    <div className="md:flex md:flex-wrap gap-2 md:justify-between ">
+                      <Badge
+                        color="gray"
+                        icon={FaCalendarDays}
+                        className="mt-2 text-[10px] md:text-xs mx-3 md:mx-0 font-normal item"
+                      >
+                        {item?.date ? (
+                          <>
+                            {item?.date && (
+                              <span className="items-center">{item.date}</span>
+                            )}
+                          </>
+                        ) : (
+                          "ไม่ระบุวันที่"
+                        )}
+                      </Badge>
+
+                      <p className="mt-2 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
+                        {item.price} บาท{" "}
+                      </p>
+                    </div>
                   )}
                 </div>
               </Link>
-              <div className="fixed bottom-0 right-0 p-3">
+              <div className="absolute bottom-0 p-3">
                 <button
                   className="flex items-center space-x-1 text-gray-500 hover:text-gray-700"
                   onClick={() => handleLike(item.id)}
                 >
-                  {likes[item.id] ? <AiFillLike className="w-4 h-4 text-blue-500" /> : <AiOutlineLike className="w-4 h-4" />}
+                  {likes[item.id] ? (
+                    <AiFillLike className="w-4 h-4 text-blue-500" />
+                  ) : (
+                    <AiOutlineLike className="w-4 h-4" />
+                  )}
                   <span>{likes[item.id] || 0}</span>
                 </button>
               </div>

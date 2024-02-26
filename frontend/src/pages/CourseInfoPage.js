@@ -24,6 +24,7 @@ export default function CourseInfoPage() {
   const [ownCourseDisplay, setOwnCourseDisplay] = useState()
   const [onEdition, setOnEdition] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchCourse(); //still bug react return before img fetch finish
@@ -36,10 +37,12 @@ export default function CourseInfoPage() {
 
   const fetchCourse = async () => {
     try {
+      setLoading(true);
       const response = await ax.get(
         conf.apiUrlPrefix + `/courses/${id}?populate=*`
       );
       setCourse(response.data.data);
+      setLoading(false);
       const datauser = await ax.get(conf.apiUrlPrefix + `/users/me`);
       setInfouser(datauser.data.id);
     } catch (error) {
@@ -60,6 +63,7 @@ export default function CourseInfoPage() {
   };
 
   const deleteCourse = async (id) => {
+    setLoading(true);
     ax.delete(conf.apiUrlPrefix + `/courses/${id}`)
       .then((response) => {
         console.log(response.data);
@@ -69,8 +73,9 @@ export default function CourseInfoPage() {
       });
     setShowDeleteModal(false);
     setTimeout(() => {
+      setLoading(false);
       navigate("/");
-    }, 1000);
+    }, 600);
   };
 
   const handleManageVideoPage = (id) => {
@@ -78,10 +83,10 @@ export default function CourseInfoPage() {
   };
 
   useEffect(() => {
-    if (own) { 
+    if (own) {
       if (own.payment_status === true) {
         setOwnCourseDisplay(<Link to={"/mycourse"}>
-          <button className="px-10 py-3 bg-blue-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+          <button className="px-10 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
             คุณมีคอร์สนี้แล้ว
           </button>
         </Link>)
@@ -105,7 +110,7 @@ export default function CourseInfoPage() {
         </button>
       </Link>)
     }
-  },[course])
+  }, [course])
 
   const Addcart = async (course) => {
     try {
@@ -125,7 +130,7 @@ export default function CourseInfoPage() {
           booked_date: `${date} ${time}`,
           expiry_date: `${expiryDateString} ${time}`, // ใช้วันที่หมดอายุที่ถูกปรับแล้ว
           course: parseInt(id),
-          publishedAt : new Date()
+          publishedAt: new Date()
         },
       });
     } catch (error) {
@@ -133,11 +138,15 @@ export default function CourseInfoPage() {
     }
   };
 
-  if (course === null) {
-    return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="background-image">
+        <div className="h-screen flex justify-center items-center">
+          <CircularProgress />
+        </div>
+      </div>
+    )
   }
-
-  
 
   if (userRole === "admin") {
     return (
@@ -147,6 +156,8 @@ export default function CourseInfoPage() {
             course={course}
             openModal={onEdit}
             onCloseModal={setOnEdit}
+            loading={loading}
+            setLoading={setLoading}
           />
         ) : (
           <></>
@@ -264,8 +275,8 @@ export default function CourseInfoPage() {
       <Navbar />
       <Helmet>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>รายละเอียดคอร์ส</title>
-        </Helmet>
+        <title>รายละเอียดคอร์ส</title>
+      </Helmet>
       <div className="max-w-4xl mx-auto p-6 pt-24 text-center">
         {course ? (
           <div className="bg-white shadow-md rounded-md p-6">

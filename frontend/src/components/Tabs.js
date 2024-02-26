@@ -56,8 +56,8 @@ export default function BasicTabs(props) {
           </div>
           <Tabs aria-label="Default tabs" className="w-full justify-center">
             <Tabs.Item title="รายละเอียด" icon={MdDashboard}>
-              <ul class="grid lg:grid-cols-2  text-base font-base text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <ul class="grid lg:grid-cols-2  text-base font-base text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white" style={{ justifyContent: 'center' }}>
+                <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center">
                   <svg
                     class="w-8 h-8 inline-block mr-2 text-gray-500 dark:text-white"
                     aria-hidden="true"
@@ -87,7 +87,7 @@ export default function BasicTabs(props) {
                   <span className="font-medium">ผู้สอน: </span>
                   {data.instructor_name}
                 </li>
-                <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center ">
                   <svg
                     class="inline-block w-8 h-8 mr-2 text-gray-500 dark:text-white"
                     aria-hidden="true"
@@ -104,7 +104,7 @@ export default function BasicTabs(props) {
                   <span className="font-medium">รูปแบบ: </span>
                   {data.study_type === "Online" ? "ออนไลน์" : "สดออนไลน์"}
                 </li>
-                <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center">
                   <svg
                     class="inline-block w-8 h-8 mr-2 text-gray-500 dark:text-white"
                     aria-hidden="true"
@@ -121,7 +121,7 @@ export default function BasicTabs(props) {
                   {/* {data.videos.data[0].attributes.duration} ชั่วโมง */}
                   <span className="font-medium">ระยะเวลา: </span>25 ชั่วโมง
                 </li>
-                <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center">
                   <svg
                     class="inline-block w-8 h-8 mr-2 text-gray-500 dark:text-white"
                     aria-hidden="true"
@@ -177,8 +177,8 @@ export default function BasicTabs(props) {
       ) : (
         <Tabs aria-label="Default tabs" className="w-full justify-center">
           <Tabs.Item title="รายละเอียด" icon={MdDashboard}>
-            <ul class="grid lg:grid-cols-2  text-base font-base text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-              <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+            <ul class="grid lg:grid-cols-2  text-base font-base text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white" style={{ justifyContent: 'center' }}>
+              <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center">
                 <svg
                   class="w-8 h-8 inline-block mr-2 text-gray-500 dark:text-white"
                   aria-hidden="true"
@@ -191,7 +191,7 @@ export default function BasicTabs(props) {
                 <span className="font-medium">วิชา: </span>
                 {data.subject}
               </li>
-              <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center">
                 <svg
                   class="inline-block w-8 h-8 mr-2 text-gray-500 dark:text-white"
                   aria-hidden="true"
@@ -208,7 +208,7 @@ export default function BasicTabs(props) {
                 <span className="font-medium">ผู้สอน: </span>
                 {data.instructor_name}
               </li>
-              <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center">
                 <svg
                   class="inline-block w-8 h-8 mr-2 text-gray-500 dark:text-white"
                   aria-hidden="true"
@@ -225,7 +225,7 @@ export default function BasicTabs(props) {
                 <span className="font-medium">รูปแบบ: </span>
                 {data.study_type === "Online" ? "ออนไลน์" : "สดออนไลน์"}
               </li>
-              <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center">
                 <svg
                   class="inline-block w-8 h-8 mr-2 text-gray-500 dark:text-white"
                   aria-hidden="true"
@@ -242,7 +242,7 @@ export default function BasicTabs(props) {
                 {/* {data.videos.data[0].attributes.duration} ชั่วโมง */}
                 <span className="font-medium">ระยะเวลา: </span>25 ชั่วโมง
               </li>
-              <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center">
                 <svg
                   class="inline-block w-8 h-8 mr-2 text-gray-500 dark:text-white"
                   aria-hidden="true"

@@ -6,9 +6,10 @@ import { useNavigate } from "react-router-dom";
 import "swiper/css/navigation";
 import { Navigation, Pagination } from "swiper/modules";
 import "./SwiperButton.css";
-import axios from "axios";
 import { Badge } from "flowbite-react";
 import { HiClock } from "react-icons/hi";
+import ax from "../../conf/ax";
+import conf from "../../conf/main";
 
 const OnlineBestSeller = () => {
   const [onlineSelling, setOnlineSelling] = useState([]);
@@ -21,8 +22,8 @@ const OnlineBestSeller = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const onlineSellingResponse = await axios.get(
-          "http://localhost:1337/api/courses?populate=image&filters[study_type][$eq]=Online&sort=amount:desc&pagination[pageSize]=10&populate=videos"
+        const onlineSellingResponse = await ax.get(
+          `${conf.apiUrlPrefix}/courses?populate=image&filters[study_type][$eq]=Online&sort=amount:desc&pagination[pageSize]=10&populate=videos`
         );
         // console.log("ข้อมูลหลังเรียก API ของ OnlineSelling", onlineSellingResponse);
         const onlineSellingData = onlineSellingResponse.data.data.map(
@@ -89,7 +90,7 @@ const OnlineBestSeller = () => {
           {onlineSelling?.map((course) => (
             <SwiperSlide key={course.id}>
               <div
-                className="bg-white rounded-lg shadow-lg border border-gray-10 w-2/3 md:w-full cursor-pointer mx-auto mt-10 my-5 hover:translate-y-[-10px] transition-transform duration-300 h-full py-auto"
+                className="bg-white rounded-lg shadow-lg border border-gray-10 w-2/3 sm:w-full cursor-pointer mx-auto mt-10 my-5 hover:translate-y-[-10px] transition-transform duration-300 h-full py-auto"
                 onClick={() => handleCardClick(course.id)}
               >
                 <div className="relative h-40">
@@ -139,8 +140,8 @@ const OnlineBestSeller = () => {
                       )}
                       {course.duration.minutes < 60 && (
                         <>
-                          {course.duration.minutes} นาที {course.duration.seconds}{" "}
-                          วินาที
+                          {course.duration.minutes} นาที{" "}
+                          {course.duration.seconds} วินาที
                         </>
                       )}
                     </Badge>
