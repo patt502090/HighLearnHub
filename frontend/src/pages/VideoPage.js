@@ -233,14 +233,15 @@ function VideoPage() {
 
   return (
     <ContextProvider>
-      <>
-        <Navbar />
+    <>
+    <Navbar/>
+    <div className="pt-16">
         <Helmet>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <title>วิดิโอสำหรับเรียน</title>
         </Helmet>
         {isLoading && (
-          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
+          <div className="fixed left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
             <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
           </div>
         )}
@@ -319,7 +320,8 @@ function VideoPage() {
           <Footer onLeaveRoom={handleLeaveRoom} />
           <Modal isOpen={isModalOpen} onClose={closeModal} />
         </div>
-      </>
+    </div>
+    </>
     </ContextProvider>
   );
 }

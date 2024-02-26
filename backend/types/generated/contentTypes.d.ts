@@ -362,6 +362,228 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
+export interface ApiAnnouncementAnnouncement extends Schema.CollectionType {
+  collectionName: 'announcements';
+  info: {
+    singularName: 'announcement';
+    pluralName: 'announcements';
+    displayName: 'announcement';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    image: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::announcement.announcement',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::announcement.announcement',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiBookingBooking extends Schema.CollectionType {
+  collectionName: 'bookings';
+  info: {
+    singularName: 'booking';
+    pluralName: 'bookings';
+    displayName: 'booking';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    booked_date: Attribute.DateTime;
+    expiry_date: Attribute.DateTime;
+    payment_status: Attribute.Boolean & Attribute.DefaultTo<false>;
+    user: Attribute.Relation<
+      'api::booking.booking',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    course: Attribute.Relation<
+      'api::booking.booking',
+      'manyToOne',
+      'api::course.course'
+    >;
+    payment_datetime: Attribute.DateTime;
+    payment_confirm_img: Attribute.Media;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::booking.booking',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::booking.booking',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiCourseCourse extends Schema.CollectionType {
+  collectionName: 'courses';
+  info: {
+    singularName: 'course';
+    pluralName: 'courses';
+    displayName: 'course';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    description: Attribute.Text;
+    price: Attribute.Integer;
+    amount: Attribute.Integer & Attribute.DefaultTo<0>;
+    maxamount: Attribute.Integer;
+    bookings: Attribute.Relation<
+      'api::course.course',
+      'oneToMany',
+      'api::booking.booking'
+    >;
+    videos: Attribute.Relation<
+      'api::course.course',
+      'oneToMany',
+      'api::video.video'
+    >;
+    image: Attribute.Media;
+    subject: Attribute.String;
+    detail: Attribute.Text;
+    study_type: Attribute.Enumeration<['Online', 'Live']>;
+    instructor_name: Attribute.String;
+    watch_times: Attribute.Relation<
+      'api::course.course',
+      'oneToMany',
+      'api::watch-time.watch-time'
+    >;
+    like: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiVideoVideo extends Schema.CollectionType {
+  collectionName: 'videos';
+  info: {
+    singularName: 'video';
+    pluralName: 'videos';
+    displayName: 'video';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    description: Attribute.Text;
+    duration: Attribute.Integer;
+    url: Attribute.String;
+    course: Attribute.Relation<
+      'api::video.video',
+      'manyToOne',
+      'api::course.course'
+    >;
+    watch_times: Attribute.Relation<
+      'api::video.video',
+      'oneToMany',
+      'api::watch-time.watch-time'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::video.video',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::video.video',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiWatchTimeWatchTime extends Schema.CollectionType {
+  collectionName: 'watch_times';
+  info: {
+    singularName: 'watch-time';
+    pluralName: 'watch-times';
+    displayName: 'WatchTime';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    watch_time: Attribute.Float;
+    member: Attribute.Relation<
+      'api::watch-time.watch-time',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    video: Attribute.Relation<
+      'api::watch-time.watch-time',
+      'manyToOne',
+      'api::video.video'
+    >;
+    course: Attribute.Relation<
+      'api::watch-time.watch-time',
+      'manyToOne',
+      'api::course.course'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::watch-time.watch-time',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::watch-time.watch-time',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -796,228 +1018,6 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
-export interface ApiAnnouncementAnnouncement extends Schema.CollectionType {
-  collectionName: 'announcements';
-  info: {
-    singularName: 'announcement';
-    pluralName: 'announcements';
-    displayName: 'announcement';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    image: Attribute.Media;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::announcement.announcement',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::announcement.announcement',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiBookingBooking extends Schema.CollectionType {
-  collectionName: 'bookings';
-  info: {
-    singularName: 'booking';
-    pluralName: 'bookings';
-    displayName: 'booking';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    booked_date: Attribute.DateTime;
-    expiry_date: Attribute.DateTime;
-    payment_status: Attribute.Boolean & Attribute.DefaultTo<false>;
-    user: Attribute.Relation<
-      'api::booking.booking',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    course: Attribute.Relation<
-      'api::booking.booking',
-      'manyToOne',
-      'api::course.course'
-    >;
-    payment_datetime: Attribute.DateTime;
-    payment_confirm_img: Attribute.Media;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::booking.booking',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::booking.booking',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiCourseCourse extends Schema.CollectionType {
-  collectionName: 'courses';
-  info: {
-    singularName: 'course';
-    pluralName: 'courses';
-    displayName: 'course';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    description: Attribute.Text;
-    price: Attribute.Integer;
-    amount: Attribute.Integer & Attribute.DefaultTo<0>;
-    maxamount: Attribute.Integer;
-    bookings: Attribute.Relation<
-      'api::course.course',
-      'oneToMany',
-      'api::booking.booking'
-    >;
-    videos: Attribute.Relation<
-      'api::course.course',
-      'oneToMany',
-      'api::video.video'
-    >;
-    image: Attribute.Media;
-    subject: Attribute.String;
-    detail: Attribute.Text;
-    study_type: Attribute.Enumeration<['Online', 'Live']>;
-    instructor_name: Attribute.String;
-    watch_times: Attribute.Relation<
-      'api::course.course',
-      'oneToMany',
-      'api::watch-time.watch-time'
-    >;
-    like: Attribute.String;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::course.course',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::course.course',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiVideoVideo extends Schema.CollectionType {
-  collectionName: 'videos';
-  info: {
-    singularName: 'video';
-    pluralName: 'videos';
-    displayName: 'video';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    description: Attribute.Text;
-    duration: Attribute.Integer;
-    url: Attribute.String;
-    course: Attribute.Relation<
-      'api::video.video',
-      'manyToOne',
-      'api::course.course'
-    >;
-    watch_times: Attribute.Relation<
-      'api::video.video',
-      'oneToMany',
-      'api::watch-time.watch-time'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::video.video',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::video.video',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiWatchTimeWatchTime extends Schema.CollectionType {
-  collectionName: 'watch_times';
-  info: {
-    singularName: 'watch-time';
-    pluralName: 'watch-times';
-    displayName: 'WatchTime';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    watch_time: Attribute.Float;
-    member: Attribute.Relation<
-      'api::watch-time.watch-time',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    video: Attribute.Relation<
-      'api::watch-time.watch-time',
-      'manyToOne',
-      'api::video.video'
-    >;
-    course: Attribute.Relation<
-      'api::watch-time.watch-time',
-      'manyToOne',
-      'api::course.course'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::watch-time.watch-time',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::watch-time.watch-time',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1028,6 +1028,11 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::announcement.announcement': ApiAnnouncementAnnouncement;
+      'api::booking.booking': ApiBookingBooking;
+      'api::course.course': ApiCourseCourse;
+      'api::video.video': ApiVideoVideo;
+      'api::watch-time.watch-time': ApiWatchTimeWatchTime;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -1036,11 +1041,6 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
-      'api::announcement.announcement': ApiAnnouncementAnnouncement;
-      'api::booking.booking': ApiBookingBooking;
-      'api::course.course': ApiCourseCourse;
-      'api::video.video': ApiVideoVideo;
-      'api::watch-time.watch-time': ApiWatchTimeWatchTime;
     }
   }
 }
