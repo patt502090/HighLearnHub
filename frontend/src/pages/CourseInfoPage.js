@@ -86,7 +86,7 @@ export default function CourseInfoPage() {
     if (own) {
       if (own.payment_status === true) {
         setOwnCourseDisplay(<Link to={"/mycourse"}>
-          <button className="px-10 py-3 bg-blue-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+          <button className="px-10 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
             คุณมีคอร์สนี้แล้ว
           </button>
         </Link>)
