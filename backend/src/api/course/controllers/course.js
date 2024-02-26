@@ -23,4 +23,14 @@ module.exports = createCoreController('api::course.course', ({ strapi }) => ({
         });
         return result.bookings
     },
+    async like(ctx) {
+        const entityId = ctx.params.id;
+        try {
+          let book = await strapi.entityService.findOne('api::course.course', entityId)
+          book = await strapi.entityService.update('api::course.course', entityId, { data: { like: (book.like|| 0) + 1 } })
+          ctx.body = { ok: 1, likeCount: book.like };
+        } catch (err) {
+          ctx.body = err;
+        }
+      },
 }));
