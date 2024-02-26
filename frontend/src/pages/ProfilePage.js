@@ -67,13 +67,16 @@ function ProfilePage() {
         ax.post(conf.apiUrlPrefix + `/upload`, formData)
           .then((response) => {
             console.log(response);
+            sessionStorage.setItem("profileURL",`${conf.urlPrefix}${response.data[0].url}`)
           })
           .catch((error) => {
             console.error(error);
           });
+      
       }
       setEditedUserData({});
       setShowEditForm(false);
+      fetchData()
       setTimeout(() => {
         setLoading(false);
         navigate(`/profile/${id}`)
@@ -108,7 +111,7 @@ function ProfilePage() {
       <div
         className="h-screen flex flex-col items-center justify-items-center pt-24 w-80 sm:w-full mx-auto"
       >
-        <div className="border border-gray-300 shadow-lg rounded-lg bg-white bg-opacity-90 p-8 w-full sm:w-5/6 md:w-3/4 lg:w-2/3 relative">
+        <div className="background-profile border border-gray-300 shadow-lg rounded-lg bg-white bg-opacity-90 p-8 w-full sm:w-5/6 md:w-3/4 lg:w-2/3 relative">
           <div className="flex">
             <button
               onClick={handleEditClick}
@@ -121,8 +124,8 @@ function ProfilePage() {
             </button>
           </div>
 
-          <div className="flex flex-col items-center mx-auto">
-            <div className="h-40 w-40 lg:h-52 lg:w-52 overflow-hidden rounded-full mb-4 relative">
+          <div className="rounded-xl flex flex-col items-center mx-auto">
+            <div className="h-40 w-40 lg:h-52 mt-4 lg:w-52 overflow-hidden rounded-full mb-4 relative">
               <img
                 className="object-cover w-full h-full"
                 src={
@@ -133,8 +136,7 @@ function ProfilePage() {
                 alt=""
               />
             </div>
-
-            <div className="">
+            <div className="mb-4">
               <p className="font-bold text-3xl max-lg:text-xl">
                 {userData && `${userData.first_name} ${userData.last_name}`}
               </p>
