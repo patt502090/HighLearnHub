@@ -140,13 +140,13 @@ function VideoPage() {
           console.log("UserID", userID);
           const watchTimeResponse = await ax.post(
             `${conf.apiUrlPrefix}/mycourse`, {
-              data : {
-                id : id
-              }
+            data: {
+              id: id
             }
+          }
           );
           console.log("WatchTimeResponse", watchTimeResponse);
-          if (watchTimeResponse?.data?.data?.length > 0) {
+          if (watchTimeResponse?.data?.length > 0) {
             setCurrentTime(
               Math.round(
                 watchTimeResponse?.data?.data[0]?.attributes?.watch_time
@@ -197,10 +197,10 @@ function VideoPage() {
       setUserID(userStartData);
       const watchTimesResponse = await ax.post(
         `${conf.apiUrlPrefix}/mycourse`, {
-          data : {
-            id : id
-          }
+        data: {
+          id: id
         }
+      }
       );
       console.log("watchTimesResponse", watchTimesResponse);
       const watchTimesData = watchTimesResponse.data.data;
@@ -276,11 +276,10 @@ function VideoPage() {
                   <li
                     key={video.id}
                     onClick={() => handleVideoSelection(video.id)}
-                    className={`flex items-center cursor-pointer ${
-                      video.id === selectedVideo?.id
+                    className={`flex items-center cursor-pointer ${video.id === selectedVideo?.id
                         ? "my-2 bg-gray-200 p-4 rounded"
                         : "ml-4 my-4"
-                    }`}
+                      }`}
                   >
                     <span className="flex-grow text-sm md:text-base overflow-hidden">
                       {video.title}
@@ -311,7 +310,7 @@ function VideoPage() {
                     url={`${selectedVideo.url}${CurrentTime}`}
                     height="75%"
                     width="100%"
-                  
+
                   />
                   <p className="mt-7 text-sm md:text-lg text-center text-slate-500">
                     {selectedVideo.description}
