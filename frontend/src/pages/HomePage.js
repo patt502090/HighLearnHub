@@ -79,10 +79,15 @@ export default function HomePage() {
   if (userRole === "admin") {
     return (
       <>
-        <Navbar data={course} />
-        <Announcements data={announcements} />
-        <Course data={course} userRole={ContextState.userRole} />
-        <Footer />
+        {loading ? <div className="h-screen flex justify-center items-center">
+          <CircularProgress />
+        </div> :
+          <>
+            <Navbar data={course} />
+            <Announcements data={announcements} />
+            <Course data={course} userRole={ContextState.userRole} />
+            <Footer />
+          </>}
       </>
     );
   }
@@ -90,8 +95,8 @@ export default function HomePage() {
   return (
     <>
       <ContextProvider>
-      <Helmet>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <Helmet>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <title>HighLearnHub</title>
         </Helmet>
         {loading ? (
