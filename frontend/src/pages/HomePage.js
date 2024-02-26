@@ -38,6 +38,7 @@ export default function HomePage() {
             (totalDuration, video) => totalDuration + video.attributes.duration,
             0
           );
+          console.log("Course",course)
 
           const minutes = Math.floor(totalDurationSeconds / 60);
           const seconds = Math.floor(totalDurationSeconds % 60);
@@ -49,8 +50,8 @@ export default function HomePage() {
             amount: course.attributes.amount,
             maxamount: course.attributes.maxamount,
             description: course.attributes.description,
-            image:`${conf.urlPrefix}`+course.attributes.image.data.attributes.url,
-            type: course.attributes.study_type,
+            image:`${conf.urlPrefix}`+ course.attributes.image.data.attributes.url,
+            type: course?.attributes?.study_type,
             duration: { minutes, seconds },
             date: course.attributes.schedule_text,
           };
@@ -62,6 +63,8 @@ export default function HomePage() {
           image:
             `${conf.urlPrefix}` + item.attributes.image.data.attributes.url,
         }));
+
+        console.log("กรองข้อมูลแล้ว",courseData)
 
         setCourse(courseData);
         setAnnouncements(announcementData);

@@ -3,16 +3,14 @@ import { Link } from "react-router-dom";
 import { Badge, Dropdown, DropdownItem } from "flowbite-react";
 import { HiClock } from "react-icons/hi";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
-import axios from "axios";
 import ax from "../../conf/ax";
-import conf from "../../conf/main";
 import { FaCalendarDays } from "react-icons/fa6";
 
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
   const [dropdownLabel, setDropdownLabel] = useState("ทั้งหมด");
   const [likes, setLikes] = useState({});
-  const { userRole } = props;
+  console.log(props.data)
 
   useEffect(() => {
     const savedLikes = JSON.parse(localStorage.getItem("likes")) || {};

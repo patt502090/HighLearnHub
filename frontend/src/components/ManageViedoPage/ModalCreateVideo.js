@@ -24,6 +24,7 @@ export default function ModalCreateVideo({ onCloseModal, openModal, idCourse }) 
     }});
       console.log("ข้อมูลใหม่",newVideo)
       console.log("วิดีโอถูกสร้างเรียบร้อยแล้ว", response?.data);
+      resetForm();
       onCloseModal(false);
     } catch (error) {
       console.error("เกิดข้อผิดพลาดในการสร้างวิดีโอ:", error);
@@ -37,6 +38,17 @@ export default function ModalCreateVideo({ onCloseModal, openModal, idCourse }) 
   const formatDurationToSeconds = (duration) => {
     const [hours, minutes, seconds] = duration.split(":");
     return parseInt(hours) * 3600 + parseInt(minutes) * 60 + parseInt(seconds);
+  };
+
+  const resetForm = () => {
+    setNewVideo({
+      attributes: {
+        title: "",
+        description: "",
+        url: "",
+        duration: "",
+      },
+    });
   };
 
   return (
