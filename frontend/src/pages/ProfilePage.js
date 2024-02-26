@@ -1,30 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import { Link } from "react-router-dom";
-import backgroundImage from "../assets/background.png";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import ax from "../conf/ax";
 import conf from "../conf/main";
 import { Helmet } from "react-helmet";
 import { Transition } from "react-transition-group";
+import { CircularProgress } from "@mui/material";
 
 function ProfilePage() {
   const [userData, setUserData] = useState({});
   const [newImage, setNewImage] = useState(null);
+  const [img, setImg] = useState(null);
   const [editedUserData, setEditedUserData] = useState({});
   const [showEditForm, setShowEditForm] = useState(false);
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (newImage) {
+      setLoading(true);
+      setImg(URL.createObjectURL(newImage[0]));
+    }
+    setLoading(false);
+  }, [newImage])
 
   const fetchData = async () => {
     try {
-      const userResponse = await ax.get(`${conf.apiUrlPrefix}/users/me`);
+      setLoading(true);
+      const userResponse = await ax.get(`${conf.apiUrlPrefix}/users/me?populate=image`);
       setUserData(userResponse.data);
+      setImg(`${conf.urlPrefix}${userResponse.data.image.url}`);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -34,11 +44,13 @@ function ProfilePage() {
   const handleEditClick = () => {
     setEditedUserData(userData);
     setNewImage(null);
-    setShowEditForm(true);
+    (showEditForm) ? setShowEditForm(false) : setShowEditForm(true)
   };
 
   const handleSave = async () => {
+    setLoading(true);
     try {
+      setLoading(true);
       const response = await ax.put(`${conf.apiUrlPrefix}/users/${id}`, {
         first_name: editedUserData.first_name,
         last_name: editedUserData.last_name,
@@ -48,21 +60,24 @@ function ProfilePage() {
 
       if (newImage) {
         const formData = new FormData();
-        formData.append("files", newImage);
+        formData.append("field", "image");
+        formData.append("ref", "plugin::users-permissions.user");
         formData.append("refId", id);
-        formData.append("ref", "user");
-        formData.append("field", "avatar");
-
-        await ax.post(`${conf.urlPrefix}/upload`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        formData.append("files", newImage[0]);
+        ax.post(conf.apiUrlPrefix + `/upload`, formData)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       }
-
-      fetchData();
       setEditedUserData({});
       setShowEditForm(false);
+      setTimeout(() => {
+        setLoading(false);
+        navigate(`/profile/${id}`)
+      }, 1500);
     } catch (error) {
       console.error("Error updating user data:", error);
     }
@@ -72,6 +87,16 @@ function ProfilePage() {
     setEditedUserData({});
     setShowEditForm(false);
   };
+
+  if (loading) {
+    return (
+      <div className="background-image">
+        <div className="h-screen flex justify-center items-center">
+          <CircularProgress />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="background-image">
@@ -84,36 +109,25 @@ function ProfilePage() {
         className="h-screen flex flex-col items-center justify-items-center pt-24 w-80 sm:w-full mx-auto"
       >
         <div className="border border-gray-300 shadow-lg rounded-lg bg-white bg-opacity-90 p-8 w-full sm:w-5/6 md:w-3/4 lg:w-2/3 relative">
-          <button
-            onClick={handleEditClick}
-            className="text-black-500 hover:underline focus:outline-none focus:ring-2 focus:ring-black-600 focus:ring-opacity-20 absolute top-0 right-0 mr-4 mt-4"
-          >
-            <svg
-              stroke="currentColor"
-              fill="currentColor"
-              strokeWidth="0"
-              viewBox="0 0 512 512"
-              height="2em"
-              width="2em"
-              xmlns="http://www.w3.org/2000/svg"
+          <div className="flex">
+            <button
+              onClick={handleEditClick}
+              className="text-black-500 hover:underline focus:outline-none focus:ring-2 focus:ring-black-600 focus:ring-opacity-20 absolute top-0 right-0 mr-4 mt-4"
             >
-              <path
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="32"
-                d="M262.29 192.31a64 64 0 1057.4 57.4 64.13 64.13 0 00-57.4-57.4zM416.39 256a154.34 154.34 0 01-1.53 20.79l45.21 35.46a10.81 10.81 0 012.45 13.75l-42.77 74a10.81 10.81 0 01-13.14 4.59l-44.9-18.08a16.11 16.11 0 00-15.17 1.75A164.48 164.48 0 01325 400.8a15.94 15.94 0 00-8.82 12.14l-6.73 47.89a11.08 11.08 0 01-10.68 9.17h-85.54a11.11 11.11 0 01-10.69-8.87l-6.72-47.82a16.07 16.07 0 00-9-12.22 155.3 155.3 0 01-21.46-12.57 16 16 0 00-15.11-1.71l-44.89 18.07a10.81 10.81 0 01-13.14-4.58l-42.77-74a10.8 10.8 0 012.45-13.75l38.21-30a16.05 16.05 0 006-14.08c-.36-4.17-.58-8.33-.58-12.5s.21-8.27.58-12.35a16 16 0 00-6.07-13.94l-38.19-30A10.81 10.81 0 0149.48 186l42.77-74a10.81 10.81 0 0113.14-4.59l44.9 18.08a16.11 16.11 0 0015.17-1.75A164.48 164.48 0 01187 111.2a15.94 15.94 0 008.82-12.14l6.73-47.89A11.08 11.08 0 01213.23 42h85.54a11.11 11.11 0 0110.69 8.87l6.72 47.82a16.07 16.07 0 009 12.22 155.3 155.3 0 0121.46 12.57 16 16 0 0015.11 1.71l44.89-18.07a10.81 10.81 0 0113.14 4.58l42.77 74a10.8 10.8 0 01-2.45 13.75l-38.21 30a16.05 16.05 0 00-6.05 14.08c.33 4.14.55 8.3.55 12.47z"
-              ></path>
-            </svg>
-          </button>
+              <svg class="lg:h-[2.2em] lg:w-[2.2em] h-[1.5em] w-[1.5em] inline text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M5 8a4 4 0 1 1 7.8 1.3l-2.5 2.5A4 4 0 0 1 5 8Zm4 5H7a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h2.2a3 3 0 0 1-.1-1.6l.6-3.4a3 3 0 0 1 .9-1.5L9 13Zm9-5a3 3 0 0 0-2 .9l-6 6a1 1 0 0 0-.3.5L9 18.8a1 1 0 0 0 1.2 1.2l3.4-.7c.2 0 .3-.1.5-.3l6-6a3 3 0 0 0-2-5Z" clip-rule="evenodd" />
+              </svg>
+              <span className="lg:text-base text-sm">ปรับเเต่ง</span>
+            </button>
+          </div>
 
           <div className="flex flex-col items-center mx-auto">
             <div className="h-40 w-40 lg:h-52 lg:w-52 overflow-hidden rounded-full mb-4 relative">
               <img
                 className="object-cover w-full h-full"
                 src={
-                  newImage
-                    ? URL.createObjectURL(newImage)
+                  img
+                    ? img
                     : "https://static.thenounproject.com/png/642902-200.png"
                 }
                 alt=""
@@ -135,9 +149,8 @@ function ProfilePage() {
           >
             {(state) => (
               <div
-                className={`mt-8 px-4 py-2 border-t border-gray-400 ${
-                  state === "entered" ? "" : "hidden"
-                }`}
+                className={`mt-8 px-4 py-2  ${state === "entered" ? "" : "hidden"
+                  }`}
               >
                 <h2 className="text-lg font-bold mb-2">แก้ไขข้อมูลส่วนตัว</h2>
                 <div className="border-b border-gray-400"></div>
@@ -222,23 +235,44 @@ function ProfilePage() {
                         }
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
+
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="about"
+                        className="font-bold text-gray-700 block mb-1"
+                      >
+                        เกี่ยวกับฉัน
+                      </label>
+                      <textarea
+                        id="about"
+                        type="text"
+                        value={editedUserData.about}
+                        onChange={(e) =>
+                          setEditedUserData({
+                            ...editedUserData,
+                            about: e.target.value,
+                          })
+                        }
+                        className="border h-32 border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
                     </div>
                     <div>
                       <label
                         htmlFor="imageInput"
                         className="font-bold text-gray-700 block mb-1 cursor-pointer"
                       >
-                        อัปโหลดรูป
+                        อัพโหลดรูป
                       </label>
                       <input
                         id="imageInput"
                         type="file"
                         accept="image/*"
-                        onChange={(e) => setNewImage(e.target.files[0])}
+                        onChange={(e) => setNewImage(e.target.files)}
                       />
                     </div>
                   </div>
-                  <div className="mt-4 flex justify-end">
+                  <div className="mt-4 flex justify-end max-lg:justify-between">
                     <button
                       onClick={handleSave}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -258,9 +292,14 @@ function ProfilePage() {
           </Transition>
 
           <div className="mt-8">
-            <h2 className="text-lg font-bold">ข้อมูลส่วนตัว</h2>
+            <div className="flex justify-start justify-items-center items-center">
+              <svg class="w-8 h-8 inline text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd" />
+              </svg>
+              <h2 className="inline text-lg font-bold">ข้อมูลส่วนตัว</h2>
+            </div>
             <div className="border-b border-gray-400 mt-4"></div>
-            <div className="mt-4">
+            <div className="mt-4 space-y-4">
               <p className="text-base text-gray-700">
                 <span className="font-bold">ชื่อ: </span>
                 {userData && `${userData.first_name} ${userData.last_name}`}
@@ -272,6 +311,10 @@ function ProfilePage() {
               <p className="text-base text-gray-700">
                 <span className="font-bold">อีเมล: </span>
                 {userData && `${userData.email}`}
+              </p>
+              <p className="text-base text-gray-700">
+                <span className="font-bold">เกี่ยวกับฉัน: </span>
+                {userData && `${userData.about}`}
               </p>
             </div>
           </div>
