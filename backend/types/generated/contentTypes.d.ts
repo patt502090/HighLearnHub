@@ -919,7 +919,7 @@ export interface ApiCourseCourse extends Schema.CollectionType {
       'oneToMany',
       'api::watch-time.watch-time'
     >;
-    like: Attribute.Integer;
+    like: Attribute.Integer & Attribute.DefaultTo<0>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

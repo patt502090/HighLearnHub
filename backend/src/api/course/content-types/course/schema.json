@@ -75,7 +75,8 @@
       "mappedBy": "course"
     },
     "like": {
-      "type": "integer"
+      "type": "integer",
+      "default": 0
     }
   }
 }
