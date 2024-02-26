@@ -732,6 +732,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::watch-time.watch-time'
     >;
+    orders: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::order.order'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -854,7 +859,11 @@ export interface ApiBookingBooking extends Schema.CollectionType {
       'api::course.course'
     >;
     payment_datetime: Attribute.DateTime;
-    payment_confirm_img: Attribute.Media;
+    order: Attribute.Relation<
+      'api::booking.booking',
+      'manyToOne',
+      'api::order.order'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -922,6 +931,46 @@ export interface ApiCourseCourse extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::course.course',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiOrderOrder extends Schema.CollectionType {
+  collectionName: 'orders';
+  info: {
+    singularName: 'order';
+    pluralName: 'orders';
+    displayName: 'Order';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    confirmation: Attribute.Media;
+    bookings: Attribute.Relation<
+      'api::order.order',
+      'oneToMany',
+      'api::booking.booking'
+    >;
+    user: Attribute.Relation<
+      'api::order.order',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order.order',
       'oneToOne',
       'admin::user'
     > &
@@ -1039,6 +1088,7 @@ declare module '@strapi/types' {
       'api::announcement.announcement': ApiAnnouncementAnnouncement;
       'api::booking.booking': ApiBookingBooking;
       'api::course.course': ApiCourseCourse;
+      'api::order.order': ApiOrderOrder;
       'api::video.video': ApiVideoVideo;
       'api::watch-time.watch-time': ApiWatchTimeWatchTime;
     }

@@ -37,15 +37,11 @@
     "payment_datetime": {
       "type": "datetime"
     },
-    "payment_confirm_img": {
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ],
-      "type": "media",
-      "multiple": false
+    "order": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::order.order",
+      "inversedBy": "bookings"
     }
   }
 }
