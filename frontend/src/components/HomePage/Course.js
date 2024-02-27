@@ -212,7 +212,7 @@ export default function Course(props) {
                   )}
                 </div>
               </Link>
-              <div className="relative">
+              {/* <div className="relative">
                 <div className="absolute top-0 right-0 p-3">
                   <button
                     className="flex items-center space-x-1 text-gray-500 hover:text-gray-900"
@@ -227,7 +227,7 @@ export default function Course(props) {
                     <span>{item.like || 0}</span>
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>
