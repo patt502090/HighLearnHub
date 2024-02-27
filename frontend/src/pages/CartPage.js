@@ -84,7 +84,7 @@ export default function CartPage() {
                             style={{ minWidth: "300px", maxWidth: "600px" }}
                           >
                             <img
-                              className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
+                              className="object-cover w-full rounded-t-lg h-96 max-lg:h-[11.5em] md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
                               src={"http://localhost:1337" + item.course.image.url}
                               alt=""
                             />
@@ -100,7 +100,7 @@ export default function CartPage() {
                               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 {item.course.title}
                               </h5>
-                              <p>{item.course.description}</p>
+                              <p className="max-lg:hidden">{item.course.description}</p>
                               <hr className="mt-6 " />
                               <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 flex justify-between">
                                 <span>ราคา {item.course.price} บาท,</span>

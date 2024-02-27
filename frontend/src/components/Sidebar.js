@@ -83,8 +83,8 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
                                         HighLearnHub
                                     </p>
                                 </div>
-                                <hr className='lg:hidden' />
-                                <Link to={`/profile/${userData && userData.id}`} className='lg:hidden'>
+                                <hr />
+                                <Link to={`/profile/${userData && userData.id}`}>
                                     <List>
                                         <ListItem disablePadding href=''>
                                             <ListItemButton>
@@ -205,8 +205,8 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
                             </p>
 
                         </div>
-                        <hr className='lg:hidden' />
-                        <Link to={`/profile/${userData && userData.id}`} className='lg:hidden'>
+                        <hr />
+                        <Link to={`/profile/${userData && userData.id}`}>
                             <List>
                                 <ListItem disablePadding href=''>
                                     <ListItemButton>

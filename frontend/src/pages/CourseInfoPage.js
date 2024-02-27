@@ -151,6 +151,10 @@ export default function CourseInfoPage() {
   if (userRole === "admin") {
     return (
       <div className="background-image">
+        <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>รายละเอียดคอร์ส</title>
+      </Helmet>
         {onEdit ? (
           <EditCourseModal
             course={course}
