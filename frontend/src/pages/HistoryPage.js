@@ -15,7 +15,7 @@ export default function HistoryPage() {
       try {
         const response = await ax.get(
           conf.apiUrlPrefix +
-            "/courses?populate[bookings][filters][payment_status][$eq]=true&populate=image"
+            "user/me/courses?populate[bookings][filters][payment_status][$eq]=true&populate=image"
         );
         console.log(response);
         const filterDatas = response.data.data.filter(

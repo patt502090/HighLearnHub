@@ -24,6 +24,7 @@ export default function PaymentPage() {
                     conf.apiUrlPrefix +
                     "/users/me?populate[bookings][filters][payment_status][$eq]=false"
                 );
+                console.log(response)
                 const onlyId = response.data.bookings.map(item => ({
                     bookingId: item.id,
                     userId: response.data.id
@@ -45,11 +46,19 @@ export default function PaymentPage() {
 
     const Createorder = async () => {
         try {
-            const bookedDate = new Date(); // สร้างวันที่และเวลาปัจจุบัน   
-            const date = bookedDate.toISOString().split("T")[0]; // แยกวันที่ (อันดับแรกของ ISO string)
-            const time = bookedDate.toISOString().split("T")[1].split(".")[0]; // แยกเวลา (อันดับสองของ ISO string)
             const bookingIds = dataId.map(item => item.bookingId);
             const userIds = dataId.map(item => item.userId);
+            console.log("Idbooking",bookingIds)
+            console.log("Idbooking",userIds)
+            
+            for (const id of bookingIds) {
+                await ax.put(conf.apiUrlPrefix + `/bookings/${id}`, {
+                    data: {
+                        "status": "process"
+                    }
+                });
+            }
+
             const PostData = await ax.post(
                 conf.apiUrlPrefix +
                 `/orders`
@@ -62,7 +71,7 @@ export default function PaymentPage() {
                     },
                 }
             );
-
+            
             const formData = new FormData();
 
             formData.append("field", 'confirmation');
@@ -77,7 +86,7 @@ export default function PaymentPage() {
                 .catch((error) => {
                     console.error(error);
                 });
-
+                   
         } catch (error) {
             console.error("Error fetching Data:", error);
         }

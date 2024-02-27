@@ -39,6 +39,15 @@
       "relation": "manyToOne",
       "target": "api::order.order",
       "inversedBy": "bookings"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "cart",
+        "process",
+        "success"
+      ],
+      "default": "cart"
     }
   }
 }

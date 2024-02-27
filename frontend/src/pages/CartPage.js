@@ -16,13 +16,11 @@ export default function CartPage() {
       try {
         const response = await ax.get(
           conf.apiUrlPrefix +
-          "/courses?populate[bookings][filters][payment_status][$eq]=false&populate=image"
+          "/users/me?populate[bookings][filters][status][$eq]=cart&populate[bookings][populate][course][populate]=image"
         );
         console.log(response);
-        const filterDatas = response.data.data.filter(
-          (item) => item.attributes.bookings.data.length !== 0
-        );
-        setCoursebooked(filterDatas);
+        
+        setCoursebooked(response.data.bookings);
         
         
       } catch (error) {
@@ -37,7 +35,7 @@ export default function CartPage() {
     let totalPrice = 0;
     coursebooked?.forEach((item) => {
       totalPrice +=
-        item.attributes.price * item.attributes.bookings.data.length;
+        item.course.price ;
         
     });
     return totalPrice.toLocaleString();
@@ -50,7 +48,7 @@ export default function CartPage() {
         `/bookings/${id}`
       );
 
-      setCoursebooked(coursebooked.filter(course => course.attributes.bookings.data[0].id != id))
+      setCoursebooked(coursebooked.filter(course => course  .id != id))
     } catch (error) {
       console.error("Error fetching Data:", error);
     }
@@ -89,7 +87,7 @@ export default function CartPage() {
                       >
                         <img
                           className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
-                          src={"http://localhost:1337" + item.attributes.image.data.attributes.url}
+                          src={"http://localhost:1337" + item.course.image.url}
                           alt=""
                           />
                         <div className="flex flex-col justify-between p-4 relative w-full">
@@ -97,24 +95,24 @@ export default function CartPage() {
                             type="button"
                             className="absolute top-0 right-0 mt-2 mr-2 bg-red-500 rounded-full p-2 inline-flex items-center text-white hover:text-white-500 hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
                             style={{ width: "30px", height: "30px" }}
-                            onClick={() => DeleteCourseBooked(item.attributes.bookings.data[0].id)}
+                            onClick={() => DeleteCourseBooked(item.id)}
                             
                           >
                             <IoTrashOutline />
                           </button>
                           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            {item.attributes.title}
+                            {item.course.title}
                           </h5>
-                          <p>{item.attributes.description}</p>
+                          <p>{item.course.description}</p>
                           <hr className="mt-6 " />
                           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 flex justify-between">
-                            <span>ราคา {item.attributes.price} บาท,</span>
-                            <span>x{item.attributes.bookings.data.length}</span>
+                            <span>ราคา {item.course.price} บาท,</span>
+                            <span>x1</span>
 
                           </p>
                         </div>
                       </div>
-                    ))}
+                     ))} 
                     </div>
 
                   <div className="flex flex-wrap justify-between">

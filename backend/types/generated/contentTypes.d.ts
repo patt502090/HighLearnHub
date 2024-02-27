@@ -863,6 +863,8 @@ export interface ApiBookingBooking extends Schema.CollectionType {
       'manyToOne',
       'api::order.order'
     >;
+    status: Attribute.Enumeration<['cart', 'process', 'success']> &
+      Attribute.DefaultTo<'cart'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
