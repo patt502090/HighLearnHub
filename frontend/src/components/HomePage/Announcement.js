@@ -13,7 +13,6 @@ export default function Announcements({ data }) {
         <Swiper
           spaceBetween={20}
           modules={[Navigation, Pagination]}
-          centeredSlides={true}
           navigation={true}
           loop={true}
           slidesPerView={1}

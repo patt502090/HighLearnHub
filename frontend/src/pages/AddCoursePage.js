@@ -19,8 +19,8 @@ export default function AddCoursePage() {
     description: "",
     detail: "",
     study_type: "",
-    maxamount: "",
-    schedule_text: "",
+    maxamount: null,
+    schedule_text: null,
   });
   console.log("courseData",courseData)
 
@@ -72,11 +72,12 @@ export default function AddCoursePage() {
       const response = await ax.post(`${conf.apiUrlPrefix}/courses`, {
         data: courseData,
       });
+      console.log(courseData);
       uploadImg(response.data.data.id);
       setTimeout(() => {
         navigate("/admin");
         setLoading(false);
-      }, 1500);
+      }, );
     } catch (error) {
       console.error("Error adding course:", error);
     }
@@ -200,7 +201,7 @@ export default function AddCoursePage() {
                         id="maxamount"
                         name="maxamount"
                         placeholder="จำนวน"
-                        type="int"
+                        type="number"
                         min="0"
                         value={courseData.maxamount}
                         onChange={handleChange}

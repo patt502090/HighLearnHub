@@ -2,6 +2,7 @@ import { Modal, Label, TextInput, Textarea, Button } from "flowbite-react";
 import React, { useState, useEffect } from "react";
 import ax from "../../conf/ax";
 import conf from "../../conf/main";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function ManageVideoModal({ data, onCloseModal, openModal }) {
   const [editedVideo, setEditedVideo] = useState({
@@ -13,7 +14,6 @@ export default function ManageVideoModal({ data, onCloseModal, openModal }) {
     },
   });
   console.log(data);
-
   useEffect(() => {
     if (data && data.attributes) {
       setEditedVideo({
@@ -40,6 +40,7 @@ export default function ManageVideoModal({ data, onCloseModal, openModal }) {
         },
       });
       console.log("Update วิดีโอสำเร็จ", response?.data);
+      toast('แก้ไขวิดีโอสำเร็จ', { icon: '🚀' });
     } catch (error) {
       console.error("Error updating video:", error);
     }
@@ -174,5 +175,6 @@ export default function ManageVideoModal({ data, onCloseModal, openModal }) {
         </div>
       </Modal.Body>
     </Modal>
+    
   );
 }

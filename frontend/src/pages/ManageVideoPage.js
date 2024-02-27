@@ -9,7 +9,7 @@ import ManageVideoModal from "../components/ManageViedoPage/ModalEditVideo";
 import ModalDelete from "../components/ManageViedoPage/ModalDeleteVideo";
 import ModalCreateVideo from "../components/ManageViedoPage/ModalCreateVideo";
 import { AiTwotoneFileAdd } from "react-icons/ai";
-
+import toast, { Toaster } from 'react-hot-toast';
 import IconButton from "@mui/material/IconButton";
 
 const ManageVideoPage = () => {
@@ -59,6 +59,7 @@ const ManageVideoPage = () => {
       setDeleteModalOpen(false);
       setSelectedVideoId(null);
       setSelectedVideoTitle(null);
+      toast.success('ลบวิดิโอสำเร็จ!')
     } catch (error) {
       console.error("Error deleting video:", error);
     }
@@ -211,7 +212,11 @@ const ManageVideoPage = () => {
         onDelete={handleDeleteVideo}
         videoTitle={selectedVideoTitle}
       />
-      <ModalCreateVideo onCloseModal={setCreateModalOpen} openModal={isCreateModalOpen} idCourse={id} />
+      <ModalCreateVideo
+        onCloseModal={setCreateModalOpen}
+        openModal={isCreateModalOpen}
+        idCourse={id}
+      />
     </div>
   );
 };

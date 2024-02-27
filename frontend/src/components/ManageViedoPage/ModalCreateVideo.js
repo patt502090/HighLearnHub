@@ -2,7 +2,7 @@ import { Modal, Label, TextInput, Textarea, Button } from "flowbite-react";
 import React, { useState } from "react";
 import ax from "../../conf/ax";
 import conf from "../../conf/main";
-
+import toast, { Toaster } from 'react-hot-toast';
 export default function ModalCreateVideo({ onCloseModal, openModal, idCourse }) {
   const [newVideo, setNewVideo] = useState({
     title: "",
@@ -24,6 +24,7 @@ export default function ModalCreateVideo({ onCloseModal, openModal, idCourse }) 
     }});
       console.log("ข้อมูลใหม่",newVideo)
       console.log("วิดีโอถูกสร้างเรียบร้อยแล้ว", response?.data);
+      toast.success('สร้างวิดีโอสำเร็จ');
       resetForm();
       onCloseModal(false);
     } catch (error) {

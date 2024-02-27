@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
-
+import toast, { Toaster } from 'react-hot-toast';
 const ModalDelete = ({ isOpen, onClose, onDelete, videoTitle }) => {
     return (
         <>
