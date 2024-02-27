@@ -15,13 +15,14 @@ export default function HistoryPage() {
       try {
         const response = await ax.get(
           conf.apiUrlPrefix +
-            "user/me/courses?populate[bookings][filters][payment_status][$eq]=true&populate=image"
+            "/users/me?populate[bookings][populate][course][populate]=image"
         );
         console.log(response);
-        const filterDatas = response.data.data.filter(
-          (item) => item.attributes.bookings.data.length !== 0
+        const filterDatas = response.data.bookings.filter(
+          (item) => item.status !== "cart"
         );
         setCoursebooked(filterDatas);
+        console.log(filterDatas)
       } catch (error) {
         console.error("Error fetching Data:", error);
       }
@@ -37,7 +38,6 @@ export default function HistoryPage() {
     const diffDays = Math.round(Math.abs((currentDate - paymentDate) / oneDay));
     return diffDays;
   };
-
   return (
     <>
     <div className="background-image">
@@ -62,9 +62,9 @@ export default function HistoryPage() {
                 See all
               </button>
             </div>
-            {coursebooked.map((course) => (
+            {coursebooked.map((item) => (
               <div
-                key={course.id}
+                key={item.course.id}
                 className="flex h-full w-full items-start justify-between rounded-md border-[1px] border-[transparent] dark:hover:border-white/20 bg-white px-3 py-[20px] transition-all duration-150 hover:border-gray-200 dark:!bg-navy-800 dark:hover:!bg-navy-700"
               >
                 <div className="flex items-center gap-3">
@@ -73,17 +73,17 @@ export default function HistoryPage() {
                       className="object-cover w-full h-[100px] rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
                       src={
                         "http://localhost:1337" +
-                        course.attributes.image.data.attributes.url
+                        item.course.image.url
                       }
                       alt=""
                     />
                   </div>
                   <div className="flex flex-col">
                     <h5 className="text-base font-bold text-navy-700 dark:text-white">
-                      {course.attributes.title}
+                      {item.course.title}
                     </h5>
                     <p className="mt-1 text-sm font-normal text-gray-600">
-                      {course.attributes.description}
+                      {item.course.description}
                     </p>
                   </div>
                 </div>
@@ -102,12 +102,25 @@ export default function HistoryPage() {
                     </svg>
                   </div>
                   <div className="ml-1 flex items-center text-sm font-bold text-navy-700 dark:text-white">
-                    {course.attributes.price}
+                    {item.course.price}
                     <p className="ml-1">Bath</p>
                   </div>
                   <div className="ml-2 flex items-center text-sm font-normal text-gray-600 dark:text-white">
-                    <p>{calculateDaysAgo(course.attributes.bookings.data[0].attributes.createdAt)}d ago</p>
+                    <p>{calculateDaysAgo(item.createdAt)}d ago</p>
                   </div>
+
+                  {item.status === "success"?(
+                  <div className="ml-3 flex items-center text-sm font-normal text-green-600">
+                      {item.status}
+
+                  </div>):(
+                     <div className="ml-3 flex items-center text-sm font-normal font-normal text-orange-600">
+                     in {item.status}
+
+                 </div>
+
+                  )}
+
                 </div>
               </div>
             ))}
