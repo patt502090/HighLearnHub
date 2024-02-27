@@ -39,7 +39,7 @@ module.exports = createCoreController("api::course.course", ({ strapi }) => ({
       course = await strapi.entityService.update(
         "api::course.course",
         entityId,
-        { data: { like: (course.like || 0) + (course.like > 0 ? -1 : 1) } }
+        { data: { like: (course.like || 0) + (course.like > 0 ? 1 : 0) } }
       );
       ctx.body = { ok: 1, likeCount: course.like };
     } catch (err) {
