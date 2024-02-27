@@ -83,8 +83,12 @@ export default function MyCoursePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>คอร์สของฉัน</title>
       </Helmet>
-      <div className="h-full bg-cover bg-center background-image">
-        <div className="h-full">
+      <div className="bg-cover bg-center background-image">
+      <div className={
+        courseData.length > 2
+          ? "h-full"
+          : "h-screen"
+      }>
           <Navbar />
           <div className="mx-10 lg:mx-auto flex flex-col items-center justify-items-center w-auto pt-[92px] sm:w-full">
             <div className="h-auto w-full xl:w-2/3 2xl:w-1/2 p-10 sm:p-20 2xl:p-16 bg-white shadow-lg rounded-lg ">

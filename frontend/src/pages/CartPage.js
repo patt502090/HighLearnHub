@@ -16,7 +16,7 @@ export default function CartPage() {
       try {
         const response = await ax.get(
           conf.apiUrlPrefix +
-            "/users/me?populate[bookings][filters][status][$eq]=cart&populate[bookings][populate][course][populate]=image"
+          "/users/me?populate[bookings][filters][status][$eq]=cart&populate[bookings][populate][course][populate]=image"
         );
         console.log(response);
 
@@ -56,22 +56,25 @@ export default function CartPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
 
-      <div className="sm:h-screen">
+      <div className={
+        coursebooked.length > 0
+          ? "h-full"
+          : "h-screen"
+      }>
         <div className="background-image">
-         <Navbar />
-          <div className="w-5/6 sm:w-6/12 mx-auto">
-            <div className="mr-4">
+          <Navbar />
+          <div className="mx-auto">
+            <div className="px-4">
               <Progessbar></Progessbar>
-
               <title>ตะกร้าของฉัน</title>
               <div className="flex flex-col items-center ">
                 <h className="text-xl font-bold mt-5">ตะกร้าของฉัน</h>
-                <div className="flex flex-col items-center mt-6">
+                <div className="flex flex-col w-4/5 items-center mt-6">
                   <section
                     className={
                       coursebooked.length > 0
-                        ? "py-3 sm:py-15 w-6/7 sm:w-full bg-gray-100 font-poppins dark:bg-gray-700"
-                        : "py-3 sm:py-15 w-5/12 sm:w-full bg-gray-100 font-poppins dark:bg-gray-700"
+                        ? "py-3 sm:py-15 w-full bg-gray-100 font-poppins dark:bg-gray-700"
+                        : "py-3 sm:py-15 w-full  bg-gray-100 font-poppins dark:bg-gray-700"
                     }
                   >
                     <div className="px-4 py-4 sm:py-6 mx-auto max-w-7xl lg:py-4 md:px-full">
@@ -121,14 +124,6 @@ export default function CartPage() {
                             ) : (
                               <div>
                                 <p
-                                  style={{
-                                    fontSize: "100px",
-                                    visibility: "hidden",
-                                  }}
-                                >
-                                  aasdasdasac
-                                </p>
-                                <p
                                   className="text-center"
                                   style={{
                                     fontSize: "20px",
@@ -140,6 +135,7 @@ export default function CartPage() {
                                 </p>
                                 <div className="flex flex-col items-center"></div>
                               </div>
+
                             )}
                           </div>
 
@@ -156,7 +152,7 @@ export default function CartPage() {
                     <Link Link to="/payment">
                       <button
                         className="block w-full py-5 px-11 font-bold text-center text-gray-100 uppercase bg-green-400 rounded-md hover:bg-blue-600"
-                        style={{ marginTop: "20px", marginBottom: "20px" }}
+                        style={{ marginTop: "20px", marginBottom: "30px" }}
                       >
                         ชำระเงิน
                       </button>
