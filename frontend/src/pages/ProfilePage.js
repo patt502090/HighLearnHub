@@ -56,6 +56,7 @@ function ProfilePage() {
         last_name: editedUserData.last_name,
         phonenum: editedUserData.phonenum,
         email: editedUserData.email,
+        line_id: editedUserData.line_id
       });
 
       if (newImage) {
@@ -220,24 +221,23 @@ function ProfilePage() {
                     </div>
                     <div>
                       <label
-                        htmlFor="email"
+                        htmlFor="lineID"
                         className="font-bold text-gray-700 block mb-1"
                       >
-                        อีเมล
+                        ไอดีไลน์
                       </label>
                       <input
-                        id="email"
+                        id="lineID"
                         type="text"
-                        value={editedUserData.email}
+                        value={editedUserData.line_id}
                         onChange={(e) =>
                           setEditedUserData({
                             ...editedUserData,
-                            email: e.target.value,
+                            line_id: e.target.value,
                           })
                         }
                         className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
-
                     </div>
                     <div>
                       <label
@@ -258,6 +258,27 @@ function ProfilePage() {
                         }
                         className="border h-32 border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className="font-bold text-gray-700 block mb-1"
+                      >
+                        อีเมล
+                      </label>
+                      <input
+                        id="email"
+                        type="text"
+                        value={editedUserData.email}
+                        onChange={(e) =>
+                          setEditedUserData({
+                            ...editedUserData,
+                            email: e.target.value,
+                          })
+                        }
+                        className="border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
                     </div>
                     <div>
                       <label
@@ -308,15 +329,19 @@ function ProfilePage() {
               </p>
               <p className="text-base text-gray-700">
                 <span className="font-bold">เบอร์โทรศัพท์: </span>
-                {userData && `${userData.phonenum}`}
+                {userData && `${userData.phonenum ? userData.phonenum : "ไม่ระบุ"}`}
+              </p>
+              <p className="text-base text-gray-700">
+                <span className="font-bold">ไอดีไลน์: </span>
+                {userData && `${userData.line_id ? userData.line_id : "ไม่ระบุ"}`}
               </p>
               <p className="text-base text-gray-700">
                 <span className="font-bold">อีเมล: </span>
-                {userData && `${userData.email}`}
+                {userData && `${userData.email ? userData.email : "ไม่ระบุ"}`}
               </p>
               <p className="text-base text-gray-700">
                 <span className="font-bold">เกี่ยวกับฉัน: </span>
-                {userData && `${userData.about}`}
+                {userData && `${userData.about ? userData.about : "ไม่ระบุ"}`}
               </p>
             </div>
           </div>

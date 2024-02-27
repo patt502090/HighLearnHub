@@ -109,6 +109,9 @@
       "relation": "oneToMany",
       "target": "api::order.order",
       "mappedBy": "user"
+    },
+    "line_id": {
+      "type": "string"
     }
   }
 }

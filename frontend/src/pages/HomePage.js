@@ -38,7 +38,7 @@ export default function HomePage() {
             (totalDuration, video) => totalDuration + video.attributes.duration,
             0
           );
-          console.log("Course",course)
+          console.log("Course", course)
 
           const minutes = Math.floor(totalDurationSeconds / 60);
           const seconds = Math.floor(totalDurationSeconds % 60);
@@ -50,7 +50,7 @@ export default function HomePage() {
             amount: course.attributes.amount,
             maxamount: course.attributes.maxamount,
             description: course.attributes.description,
-            image:`${conf.urlPrefix}`+ course.attributes.image.data.attributes.url,
+            image: `${conf.urlPrefix}` + course.attributes.image.data.attributes.url,
             type: course?.attributes?.study_type,
             duration: { minutes, seconds },
             date: course.attributes.schedule_text,
@@ -85,6 +85,10 @@ export default function HomePage() {
           <CircularProgress />
         </div> :
           <>
+            <Helmet>
+              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <title>HighLearnHub</title>
+            </Helmet>
             <Navbar data={course} />
             <Announcements data={announcements} />
             <Course data={course} userRole={ContextState.userRole} />
@@ -107,7 +111,7 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            <Navbar data={course}/>
+            <Navbar data={course} />
             <Announcements data={announcements} />
             <OnlineBestSeller />
             <OnlineLatest />

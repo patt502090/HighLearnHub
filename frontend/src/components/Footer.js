@@ -73,7 +73,7 @@ export default function Footer() {
           </span>
           <div className="flex items-center mt-1 space-x-3">
             <a
-              href="/"
+              href="https://lin.ee/qRplj7C"
               className="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-400"
             >
               <img
@@ -84,7 +84,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="/"
+              href="https://www.facebook.com/profile.php?id=61556519805077"
               className="text-gray-500 transition-colors duration-300 hover:text-deep-purple-accent-400"
             >
               <svg viewBox="0 0 24 24" fill="currentColor" className="h-5">
@@ -93,7 +93,7 @@ export default function Footer() {
             </a>
           </div>
           <p className="mt-4 text-sm text-gray-500">
-            ติดต่อได้ตอบไว้ภายใน24 ชั่วโมง.
+            ติดต่อสอบถามและตอบภายใน 24 ชั่วโมง
           </p>
         </div>
       </div>
