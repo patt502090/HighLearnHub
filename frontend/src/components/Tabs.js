@@ -16,32 +16,58 @@ export default function BasicTabs(props) {
   const data = props.data.attributes;
   const [firstVideo, setFirstVideo] = useState(null);
   const id = props.data.id;
-  const [review, setReview] = useState('');
-
+  const [review, setReview] = useState("");
+  const [totalDurations, setTotalDurations] = useState(null);
+  console.log(id)
   useEffect(() => {
     fetchFirstVideo();
   }, [id]);
 
+  function formatTime(seconds) {
+    let hours = Math.floor(seconds / 3600);
+    let minutes = Math.floor((seconds % 3600) / 60);
+    let remainingSeconds = seconds % 60;
+
+    let formattedTime = "";
+    if (hours > 0) {
+      formattedTime += hours + " ชั่วโมง ";
+    }
+    if (minutes > 0 || hours > 0) {
+      formattedTime += minutes + " นาที ";
+    }
+    formattedTime += remainingSeconds + " วินาที";
+
+    return formattedTime;
+  }
+
   const fetchFirstVideo = async () => {
     try {
       const response = await ax.get(
-        `${conf.apiUrlPrefix}/users/me?populate[bookings][populate][course][populate]=videos&populate[bookings][filters][course][id][$eq]=${id}`
+        `${conf.apiUrlPrefix}/videos?populate=course&filters[course][id][$eq]=${id}`
       );
-      const videos = response.data.data;
+      const videos = response?.data?.data;
       if (videos && videos.length > 0) {
-        setFirstVideo(videos[0]);
+        setFirstVideo(videos[0]?.attributes.url);
       }
+      console.log(videos);
+      const durations = videos.map((video) => {
+        return video.attributes.duration;
+      });
+      const totalDuration = durations.reduce((accumulator, currentValue) => {
+        return accumulator + currentValue;
+      }, 0);
+      formatTime(totalDuration);
+      setTotalDurations(formatTime(totalDuration));
     } catch (error) {
       console.error("Error fetching first video: ", error);
     }
   };
 
-
   return (
     <>
       {userRole === "admin" ? (
         <div style={{ position: "relative" }}>
-          <div style={{ position: "absolute", top: 0, right: 0 }}>
+          <div className="absolute top-14 sm:top-0 right-0">
             <button
               onClick={() => props.OnEdition(true)}
               className="px-3 py-3 bg-gray-500 text-white rounded-full hover:bg-gray-600 focus:outline-none focus:bg-blue-600"
@@ -57,7 +83,10 @@ export default function BasicTabs(props) {
           </div>
           <Tabs aria-label="Default tabs" className="w-full justify-center">
             <Tabs.Item title="รายละเอียด" icon={MdDashboard}>
-              <ul class="justify-between grid lg:grid-cols-2  text-base font-base text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white" style={{ justifyContent: 'center' }}>
+              <ul
+                class="justify-between grid lg:grid-cols-2  text-base font-base text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                style={{ justifyContent: "center" }}
+              >
                 <li class="justify-between text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center">
                   <div>
                     <svg
@@ -69,7 +98,7 @@ export default function BasicTabs(props) {
                     >
                       <path d="M7.8 2c-.5 0-1 .2-1.3.6A2 2 0 0 0 6 3.9V21a1 1 0 0 0 1.6.8l4.4-3.5 4.4 3.5A1 1 0 0 0 18 21V3.9c0-.5-.2-1-.5-1.3-.4-.4-.8-.6-1.3-.6H7.8Z" />
                     </svg>
-                    <span className="font-medium">วิชา: </span>
+                    <span className="font-medium">วิชา:</span>
                     {data.subject}
                   </div>
                 </li>
@@ -174,7 +203,7 @@ export default function BasicTabs(props) {
                 <span class="whitespace-pre-line text-center mb-2 text-sm font-base tracking-tight text-gray-900 dark:text-white">
                   {firstVideo && (
                     <ReactPlayer
-                      url={firstVideo.url}
+                      url={firstVideo}
                       controls={true}
                       width="100%"
                       height="100%"
@@ -188,7 +217,10 @@ export default function BasicTabs(props) {
       ) : (
         <Tabs aria-label="Default tabs" className="w-full justify-center">
           <Tabs.Item title="รายละเอียด" icon={MdDashboard}>
-            <ul class="grid lg:grid-cols-2  text-base font-base text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white" style={{ justifyContent: 'center' }}>
+            <ul
+              class="grid lg:grid-cols-2  text-base font-base text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              style={{ justifyContent: "center" }}
+            >
               <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center">
                 <svg
                   class="w-8 h-8 inline-block mr-2 text-gray-500 dark:text-white"
@@ -251,7 +283,12 @@ export default function BasicTabs(props) {
                   />
                 </svg>
                 {/* {data.videos.data[0].attributes.duration} ชั่วโมง */}
-                <span className="font-medium">ระยะเวลา: </span>25 ชั่วโมง
+                <span className="font-medium">
+                  {data.study_type === "Online" ? "ระยะเวลา" : "ช่วงเวลา"}:
+                </span>
+                {data.study_type === "Online"
+                  ? `${totalDurations}`
+                  : `${data.schedule_text}`}
               </li>
               <li class="text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center">
                 <svg
@@ -292,19 +329,20 @@ export default function BasicTabs(props) {
               วิดีโอเบื้องต้น
             </h1>
             <div class="w-auto p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-auto">
-              <span class="whitespace-pre-line text-center mb-2 text-sm font-base tracking-tight text-gray-900 dark:text-white">
-                {firstVideo && (
-                  <ReactPlayer
-                    url={firstVideo.url}
-                    controls={true}
-                    width="100%"
-                    height="100%"
-                  />
-                )}
-              </span>
+              {firstVideo ? (
+                <ReactPlayer
+                  url={firstVideo}
+                  controls={true}
+                  width="100%"
+                  height="100%"
+                />
+              ) : (
+                <p class="whitespace-pre-line text-center mb-2 text-sm font-base tracking-tight text-gray-900 dark:text-white">
+                  ไม่มีวิดีโอ
+                </p>
+              )}
             </div>
           </Tabs.Item>
-
         </Tabs>
       )}
     </>

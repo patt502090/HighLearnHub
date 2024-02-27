@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import conf from "../conf/main";
 
 
-const backendUrl = `${conf.urlPrefix}`;
+
+const backendUrl = "http://localhost:1337";
 
 const LoginRedirect = () => {
-  const [text, setText] = useState("กำลังเข้าสู่ระบบ...");
+  const [text, setText] = useState("กำลังโหลด...");
   const location = useLocation();
   const navigate = useNavigate();  
 
@@ -16,8 +16,7 @@ const LoginRedirect = () => {
     fetch(`${backendUrl}/api/auth/${providerName}/callback${location.search}`)
       .then((res) => {
         if (res.status !== 200) {
-          throw new Error(`
-          ไม่สามารถเข้าสู่ระบบ Strapi ได้ สถานะ: ${res.status}`);
+          throw new Error(`ไม่สามารถเข้าสู่ระบบ Strapi ได้ สถานะ: ${res.status}`);
         }
         return res;
       })
@@ -30,7 +29,7 @@ const LoginRedirect = () => {
           "คุณเข้าสู่ระบบสำเร็จแล้ว คุณจะถูกเปลี่ยนเส้นทางภายในไม่กี่วินาที..."
         );
 
-        setTimeout(() => navigate("/home"));  
+        setTimeout(() => navigate("/home"), );  
       })
       .catch((err) => {
         console.log(err);

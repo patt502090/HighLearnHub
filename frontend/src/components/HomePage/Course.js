@@ -75,7 +75,7 @@ export default function Course(props) {
           </Dropdown>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5 gap-2 md:gap-6 mr-2 md:mx-0">
+        <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-4 gap-2 md:gap-6 mr-2 md:mx-0">
           {props.data?.map((item) => (
             <div
               key={item.id}

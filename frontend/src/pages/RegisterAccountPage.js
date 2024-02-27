@@ -64,7 +64,7 @@ export default function RegisterAccountPage() {
         toast.success("สมัครสมาชิกสำเร็จ!");
         setTimeout(() => {
           navigate("/login");
-        },);
+        });
       } else {
         console.error("รหัสผ่านไม่ตรงกัน กรุณากรอกรหัสผ่านใหม่ให้ตรงกัน");
         toast.error("รหัสผ่านไม่ตรงกัน กรุณากรอกรหัสผ่านใหม่ให้ตรงกัน");
@@ -84,8 +84,8 @@ export default function RegisterAccountPage() {
     <ContextProvider>
       <Helmet>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>ลงทะเบียน</title>
-        </Helmet>
+        <title>ลงทะเบียน</title>
+      </Helmet>
       <Toaster position="top-right" reverseOrder={false} />
       <div
         className="flex items-center justify-center h-screen w-screen"
@@ -95,7 +95,7 @@ export default function RegisterAccountPage() {
           backgroundPosition: "center",
         }}
       >
-        <div className="container max-w-xs md:max-w-sm bg-white border-2 rounded-lg shadow-2xl p-6 ">
+        <div className="container max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl bg-white border-2 rounded-lg shadow-2xl p-6 mx-auto">
           <p className="text-lg font-bold mb-4 text-center">
             สมัครบัญชีผู้ใช้ด้วยอีเมล
           </p>
@@ -125,7 +125,7 @@ export default function RegisterAccountPage() {
                 value={formData.first_name}
                 onChange={handleChange}
                 required
-                size={17} 
+                size={17}
               />
             </div>
 

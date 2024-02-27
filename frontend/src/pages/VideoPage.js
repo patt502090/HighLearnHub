@@ -24,7 +24,8 @@ function VideoPage() {
   const [durationSelected, setDurationSelected] = useState(0);
   const [imageCourse, setImageCourse] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(played)
+  console.log(played);
+  console.log("T1", selectedVideo);
 
   const handleLeaveRoom = () => {
     setIsModalOpen(true);
@@ -112,17 +113,16 @@ function VideoPage() {
         });
         console.log("อัปเดต watch time สำเร็จ.");
       } else {
-        console.log('debugged : ',userID);
-        const response = await ax.post(`${conf.apiUrlPrefix}/init_watch_time`, {
+        const response = await ax.post(`${conf.apiUrlPrefix}/watch-times`, {
           data: {
-            video: selectedVideo.id ,
+            video: { connect: [{ id: selectedVideo.id }] },
             watch_time: 0,
-            course: id,
-            published_At: new Date()
+            course: { connect: [{ id: id }] },
+            member: { connect: [{ id: userID }] },
           },
         });
-        console.log("สร้าง watch time สำเร็จ. ID:", response?.data?.id);
-        setWatchTimeId(response?.data?.id);
+        console.log("สร้าง watch time สำเร็จ. ID:", response?.data?.data?.id);
+        setWatchTimeId(response?.data?.data?.id);
       }
     } catch (error) {
       console.error("Error posting watch time: ", error);
@@ -139,28 +139,24 @@ function VideoPage() {
         setDurationSelected(selected.duration);
         if (userID) {
           console.log("UserID", userID);
-          const watchTimeResponse = await ax.post(
-            `${conf.apiUrlPrefix}/mycourse`, {
-              data : {
-                id : id
-              }
-            }
+          const watchTimeResponse = await ax.get(
+            `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userID}&filters[video][id][$eq]=${selected.id}&filters[course][id][$eq]=${id}`
           );
           console.log("WatchTimeResponse", watchTimeResponse);
-          if (watchTimeResponse?.data?.length > 0) {
+          if (watchTimeResponse?.data?.data?.length > 0) {
             setCurrentTime(
               Math.round(
-                watchTimeResponse?.data?.watch_time
+                watchTimeResponse?.data?.data[0]?.attributes?.watch_time
               )
             );
             console.log(
               "Watch Current Time Current",
               Math.round(
-                watchTimeResponse?.data.watch_time
+                watchTimeResponse?.data.data[0]?.attributes?.watch_time
               )
             );
-            console.log("Watch Time ID", watchTimeResponse?.data?.id);
-            setWatchTimeId(watchTimeResponse?.data?.id);
+            console.log("Watch Time ID", watchTimeResponse?.data?.data[0]?.id);
+            setWatchTimeId(watchTimeResponse?.data?.data[0]?.id);
           } else {
             setWatchTimeId(null);
             setCurrentTime(null);
@@ -196,19 +192,15 @@ function VideoPage() {
       const userStartResponse = await ax.get(`${conf.apiUrlPrefix}/users/me`);
       const userStartData = userStartResponse.data.id;
       setUserID(userStartData);
-      const watchTimesResponse = await ax.post(
-        `${conf.apiUrlPrefix}/mycourse`, {
-          data : {
-            id : id
-          }
-        }
+      const watchTimesResponse = await ax.get(
+        `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userStartData}&filters[course][id][$eq]=${id}`
       );
       console.log("watchTimesResponse", watchTimesResponse);
-      const watchTimesData = watchTimesResponse.data;
+      const watchTimesData = watchTimesResponse.data.data;
       console.log("watchTimesData", watchTimesData);
       let totalWatchTime = 0;
       watchTimesData.forEach((watchTime) => {
-        totalWatchTime += watchTime.watch_time;
+        totalWatchTime += watchTime.attributes.watch_time;
       });
       setTotalWatchTime(totalWatchTime);
     } catch (error) {
@@ -312,7 +304,6 @@ function VideoPage() {
                     url={`${selectedVideo.url}${CurrentTime}`}
                     height="75%"
                     width="100%"
-                  
                   />
                   <p className="mt-7 text-sm md:text-lg text-center text-slate-500">
                     {selectedVideo.description}
