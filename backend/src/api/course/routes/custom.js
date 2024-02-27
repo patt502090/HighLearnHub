@@ -21,6 +21,6 @@ module.exports = {
             method: "POST",
             path: "/init_watch_time",
             handler: "course.init_watch_time",
-        }
+        },
     ]
 };

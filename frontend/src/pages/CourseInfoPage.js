@@ -173,25 +173,16 @@ export default function CourseInfoPage() {
                   className="w-full h-auto mb-6 rounded-md"
                 />
               )}
-              <h1 className="mb-4 text-2xl font-bold">
+              <h1 className="mb-4 text-2xช font-bold">
                 {course.attributes.title}
               </h1>
-
-
-
               <BasicTabs data={course} OnDelete={setShowDeleteModal} OnEdition={setOnEdition} />
-
               <p className="text-lg font-medium mb-4 text-slate-700">
                 {course.attributes.description}
               </p>
-              <div className="flex justify-between mx-3">
-
                 <p className="text-center text-2xl font-bold text-red-700 mt-2">
                   ราคา: {course.attributes.price} บาท{" "}
                 </p>
-
-              </div>
-
             </div>
           ) : (
             <div className="h-screen flex justify-center items-center">

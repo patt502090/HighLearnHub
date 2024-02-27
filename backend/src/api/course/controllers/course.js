@@ -69,21 +69,20 @@ module.exports = createCoreController("api::course.course", ({ strapi }) => ({
     const result = await strapi.entityService.create('api::watch-time.watch-time', {
       populate: "*",
       data: {
-        video: { 
-          id:  ctx.request['body'].data.video
+        video: {
+          id: ctx.request['body'].data.video
         },
         watch_time: 0,
-        course: { 
-          id:  ctx.request['body'].data.course
+        course: {
+          id: ctx.request['body'].data.course
         },
-        member: { 
-          id:  ctx.state.user.id
+        member: {
+          id: ctx.state.user.id
         },
-        publishedAt : ctx.request['body'].data.published_At
+        publishedAt: ctx.request['body'].data.published_At
       },
     }
     )
     return result
   },
-
 }));
