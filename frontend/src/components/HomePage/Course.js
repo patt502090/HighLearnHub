@@ -1,15 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Badge, Dropdown, DropdownItem } from "flowbite-react";
 import { HiClock } from "react-icons/hi";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import ax from "../../conf/ax";
 import { FaCalendarDays } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import { AuthContext, ContextProvider } from "../../context/Auth.context";
 
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
   const [dropdownLabel, setDropdownLabel] = useState("ทั้งหมด");
   const [likes, setLikes] = useState({});
+  const navigate = useNavigate();
+  const { state: ContextState } = useContext(AuthContext);
+  const { user } = ContextState || {};
 
   useEffect(() => {
     const savedLikes = JSON.parse(localStorage.getItem("likes")) || {};
@@ -23,33 +29,50 @@ export default function Course(props) {
 
   const handleLike = async (courseId) => {
     try {
+      if (!user) {
+        toast.error('กรุณาเข้าสู่ระบบก่อนกด Like');
+        return;
+      }
+  
+      if (likes[courseId]) {
+        toast.success("คุณกด Like หลักสูตรนี้แล้ว");
+        return;
+      }
+  
       const response = await ax.put(`/courses/${courseId}/like`);
       if (response.data.ok === 1) {
         setLikes((prevLikes) => {
           const updatedLikes = { ...prevLikes };
-          if (prevLikes[courseId]) {
-            delete updatedLikes[courseId];
-          } else {
-            updatedLikes[courseId] = true;
-          }
+          updatedLikes[courseId] = true;
           localStorage.setItem("likes", JSON.stringify(updatedLikes));
           return updatedLikes;
         });
+  
+        // อัปเดตจำนวนไลค์ของคอร์สที่ถูกกด Like
+        props.data.forEach((item) => {
+          if (item.id === courseId) {
+            item.like = (item.like || 0) + 1;
+          }
+        });
       } else {
-        console.error("Failed to update like");
+        console.error("ไม่สามารถอัปเดตการชอบได้");
       }
     } catch (error) {
-      console.error("Error updating like:", error);
+      console.error("เกิดข้อผิดพลาดในการอัปเดตการชอบ:", error);
+      navigate("/");
     }
   };
+  
 
   return (
+    <ContextProvider>
     <>
+    
       <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between">
         <p className="font-medium text-2xl md:text-3xl pl-3 md:pl-0">
           คอร์สเรียนทั้งหมด
         </p>
-        <div className="flex my-10 mr-3 md:mr-0">
+        <div className="flex my-10 mr-3 md:mr-0 z-0">
           <Dropdown label={dropdownLabel} className="mr-2">
             <DropdownItem
               onClick={() => handleFilter("All", "ทั้งหมด")}
@@ -189,23 +212,27 @@ export default function Course(props) {
                   )}
                 </div>
               </Link>
-              <div className="bottom-0 p-3">
-                <button
-                  className="flex items-center space-x-1 text-gray-500 hover:text-gray-700"
-                  onClick={() => handleLike(item.id)}
-                >
-                  {likes[item.id] ? (
-                    <AiFillLike className="w-4 h-4 text-blue-500" />
-                  ) : (
-                    <AiOutlineLike className="w-4 h-4" />
-                  )}
-                  <span>{likes[item.id] || 0}</span>
-                </button>
+              <div className="relative">
+                <div className="absolute top-0 right-0 p-3">
+                  <button
+                    className="flex items-center space-x-1 text-gray-500 hover:text-gray-900"
+                    onClick={() => handleLike(item.id)}
+                    disabled={likes[item.id]}
+                  >
+                    {likes[item.id] ? (
+                      <AiFillLike className="w-5 h-5 text-violet-600" />
+                    ) : (
+                      <AiOutlineLike className="w-5 h-5" />
+                    )}
+                    <span>{item.like || 0}</span>
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
     </>
+    </ContextProvider>
   );
 }

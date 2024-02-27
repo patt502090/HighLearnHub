@@ -24,7 +24,8 @@ export default function HomePage() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const courseResponse = await ax.get(`${conf.apiUrlPrefix}/courses?populate=image&populate=videos`
+        const courseResponse = await ax.get(
+          `${conf.apiUrlPrefix}/courses?populate=image&populate=videos`
         );
 
         // console.log("courseResponse",courseResponse)
@@ -38,7 +39,7 @@ export default function HomePage() {
             (totalDuration, video) => totalDuration + video.attributes.duration,
             0
           );
-          console.log("Course", course)
+          console.log("Course", course);
 
           const minutes = Math.floor(totalDurationSeconds / 60);
           const seconds = Math.floor(totalDurationSeconds % 60);
@@ -50,10 +51,12 @@ export default function HomePage() {
             amount: course.attributes.amount,
             maxamount: course.attributes.maxamount,
             description: course.attributes.description,
-            image: `${conf.urlPrefix}` + course.attributes.image.data.attributes.url,
+            image:
+              `${conf.urlPrefix}` + course.attributes.image.data.attributes.url,
             type: course?.attributes?.study_type,
             duration: { minutes, seconds },
             date: course.attributes.schedule_text,
+            like: course.attributes.like,
           };
         });
 
@@ -81,19 +84,25 @@ export default function HomePage() {
   if (userRole === "admin") {
     return (
       <>
-        {loading ? <div className="h-screen flex justify-center items-center">
-          <CircularProgress />
-        </div> :
+        {loading ? (
+          <div className="h-screen flex justify-center items-center">
+            <CircularProgress />
+          </div>
+        ) : (
           <>
             <Helmet>
-              <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1.0"
+              />
               <title>HighLearnHub</title>
             </Helmet>
             <Navbar data={course} />
             <Announcements data={announcements} />
             <Course data={course} userRole={ContextState.userRole} />
             <Footer />
-          </>}
+          </>
+        )}
       </>
     );
   }
@@ -102,7 +111,10 @@ export default function HomePage() {
     <>
       <ContextProvider>
         <Helmet>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
           <title>HighLearnHub</title>
         </Helmet>
         {loading ? (
