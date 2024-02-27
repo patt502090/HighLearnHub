@@ -3,7 +3,38 @@ import { Helmet } from "react-helmet";
 import { Bar, Line, Doughnut } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import backgroundImage from "../assets/background.png";
+
 function Dashboard() {
+  const viewData = {
+    labels: [
+      "21.02.2024",
+      "22.02.2024",
+      "23.02.2024",
+      "24.02.2024",
+      "25.02.2024",
+      "26.02.2024",
+      "27.02.2024",
+    ],
+    datasets: [
+      {
+        label: "Views this week",
+        fill: true, 
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 1,
+        data: [2102, 3512, 2411, 2315, 4622, 1951, 2544],
+      },
+      {
+        label: "Views week ago",
+        fill: true, 
+        backgroundColor: "rgba(255,99,132,0.2)",
+        borderColor: "rgba(255,99,132,1)",
+        borderWidth: 1,
+        data: [2512, 2322, 3011, 2315, 2992, 1951, 2544],
+      },
+    ],
+  };
+  
   const data = {
     labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
     datasets: [
@@ -16,13 +47,22 @@ function Dashboard() {
         hoverBorderColor: "rgba(75,192,192,1)",
         data: [65, 59, 80, 81, 56],
       },
+      {
+        label: "Profit week ago",
+        backgroundColor: "rgba(255,99,132,0.2)",
+        borderColor: "rgba(255,99,132,1)",
+        borderWidth: 1,
+        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+        hoverBorderColor: "rgba(255,99,132,1)",
+        data: [45, 50, 60, 70, 55],
+      },
     ],
   };
 
   const salesData = {
     labels: [
-        "21.02.2024",
-        "22.02.2024",
+      "21.02.2024",
+      "22.02.2024",
       "23.02.2024",
       "24.02.2024",
       "25.02.2024",
@@ -31,12 +71,20 @@ function Dashboard() {
     ],
     datasets: [
       {
-        label: "Total Sales",
+        label: "Total Sales this week",
+        fill: false,
+        backgroundColor: "rgba(75,192,192,0.2)",
+        borderColor: "rgba(75,192,192,1)",
+        borderWidth: 2,
+        data: [234, 155, 333, 321, 256, 105, 189],
+      },
+      {
+        label: "Total Sales week ago",
         fill: false,
         backgroundColor: "rgba(255,99,132,0.2)",
         borderColor: "rgba(255,99,132,1)",
         borderWidth: 2,
-        data: [10, 15, 12, 17, 14 ,10 , 16],
+        data: [204, 175, 363, 121, 226, 153, 68],
       },
     ],
   };
@@ -61,24 +109,22 @@ function Dashboard() {
       </Helmet>
       <main className="bg-gray-100 min-h-screen">
         <nav className="bg-gray-800 text-white py-4">
-          <div className="container mx-auto flex justify-between items-center px-4" >
+          <div className="container mx-auto flex justify-end items-center px-4">
             <h1 className="text-2xl font-bold flex items-center">
               <span className="icon-user text-gray-400 mr-2"></span> Admin
               Dashboard
             </h1>
-            <ul className="flex">
-              <li className="ml-4">
-                <a href="#" className="hover:text-gray-300">
-                  Home
-                </a>
-              </li>
-            </ul>
           </div>
         </nav>
-        <div className="container mx-auto mt-8" style={{backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",}}>
+        <div
+          className="container mx-auto mt-8"
+          style={{
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center justify-between">
               <svg
@@ -261,6 +307,17 @@ function Dashboard() {
                         position: "right",
                       },
                     },
+                  }}
+                />
+              </div>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+              <h3 className="text-lg font-semibold mb-2">Views Over Time</h3>
+              <div style={{ height: "300px" }}>
+                <Line
+                  data={viewData}
+                  options={{
+                    maintainAspectRatio: false,
                   }}
                 />
               </div>
