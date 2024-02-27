@@ -100,7 +100,7 @@ export default function RegisterAccountPage() {
             สมัครบัญชีผู้ใช้ด้วยอีเมล
           </p>
           <p className="text-sm mb-5 text-center">กรุณากรอกข้อมูลให้ครบถ้วน</p>
-          <form onSubmit={handleSubmit} className="flex flex-wrap gap-4">
+          <form onSubmit={handleSubmit} className="flex flex-wrap gap-1">
             <div className="w-full">
               <Label htmlFor="email" value="อีเมล" />
               <TextInput

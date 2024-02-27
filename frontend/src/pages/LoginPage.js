@@ -21,7 +21,6 @@ export default function LoginPage() {
   const { login,changeRole } = authContext || {};
   const navigate = useNavigate();
 
-
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };

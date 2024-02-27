@@ -22,5 +22,10 @@ module.exports = {
             path: "/init_watch_time",
             handler: "course.init_watch_time",
         },
+        {
+            method: "PUT",
+            path: "/amount/:id",
+            handler: "course.amount",
+        },
     ]
 };
