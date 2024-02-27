@@ -85,4 +85,21 @@ module.exports = createCoreController("api::course.course", ({ strapi }) => ({
     )
     return result
   },
+  async amount(ctx) {
+    const entityId = ctx.params.id;
+    
+      const course = await strapi.entityService.findOne(
+        "api::course.course",
+        entityId
+      );
+      
+      const courseAmount = await strapi.entityService.update(
+        "api::course.course",
+        entityId,
+        { data: { amount: (course.amount || 0) + (course.amount !== course.maxamount ? 1 : 0) } }
+      );
+      ctx.body = { ok: 1, amount: course.amount };
+  
+    return courseAmount
+  },
 }));

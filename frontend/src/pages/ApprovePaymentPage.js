@@ -42,6 +42,26 @@ export default function ApprovePaymentPage() {
     return totalPrice.toLocaleString();
   };
 
+  const updateAmount = async(courseData) =>{
+    console.log(courseData)
+
+    const courseIds =   courseData.data.map( item =>({
+       id:item.attributes.course.data?.id
+    })
+
+    )
+      
+      console.log(courseIds)
+    try {
+      for (const chooseId of courseIds) {
+          await ax.put(conf.apiUrlPrefix + `/amount/${chooseId.id}`);
+      }
+
+
+  } catch (error) {
+      console.error("Error updating payment status:", error);
+  }
+  } 
 
   const approvePayment = async (bookingIds, orderIds) => {
     console.log(bookingIds)
@@ -55,6 +75,8 @@ export default function ApprovePaymentPage() {
             });
         }
         await DeletePayment(orderIds)
+
+
     } catch (error) {
         console.error("Error updating payment status:", error);
     }
@@ -154,9 +176,10 @@ export default function ApprovePaymentPage() {
 
                   </td>
                   <td className="px-6 py-4">
-
-                    <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => approvePayment(item.attributes.bookings,item.id)}>Approve</button>
-
+                    {console.log(item.attributes.bookings.data)}
+                    <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline" 
+                    onClick={() => [approvePayment(item.attributes.bookings,item.id),updateAmount(item.attributes.bookings)]}>Approve</button>
+                  
 
                   </td>
                 </tr>
