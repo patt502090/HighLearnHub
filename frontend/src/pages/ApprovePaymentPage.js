@@ -3,34 +3,32 @@ import ax from "../conf/ax";
 import conf from "../conf/main";
 import Navbar from "../components/Navbar";
 import { Modal, ModalBody } from "flowbite-react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ApprovePaymentPage() {
   const [coursebooked, setCoursebooked] = useState([]);
   const [paymentSlip, setPaymentSlip] = useState(null);
-  const [showmodal,setShowmodal]=useState(false);
-  const [confirmationUrl,setConfirmationUrl] = useState();
+  const [showmodal, setShowmodal] = useState(false);
+  const [confirmationUrl, setConfirmationUrl] = useState();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await ax.get(
-          conf.apiUrlPrefix +
-          "/orders?populate[confirmation][populate]=*&populate[bookings][filters][payment_status][$eq]=false&populate[bookings][populate][course][populate]=image&populate=user"
-        );
-        console.log(response)
-
-        setCoursebooked(response.data.data);
-      } catch (error) {
-        console.error("Error fetching Data:", error);
-      }
-    };
-
     fetchData();
-
-
   }, []);
 
-  console.log(coursebooked)
+  const fetchData = async () => {
+    try {
+      const response = await ax.get(
+        conf.apiUrlPrefix +
+        "/orders?populate[confirmation][populate]=*&populate[bookings][filters][payment_status][$eq]=false&populate[bookings][populate][course][populate]=image&populate=user"
+      );
+      console.log(response)
+
+      setCoursebooked(response.data.data);
+    } catch (error) {
+      console.error("Error fetching Data:", error);
+    }
+  };
+
   const calculateTotalPrice = (price) => {
     console.log(price)
     let totalPrice = 0;
@@ -42,62 +40,63 @@ export default function ApprovePaymentPage() {
     return totalPrice.toLocaleString();
   };
 
-  const updateAmount = async(courseData) =>{
+  const updateAmount = async (courseData) => {
     console.log(courseData)
 
-    const courseIds =   courseData.data.map( item =>({
-       id:item.attributes.course.data?.id
+    const courseIds = courseData.data.map(item => ({
+      id: item.attributes.course.data?.id
     })
 
     )
-      
-      console.log(courseIds)
+
+    console.log(courseIds)
     try {
       for (const chooseId of courseIds) {
-          await ax.put(conf.apiUrlPrefix + `/amount/${chooseId.id}`);
+        await ax.put(conf.apiUrlPrefix + `/amount/${chooseId.id}`);
       }
 
 
-  } catch (error) {
+    } catch (error) {
       console.error("Error updating payment status:", error);
+    }
   }
-  } 
 
   const approvePayment = async (bookingIds, orderIds) => {
     console.log(bookingIds)
     try {
-        for (const booking of bookingIds.data) {
-            await ax.put(conf.apiUrlPrefix + `/bookings/${booking.id}`, {
-                data: {
-                    "payment_status": true,
-                    "status": "success"
-                }
-            });
-        }
-        await DeletePayment(orderIds)
+      for (const booking of bookingIds.data) {
+        await ax.put(conf.apiUrlPrefix + `/bookings/${booking.id}`, {
+          data: {
+            "payment_status": true,
+            "status": "success"
+          }
+        });
+      }
+      await DeletePayment(orderIds)
+      toast.success("ยืนยันการชำระเงินสำเร็จ!");
 
 
     } catch (error) {
-        console.error("Error updating payment status:", error);
+      console.error("Error updating payment status:", error);
     }
-};
+  };
 
 
-  const DeletePayment = async (ordersId,bookingIds) => {
+  const DeletePayment = async (ordersId, bookingIds) => {
     try {
       await ax.delete(conf.apiUrlPrefix + `/orders/${ordersId}`
-      
       );
       for (const booking of bookingIds.data) {
         await ax.put(conf.apiUrlPrefix + `/bookings/${booking.id}`, {
-            data: {
-                "status": "cart"
-            }
+          data: {
+            "status": "cart"
+          }
         });
-    }
-      
+      }
     } catch (error) {
       console.error("Error updating payment status:", error);
+    } finally {
+      fetchData();
     }
   };
 
@@ -106,6 +105,7 @@ export default function ApprovePaymentPage() {
       <div className="background-image">
         <Navbar />
         <div className="h-screen pt-24 relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className="overflow-auto">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
@@ -153,21 +153,21 @@ export default function ApprovePaymentPage() {
                       hour12: false
                     })}
                   </td>
-                  
-                    <td className="px-6 py-4">{calculateTotalPrice(item.attributes.bookings)}</td>
-                  
+
+                  <td className="px-6 py-4">{calculateTotalPrice(item.attributes.bookings)}</td>
+
                   <td className="px-6 py-4">
-                     
-                      <button  className="font-medium text-blue-600 dark:text-red-500 hover:underline"
-                      onClick={()=>[setShowmodal(true),setConfirmationUrl(item.attributes.confirmation.data.attributes.url)]}> 
-                        View Slip
-                      </button>
+
+                    <button className="font-medium text-blue-600 dark:text-red-500 hover:underline"
+                      onClick={() => [setShowmodal(true), setConfirmationUrl(item.attributes.confirmation.data.attributes.url)]}>
+                      View Slip
+                    </button>
                   </td>
                   <td className="px-6 py-4">
 
 
                     <button className="font-medium text-red-600 dark:text-red-500 hover:underline"
-                      onClick={() => DeletePayment(item.id,item.attributes.bookings,item.id)}
+                      onClick={() => DeletePayment(item.id, item.attributes.bookings, item.id)}
                     >
                       delete
 
@@ -177,30 +177,31 @@ export default function ApprovePaymentPage() {
                   </td>
                   <td className="px-6 py-4">
                     {console.log(item.attributes.bookings.data)}
-                    <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline" 
-                    onClick={() => [approvePayment(item.attributes.bookings,item.id),updateAmount(item.attributes.bookings)]}>Approve</button>
-                  
+                    <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                      onClick={() => [approvePayment(item.attributes.bookings, item.id), updateAmount(item.attributes.bookings)]}>Approve</button>
+
 
                   </td>
                 </tr>
-                
-            ))}
+
+              ))}
             </tbody>
           </table>
           {console.log(coursebooked)}
-          {coursebooked.map(item =>(
-          <Modal show={showmodal} onClose={() => setShowmodal(false)}>
-        <Modal.Header>Confirmation</Modal.Header>
-        <ModalBody><div>
-        <img
-                          className=" w-full  "
-                          src={"http://localhost:1337"+confirmationUrl}
-                          alt=""
-                          />
-        </div></ModalBody>
-        </Modal>))}
+          {coursebooked.map(item => (
+            <Modal show={showmodal} onClose={() => setShowmodal(false)}>
+              <Modal.Header>Confirmation</Modal.Header>
+              <ModalBody><div>
+                <img
+                  className=" w-full  "
+                  src={"http://localhost:1337" + confirmationUrl}
+                  alt=""
+                />
+              </div></ModalBody>
+            </Modal>))}
+            </div>
         </div>
-        
+
       </div>
     </>
   );
