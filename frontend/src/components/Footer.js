@@ -33,7 +33,7 @@ export default function Footer() {
           </a>
           <div className="mt-6 lg:max-w-sm">
             <p className="text-sm text-gray-800">
-              เว็บขายคอร์สเรียนที่มีให้เลือกมากถึง400 คอร์สเรียน
+              เว็บขายคอร์สเรียนที่มีให้เลือกมากถึง 400 คอร์สเรียน
             </p>
             <p className="mt-4 text-sm text-gray-800">
               มีผู้คนนับ 100,000 คน ที่ลงสมัครคอร์สเรียนกับเรา
