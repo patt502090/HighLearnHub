@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import { Bar, Line, Doughnut } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import backgroundImage from "../assets/background.png";
-
+import { ContextProvider } from "../context/Auth.context";
 function Dashboard() {
   const viewData = {
     labels: [
@@ -103,6 +103,7 @@ function Dashboard() {
 
   return (
     <>
+    <ContextProvider>
       <Helmet>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>เเดชบอร์ด</title>
@@ -325,6 +326,7 @@ function Dashboard() {
           </div>
         </div>
       </main>
+      </ContextProvider>
     </>
   );
 }

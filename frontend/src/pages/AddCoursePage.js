@@ -5,6 +5,7 @@ import ax from "../conf/ax";
 import conf from "../conf/main";
 import { Box, Button, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { ContextProvider } from "../context/Auth.context";
 export default function AddCoursePage() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -86,6 +87,7 @@ export default function AddCoursePage() {
 
   return (
     <>
+    <ContextProvider>
       {loading ? (
         <div className="background-image">
           <div className="h-screen flex justify-center items-center">
@@ -265,6 +267,7 @@ export default function AddCoursePage() {
           </div>
         </>
       )}
+      </ContextProvider>
     </>
   );
 }

@@ -79,6 +79,7 @@ export default function MyCoursePage() {
 
   return (
     <>
+    <ContextProvider>
       <Helmet>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>คอร์สของฉัน</title>
@@ -149,6 +150,7 @@ export default function MyCoursePage() {
           </div>
         </div>
       </div>
+      </ContextProvider>
     </>
   );
 }

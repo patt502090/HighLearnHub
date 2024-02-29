@@ -11,7 +11,7 @@ import { Button, Modal } from "flowbite-react";
 import { IoTrashBin, IoSettingsOutline } from "react-icons/io5";
 import { HiMiniWrenchScrewdriver } from "react-icons/hi2";
 import { Helmet } from "react-helmet";
-
+import { ContextProvider } from "../context/Auth.context";
 export default function CourseInfoPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { id } = useParams();
@@ -20,8 +20,8 @@ export default function CourseInfoPage() {
   const { userRole } = ContextState;
   const [onEdit, setOnEdit] = useState(false);
   const [Infouser, setInfouser] = useState();
-  const [own, setOwn] = useState(false)
-  const [ownCourseDisplay, setOwnCourseDisplay] = useState()
+  const [own, setOwn] = useState(false);
+  const [ownCourseDisplay, setOwnCourseDisplay] = useState();
   const [onEdition, setOnEdition] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -55,8 +55,7 @@ export default function CourseInfoPage() {
       const response = await ax.get(
         conf.apiUrlPrefix + `/alreadyHaveBooking/${id}`
       );
-      setOwn(response.data[0])
-
+      setOwn(response.data[0]);
     } catch (error) {
       console.error("Error fetching course:", error);
     }
@@ -85,32 +84,35 @@ export default function CourseInfoPage() {
   useEffect(() => {
     if (own) {
       if (own.payment_status === true) {
-        setOwnCourseDisplay(<Link to={"/mycourse"}>
-          <button className="px-10 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
-            คุณมีคอร์สนี้แล้ว
-          </button>
-        </Link>)
-      }
-      else {
-        setOwnCourseDisplay(<Link to={"/mycart"}>
-          <button className="px-10 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
-            คอร์สอยู่ในตะกร้าแล้ว
-          </button>
-        </Link>
+        setOwnCourseDisplay(
+          <Link to={"/mycourse"}>
+            <button className="px-10 py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">
+              คุณมีคอร์สนี้แล้ว
+            </button>
+          </Link>
+        );
+      } else {
+        setOwnCourseDisplay(
+          <Link to={"/mycart"}>
+            <button className="px-10 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">
+              คอร์สอยู่ในตะกร้าแล้ว
+            </button>
+          </Link>
         );
       }
+    } else {
+      setOwnCourseDisplay(
+        <Link to={"/mycart"}>
+          <button
+            className="px-14 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600"
+            onClick={() => Addcart()}
+          >
+            เพิ่มเข้าตะกร้า
+          </button>
+        </Link>
+      );
     }
-    else {
-      setOwnCourseDisplay(<Link to={"/mycart"}>
-        <button
-          className="px-14 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600"
-          onClick={() => Addcart()}
-        >
-          เพิ่มเข้าตะกร้า
-        </button>
-      </Link>)
-    }
-  }, [course])
+  }, [course]);
 
   const Addcart = async (course) => {
     try {
@@ -130,7 +132,7 @@ export default function CourseInfoPage() {
           booked_date: `${date} ${time}`,
           expiry_date: `${expiryDateString} ${time}`, // ใช้วันที่หมดอายุที่ถูกปรับแล้ว
           course: parseInt(id),
-          publishedAt: new Date()
+          publishedAt: new Date(),
         },
       });
     } catch (error) {
@@ -145,16 +147,19 @@ export default function CourseInfoPage() {
           <CircularProgress />
         </div>
       </div>
-    )
+    );
   }
 
   if (userRole === "admin") {
     return (
       <div className="background-image">
         <Helmet>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>รายละเอียดคอร์ส</title>
-      </Helmet>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <title>รายละเอียดคอร์ส</title>
+        </Helmet>
         {onEdit ? (
           <EditCourseModal
             course={course}
@@ -180,13 +185,17 @@ export default function CourseInfoPage() {
               <h1 className="mb-4 text-2xช font-bold">
                 {course.attributes.title}
               </h1>
-              <BasicTabs data={course} OnDelete={setShowDeleteModal} OnEdition={setOnEdition} />
+              <BasicTabs
+                data={course}
+                OnDelete={setShowDeleteModal}
+                OnEdition={setOnEdition}
+              />
               <p className="text-lg font-medium mb-4 text-slate-700">
                 {course.attributes.description}
               </p>
-                <p className="text-center text-2xl font-bold text-red-700 mt-2">
-                  ราคา: {course.attributes.price} บาท{" "}
-                </p>
+              <p className="text-center text-2xl font-bold text-red-700 mt-2">
+                ราคา: {course.attributes.price} บาท{" "}
+              </p>
             </div>
           ) : (
             <div className="h-screen flex justify-center items-center">
@@ -249,64 +258,64 @@ export default function CourseInfoPage() {
                     className="mt-4 w-full mx-auto"
                     onClick={() => {
                       setOnEdit(true);
-                      setOnEdition(false)
+                      setOnEdition(false);
                     }}
                   >
                     รายละเอียดคอร์ส
                   </Button>
-
                 </div>
               </div>
             </Modal.Body>
           </Modal>
         </div>
-
       </div>
     );
   }
 
   return (
-    <div className="background-image">
-      <Navbar />
-      <Helmet>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>รายละเอียดคอร์ส</title>
-      </Helmet>
-      <div className="max-w-4xl mx-auto p-6 pt-24 text-center">
-        {course ? (
-          <div className="bg-white shadow-md rounded-md p-6">
-            {course.attributes.image && (
-              <img
-                src={`http://localhost:1337${course.attributes.image.data.attributes.url}`}
-                alt={course.attributes.title}
-                className="w-full h-auto mb-6 rounded-md"
-              />
-            )}
-            <h1 className="mb-4 text-2xl font-bold">
-              {course.attributes.title}
-            </h1>
-            <BasicTabs data={course} />
+    <ContextProvider>
+      <div className="background-image">
+        <Navbar />
+        <Helmet>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <title>รายละเอียดคอร์ส</title>
+        </Helmet>
+        <div className="max-w-4xl mx-auto p-6 pt-24 text-center">
+          {course ? (
+            <div className="bg-white shadow-md rounded-md p-6">
+              {course.attributes.image && (
+                <img
+                  src={`http://localhost:1337${course.attributes.image.data.attributes.url}`}
+                  alt={course.attributes.title}
+                  className="w-full h-auto mb-6 rounded-md"
+                />
+              )}
+              <h1 className="mb-4 text-2xl font-bold">
+                {course.attributes.title}
+              </h1>
+              <BasicTabs data={course} />
 
-            <p className="text-md sm:text-lg font-normal sm:font-medium mb-4">
-              {course.attributes.description}
-            </p>
+              <p className="text-md sm:text-lg font-normal sm:font-medium mb-4">
+                {course.attributes.description}
+              </p>
 
-            <p className="text-md text-center font-bold text-red-700 sm:text-2xl mb-4">
-              ราคา: {course.attributes.price} บาท
-            </p>
-            <div className=" items-center">
-
-              <div>
-                {ownCourseDisplay}
+              <p className="text-md text-center font-bold text-red-700 sm:text-2xl mb-4">
+                ราคา: {course.attributes.price} บาท
+              </p>
+              <div className=" items-center">
+                <div>{ownCourseDisplay}</div>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="h-screen flex justify-center items-center">
-            <CircularProgress />
-          </div>
-        )}
+          ) : (
+            <div className="h-screen flex justify-center items-center">
+              <CircularProgress />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </ContextProvider>
   );
 }
