@@ -35,15 +35,47 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
     }, []);
 
     const handleLogin = () => {
+        handleLoginStreak();
+    };
+    
+    const handleLoginStreak = () => {
         const currentDate = new Date();
-        if (!lastLoginDate || currentDate - lastLoginDate >= 24 * 60 * 60 * 1000) {
-            localStorage.setItem('loginStreak', loginStreak + 1);
+        const lastLoginDateString = localStorage.getItem('lastLoginDate');
+        let lastLoginDate = null;
+    
+        if (lastLoginDateString) {
+            lastLoginDate = new Date(lastLoginDateString);
+        }
+    
+        if (lastLoginDate && !isSameDay(lastLoginDate, currentDate)) {
+            const diffInDays = differenceInDays(currentDate, lastLoginDate);
+    
+            if (diffInDays >= 1) {
+                localStorage.setItem('loginStreak', 1);
+                setLoginStreak(1);
+            } else { 
+                const newStreak = loginStreak + 1;
+                localStorage.setItem('loginStreak', newStreak);
+                setLoginStreak(newStreak);
+            }
+    
             localStorage.setItem('lastLoginDate', currentDate.toString());
-            setLoginStreak(prevStreak => prevStreak + 1);
-            setLastLoginDate(currentDate);
         }
     };
-
+    
+    const isSameDay = (date1, date2) => {
+        return (
+            date1.getFullYear() === date2.getFullYear() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getDate() === date2.getDate()
+        );
+    };
+    
+    const differenceInDays = (date1, date2) => {
+        const diffInTime = Math.abs(date2.getTime() - date1.getTime());
+        return Math.ceil(diffInTime / (1000 * 60 * 60 * 24));
+    };
+    
     const toggleDrawer = (right, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
