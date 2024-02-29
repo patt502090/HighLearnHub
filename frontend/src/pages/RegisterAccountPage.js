@@ -10,11 +10,16 @@ import { ContextProvider } from "../context/Auth.context";
 import { FaPhoneSquareAlt } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 import { Helmet } from "react-helmet";
+import { FaRegEyeSlash } from "react-icons/fa";
+import { HiOutlineEye } from "react-icons/hi";
 
 export default function RegisterAccountPage() {
   const [loading, setLoading] = useState(false);
   const [submitEnabled, setSubmitEnabled] = useState(true);
   const [passwordError, setPasswordError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword1, setShowPassword1] = useState(false);
+
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -33,6 +38,16 @@ export default function RegisterAccountPage() {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const togglePasswordVisibility = (e) => { 
+    e.preventDefault();
+    setShowPassword(!showPassword);
+  };
+
+  const togglePasswordVisibility1 = (e) => { 
+    e.preventDefault();
+    setShowPassword(!showPassword);
   };
 
   const handleLogin = () => {
@@ -171,11 +186,11 @@ export default function RegisterAccountPage() {
               />
             </div>
 
-            <div className="w-full">
+            <div className="w-full relative">
               <Label htmlFor="password" value="รหัสผ่าน" />
               <TextInput
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 icon={RiLockPasswordFill}
                 placeholder="123456"
                 name="password"
@@ -183,12 +198,18 @@ export default function RegisterAccountPage() {
                 onChange={handleChange}
                 required
               />
+              <button
+                className="absolute top-[2.85rem] right-2 transform -translate-y-1/2 focus:outline-none"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <FaRegEyeSlash /> : <HiOutlineEye />}
+              </button>
             </div>
-            <div className="w-full">
+            <div className="w-full relative">
               <Label htmlFor="confirmPassword" value="ยืนยันรหัสผ่าน" />
               <TextInput
                 id="confirmPassword"
-                type="password"
+                type={showPassword1 ? "text" : "password"}
                 icon={RiLockPasswordFill}
                 placeholder="123456"
                 name="confirmPassword"
@@ -196,6 +217,13 @@ export default function RegisterAccountPage() {
                 onChange={handleChange}
                 required
               />
+              <button
+                className="absolute top-[2.85rem] right-2 transform -translate-y-1/2 focus:outline-none"
+                onClick={togglePasswordVisibility1}
+              >
+                {showPassword ? <FaRegEyeSlash /> : <HiOutlineEye />}
+              </button>
+              
             </div>
 
             {passwordError && (
