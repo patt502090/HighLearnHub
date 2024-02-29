@@ -44,4 +44,11 @@ module.exports = createCoreController('api::booking.booking', ({ strapi }) => ({
             return create
         }
     },
+
+    async userList(ctx) {
+        const result = await strapi.entityService.findMany('plugin::users-permissions.user',{
+        });
+
+        return result
+    },
 }));
