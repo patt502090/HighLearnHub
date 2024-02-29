@@ -1,4 +1,4 @@
-import React, { useState, useContext,useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Label, TextInput } from "flowbite-react";
 import { HiMail } from "react-icons/hi";
@@ -9,7 +9,8 @@ import ax from "../conf/ax";
 import { AuthContext, ContextProvider } from "../context/Auth.context";
 import toast, { Toaster } from "react-hot-toast";
 import { Helmet } from "react-helmet";
-
+import { FaRegEyeSlash } from "react-icons/fa";
+import { HiOutlineEye } from "react-icons/hi";
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [submitEnabled, setSubmitEnabled] = useState(true);
@@ -18,14 +19,21 @@ export default function LoginPage() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const authContext = useContext(AuthContext);
-  const { login,changeRole } = authContext || {};
+  const { login, changeRole } = authContext || {};
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  const togglePasswordVisibility = (e) => {
+    e.preventDefault();
+    setShowPassword(!showPassword);
+  };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
+    
     setPassword(e.target.value);
   };
 
@@ -45,12 +53,18 @@ export default function LoginPage() {
       result = await ax.get(`${conf.apiUrlPrefix}${conf.jwtUserEndpoint}`);
       changeRole(result.data.role.name);
       if (result.data.image) {
-        sessionStorage.setItem("profileURL", `${conf.urlPrefix}${result.data.image.url}`);
+        sessionStorage.setItem(
+          "profileURL",
+          `${conf.urlPrefix}${result.data.image.url}`
+        );
       }
       if (result.data.role.name) {
         setLoading(false);
         if (result.data.role.name === "member") {
-          sessionStorage.setItem(conf.roleSessionStorageKey, conf.memberStorageKey);
+          sessionStorage.setItem(
+            conf.roleSessionStorageKey,
+            conf.memberStorageKey
+          );
           setTimeout(() => {
             navigate("/");
           });
@@ -60,7 +74,10 @@ export default function LoginPage() {
       if (result.data.role.name) {
         setLoading(false);
         if (result.data.role.name === "admin") {
-          sessionStorage.setItem(conf.roleSessionStorageKey, conf.adminStorageKey);
+          sessionStorage.setItem(
+            conf.roleSessionStorageKey,
+            conf.adminStorageKey
+          );
           setTimeout(() => {
             navigate("/admin");
           });
@@ -74,10 +91,10 @@ export default function LoginPage() {
       setSubmitEnabled(true);
     }
   };
+
   const handleGoogleLoginClick = () => {
     window.location.href = `${conf.apiUrlPrefix}${conf.googleConnectEndpoint}`;
   };
-  
 
   const handleRegister = () => {
     navigate("/register");
@@ -87,8 +104,8 @@ export default function LoginPage() {
     <ContextProvider>
       <Helmet>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>เข้าสู่ระบบ</title>
-        </Helmet>
+        <title>เข้าสู่ระบบ</title>
+      </Helmet>
       <Toaster position="top-right" reverseOrder={false} />
       <div
         className="flex items-center justify-center h-screen w-screen"
@@ -99,7 +116,6 @@ export default function LoginPage() {
         }}
       >
         <div className="container max-w-xs md:max-w-sm bg-white border-2 rounded-lg shadow-2xl p-6 ">
-          {/* <img src="https://media.discordapp.net/attachments/705005230944813076/1207665128879824917/HighLearnHub.png?ex=65e078cc&is=65ce03cc&hm=a49d1fee0719ab7706f2d7acad9c954db6f9d7d0699f6afb97fe6b31c0b508ed&=&format=webp&quality=lossless&width=625&height=625" alt="logo" className="w-auto h-28" /> */}
           <p className="text-lg font-bold mb-4 mt-3 text-center">
             ลงชื่อเข้าใช้
           </p>
@@ -107,8 +123,8 @@ export default function LoginPage() {
             ยินดีต้อนรับเข้าสู่บัญชีผู้ใช้ HighLearnHub
           </p>
           <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
-            <div className="max-w-md  items-center">
-              <div className="mb-2  block">
+            <div className="max-w-md items-center relative">
+              <div className="mb-2 block">
                 <Label htmlFor="email4" value="อีเมล" className="text-left " />
               </div>
               <TextInput
@@ -126,7 +142,7 @@ export default function LoginPage() {
               )}
             </div>
 
-            <div className="max-w-md">
+            <div className="max-w-md relative">
               <div className="mb-2 block">
                 <Label
                   htmlFor="password"
@@ -136,7 +152,7 @@ export default function LoginPage() {
               </div>
               <TextInput
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 icon={RiLockPasswordFill}
                 placeholder="123456"
                 value={password}
@@ -144,6 +160,12 @@ export default function LoginPage() {
                 required
                 size="27"
               />
+              <button
+                className="absolute top-[3.35rem] right-2 transform -translate-y-1/2 focus:outline-none"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <FaRegEyeSlash /> : <HiOutlineEye />}
+              </button>
               {passwordError && (
                 <p className="text-red-500 text-xs mt-1">{passwordError}</p>
               )}
@@ -196,11 +218,23 @@ export default function LoginPage() {
           </p>
         </div>
       </div>
-      <button onClick={() => navigate('/home')}
-        class="fixed z-90 bottom-10 right-8 bg-gray-500 w-14 h-14 rounded-full drop-shadow-lg flex justify-center items-center text-white text-4xl hover:bg-gray-500 hover:drop-shadow-2xl hover:animate-bounce duration-300">
-          <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-        <path fill-rule="evenodd" d="M11.3 3.3a1 1 0 0 1 1.4 0l6 6 2 2a1 1 0 0 1-1.4 1.4l-.3-.3V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3c0 .6-.4 1-1 1H7a2 2 0 0 1-2-2v-6.6l-.3.3a1 1 0 0 1-1.4-1.4l2-2 6-6Z" clip-rule="evenodd"/>
-      </svg>
+      <button
+        onClick={() => navigate("/home")}
+        className="fixed z-90 bottom-10 right-8 bg-gray-500 w-14 h-14 rounded-full drop-shadow-lg flex justify-center items-center text-white text-4xl hover:bg-gray-500 hover:drop-shadow-2xl hover:animate-bounce duration-300"
+      >
+        <svg
+          className="w-6 h-6 text-white dark:text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fillRule="evenodd"
+            d="M11.3 3.3a1 1 0 0 1 1.4 0l6 6 2 2a1 1 0 0 1-1.4 1.4l-.3-.3V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3c0 .6-.4 1-1 1H7a2 2 0 0 1-2-2v-6.6l-.3.3a1 1 0 0 1-1.4-1.4l2-2 6-6Z"
+            clipRule="evenodd"
+          />
+        </svg>
       </button>
     </ContextProvider>
   );
