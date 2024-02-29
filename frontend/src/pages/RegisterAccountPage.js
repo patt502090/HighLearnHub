@@ -47,7 +47,7 @@ export default function RegisterAccountPage() {
 
   const togglePasswordVisibility1 = (e) => { 
     e.preventDefault();
-    setShowPassword(!showPassword);
+    setShowPassword1(!showPassword1);
   };
 
   const handleLogin = () => {
@@ -221,7 +221,7 @@ export default function RegisterAccountPage() {
                 className="absolute top-[2.85rem] right-2 transform -translate-y-1/2 focus:outline-none"
                 onClick={togglePasswordVisibility1}
               >
-                {showPassword ? <FaRegEyeSlash /> : <HiOutlineEye />}
+                {showPassword1 ? <FaRegEyeSlash /> : <HiOutlineEye />}
               </button>
               
             </div>
