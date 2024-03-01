@@ -23,7 +23,6 @@ export default function PaymentPage() {
           conf.apiUrlPrefix +
             "/users/me?populate[bookings][filters][payment_status][$eq]=false"
         );
-        console.log(response);
         const onlyId = response.data.bookings.map((item) => ({
           bookingId: item.id,
           userId: response.data.id,
@@ -36,7 +35,6 @@ export default function PaymentPage() {
 
     fetchData();
   }, []);
-  console.log(dataId);
 
   const Createorder = async () => {
     try {

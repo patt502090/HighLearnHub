@@ -39,26 +39,25 @@ root.render(
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/registerAccount" element={<RegisterAccountPage />} />
-          <Route path="/member/:id" element={<CourseInfoPage />} />
           <Route path="/admin" element={<ProtectAdminRoute><App /></ProtectAdminRoute>} />
           <Route path="/admin/:id" element={
             <ProtectAdminRoute><CourseInfoPage /></ProtectAdminRoute>} />
-          <Route path="/profile/:id" element={<ProfilePage />} />
-          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/profile/:id" element={<ProtectMemberRoute><ProfilePage /></ProtectMemberRoute>} />
+          <Route path="/payment" element={<ProtectMemberRoute><PaymentPage /></ProtectMemberRoute>} />
           <Route path="/MyCart" element={<ProtectMemberRoute><CartPage /></ProtectMemberRoute>} />
-          <Route path="/mycourse" element={<MyCoursePage />} />
-          <Route path="/history" element={<HistoryPage />} />
-          <Route path="/finishpayment" element={<FinishPaymentPage />} />
-          <Route path="/mycourse/:id" element={<VideoPage />} />
+          <Route path="/mycourse" element={<ProtectMemberRoute><MyCoursePage /></ProtectMemberRoute>} />
+          <Route path="/history" element={<ProtectMemberRoute><HistoryPage /></ProtectMemberRoute>} />
+          <Route path="/finishpayment" element={<ProtectMemberRoute><FinishPaymentPage /></ProtectMemberRoute> }/>
+          <Route path="/mycourse/:id" element={<ProtectMemberRoute><VideoPage /></ProtectMemberRoute>} />
           <Route path="/event" element={<EventPage />} />
           <Route path="/promotion" element={<PromotionPage />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="/connect/google/redirect" element={<LoginRedirect />} />
-          <Route path="/admin/approve" element={<ApprovePaymentPage />} />
-          <Route path="/admin/addcourse" element={<AddCoursePage />} />
-          <Route path="/admin/userlist" element={<ListUserPage />} />
-          <Route path="/manage-video/:id" element={<ManageVideoPage />} />
-          <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/approve" element={<ProtectAdminRoute><ApprovePaymentPage /></ProtectAdminRoute>} />
+          <Route path="/admin/addcourse" element={<ProtectAdminRoute><AddCoursePage /></ProtectAdminRoute>} />
+          <Route path="/admin/userlist" element={<ProtectAdminRoute><ListUserPage /></ProtectAdminRoute>} />
+          <Route path="/manage-video/:id" element={<ProtectAdminRoute><ManageVideoPage /></ProtectAdminRoute>} />
+          <Route path="/admin/dashboard" element={<ProtectAdminRoute><Dashboard /></ProtectAdminRoute>} />
         </Routes>
       </Router>
     </ContextProvider>

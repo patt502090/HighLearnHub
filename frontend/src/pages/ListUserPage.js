@@ -39,7 +39,7 @@ function ListUserPage() {
             <SearchMemberBar data={data} openModal={openModal} setOpenModal={setOpenModal} setProfileId={setProfileId} />
             <UserModal openModal={openModal} setOpenModal={setOpenModal} profileId={profileId}/>
             <div className="h-screen mx-auto max-w-screen-lg w-screen px-4 py-8 sm:px-8">
-                <div className="h-4/5 rounded-lg border">
+                <div className="rounded-lg border">
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead>

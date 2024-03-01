@@ -11,7 +11,6 @@ function SearchMemberBar(props) {
     }));
 
     const handleShowing = (e) => {
-        console.log(data);
         if (!e) {
             setShowingItem(null);
         } else {
@@ -19,14 +18,13 @@ function SearchMemberBar(props) {
                 .filter((value) => value.username.includes(e))
                 .map((value) => (
                     <li>
-                        <a onClick={() => {props.setProfileId(value.id);props.setOpenModal(true);}} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <a onClick={() => { props.setProfileId(value.id); props.setOpenModal(true); }} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                             {value.common_name}
                         </a>
                     </li>
                 ));
 
             setShowingItem(item);
-            console.log(showingItem);
         }
     };
 

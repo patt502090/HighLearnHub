@@ -4,7 +4,6 @@ import conf from "../conf/main";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Progessbar from "../components/Progessbar";
-import backgroundImage from "../assets/background.png";
 import { IoTrashOutline } from "react-icons/io5";
 import { Helmet } from "react-helmet";
 import { ContextProvider } from "../context/Auth.context";

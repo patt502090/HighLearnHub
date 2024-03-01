@@ -7,7 +7,6 @@ import { CircularProgress } from '@mui/material';
 export default function UserModal(props) {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState();
-    console.log(data);
 
     useEffect(() => {
         try {
@@ -29,7 +28,7 @@ export default function UserModal(props) {
             <Modal show={props.openModal} onClose={() => props.setOpenModal(false)}>
                 <Modal.Header>Profile</Modal.Header>
                 <Modal.Body>
-                    {(loading) ? <CircularProgress/> : <div className="max-w-xs mx-auto">
+                    {(loading) ? <p><CircularProgress/></p> : <div className="max-w-xs mx-auto">
                         <div className="bg-white rounded-lg p">
                             <div className="photo-wrapper p-2">
                                 {(data?.image) ?
@@ -45,7 +44,7 @@ export default function UserModal(props) {
                                 <div className="text-gray-400 text-xs font-semibold">
                                     <p>{(data?.role?.name === "member") ? "สมาชิก" : "ผู้ดูแล"}</p>
                                 </div>
-                                <table className="text-xs my-3 mx-auto">
+                                <table className="text-sm my-3 mx-auto">
                                     <tbody>
                                         <tr>
                                             <td className="px-2 py-2 text-gray-500 font-semibold">ชื่อ</td>
@@ -53,21 +52,25 @@ export default function UserModal(props) {
                                         </tr>
                                         <tr>
                                             <td className="px-2 py-2 text-gray-500 font-semibold">เบอร์โทรศัพท์</td>
-                                            <td className="px-2 py-2">{data?.phonenum ? data?.phonenum : "ไม่ระบุ" }</td>
+                                            <td className="px-2 py-2">{data?.phonenum ? data?.phonenum : "ไม่ระบุ"}</td>
                                         </tr>
                                         <tr>
                                             <td className="px-2 py-2 text-gray-500 font-semibold">อีเมล</td>
-                                            <td className="px-2 py-2">{data?.email ? data?.email : "ไม่ระบุ" }</td>
+                                            <td className="px-2 py-2">{data?.email ? data?.email : "ไม่ระบุ"}</td>
                                         </tr>
                                         <tr>
                                             <td className="px-2 py-2 text-gray-500 font-semibold">ไอดีไลน์</td>
-                                            <td className="px-2 py-2">{data?.line_id ? data?.line_id : "ไม่ระบุ" }</td>
+                                            <td className="px-2 py-2">{data?.line_id ? data?.line_id : "ไม่ระบุ"}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="px-2 py-2 text-gray-500 font-semibold">การสั่งซื้อ</td>
+                                            <td className="px-2 py-2"><a href='/course' className=' underline'>ดูรายละเอียด</a></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                    </div>}    
+                    </div>}
                 </Modal.Body>
             </Modal>
         </>
