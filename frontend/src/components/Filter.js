@@ -14,11 +14,12 @@ const Filter = () => {
       <button
         onClick={toggleDropdown}
         className="flex items-center justify-between w-full py-2 px-3 font-medium text-gray-900 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700 focus:outline-none"
+        style={{ marginLeft: "4px" }}
       >
         หมวดหมู่
         <svg
           className={`w-2.5 h-2.5 transition-transform duration-300 ${
-            isOpen ? "transform rotate-180" : ""
+            isOpen ? "transform rotate-200  " : ""
           }`}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

@@ -101,11 +101,10 @@ export default function Course(props) {
             {props.data?.slice(0, visibleCourses).map((item) => (
               <div
                 key={item.id}
-                className={`hover:translate-y-[-10px] transition-transform duration-300 w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 m-1 md:m-2 ${
-                  filterType === "All" || item.type === filterType
+                className={`hover:translate-y-[-10px] transition-transform duration-300 w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 m-1 md:m-2 ${filterType === "All" || item.type === filterType
                     ? "block"
                     : "hidden"
-                }`}
+                  }`}
               >
                 <Link to={`/course/${item.id}`}>
                   <img
@@ -115,9 +114,8 @@ export default function Course(props) {
                   />
                   <div className="p-3 md:p-4 flex flex-col justify-between">
                     <p
-                      className={`text-${
-                        item.type === "Live" ? "red-500" : "yellow-300"
-                      } text-xs mb-1`}
+                      className={`text-${item.type === "Live" ? "red-500" : "yellow-300"
+                        } text-xs mb-1`}
                     >
                       {item.type === "Live" ? "LIVE COURSE" : "ONLINE COURSE"}
                     </p>
@@ -225,7 +223,19 @@ export default function Course(props) {
                 ดูคอร์สเพิ่มเติม
               </Button>
             )}
+            {visibleCourses > 8 && (
+              <Button
+                gradientDuoTone="cyanToBlue"
+                onClick={() => setVisibleCourses(8)}
+                className="text-3xl px-4"
+                size="xl"
+                pill
+              >
+                ดูคอร์สน้อยลง
+              </Button>
+            )}
           </div>
+
         </div>
       </>
     </ContextProvider>
