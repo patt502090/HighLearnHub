@@ -288,7 +288,7 @@ export default function CourseInfoPage() {
             <div className="bg-white shadow-md rounded-md p-6">
               {course.attributes.image && (
                 <img
-                  src={`http://localhost:1337${course.attributes.image.data.attributes.url}`}
+                  src={`${conf.urlPrefix}${course.attributes.image.data.attributes.url}`}
                   alt={course.attributes.title}
                   className="w-full h-auto mb-6 rounded-md"
                 />
