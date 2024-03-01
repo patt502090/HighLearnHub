@@ -14,6 +14,7 @@ import { Helmet } from "react-helmet";
 import ax from "../conf/ax";
 import conf from "../conf/main";
 import MyCourseOnHome from "../components/HomePage/MyCourseOnHome";
+import Help from"../components/Helper"
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -103,6 +104,7 @@ export default function HomePage() {
             <Announcements data={announcements} />
             <Course data={course} userRole={ContextState.userRole} />
             <Footer />
+          
           </>
         )}
       </>
@@ -134,6 +136,7 @@ export default function HomePage() {
             <Course data={course} />
             <Footer></Footer>
             <Outlet />
+            <Help/>
           </>
         )}
       </ContextProvider>
