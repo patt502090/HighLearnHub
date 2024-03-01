@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { Modal, ModalHeader } from "flowbite-react";
 
 function SearchMemberBar(props) {
     const [showSubjectFilterModal, setShowSubjectFilterModal] = useState(false);
-    const [selectedSubject, setSelectedSubject] = useState("");
     const [showingItem, setShowingItem] = useState("");
     console.log(props.data);
     const data = props.data.map((e) => ({
@@ -21,7 +19,7 @@ function SearchMemberBar(props) {
                 .filter((value) => value.username.includes(e))
                 .map((value) => (
                     <li>
-                        <a className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                        <a onClick={() => {props.setProfileId(value.id);props.setOpenModal(true);}} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                             {value.common_name}
                         </a>
                     </li>
@@ -94,120 +92,6 @@ function SearchMemberBar(props) {
 
                 </form>
             </div>
-            <Modal
-                show={showSubjectFilterModal}
-                size="md"
-                onClose={() => setShowSubjectFilterModal(false)}
-                popup
-            >
-                <ModalHeader>Filter</ModalHeader>
-                <Modal.Body>
-                    <form action="" class="flex border-t border-gray-200 lg:border-t-0">
-                        <fieldset class="w-full">
-                            <legend class="block w-full bg-gray-50 px-5 py-3 text-xs font-medium">
-                                Type
-                            </legend>
-
-                            <div class="space-y-2 px-5 py-6">
-                                <div class="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        name="type[New]"
-                                        class="h-5 w-5 rounded border-gray-300"
-                                    />
-                                    <label class="ml-3 text-sm font-medium">คณิต</label>
-                                </div>
-                                <div class="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        name="type[Used]"
-                                        class="h-5 w-5 rounded border-gray-300"
-                                    />
-                                    <label class="ml-3 text-sm font-medium">ฟิสิกส์</label>
-                                </div>
-
-                                <div class="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        name="type[Branded]"
-                                        class="h-5 w-5 rounded border-gray-300"
-                                    />
-
-                                    <label class="ml-3 text-sm font-medium">คอม</label>
-                                </div>
-
-                                <div class="pt-2">
-                                    <button type="button" class="text-xs text-gray-500 underline">
-                                        Reset Type
-                                    </button>
-                                </div>
-                            </div>
-                        </fieldset>
-
-                        <fieldset class="w-full">
-                            <legend class="block w-full bg-gray-50 px-5 py-3 text-xs font-medium">
-                                Price
-                            </legend>
-
-                            <div class="space-y-2 px-5 py-6">
-                                <div class="flex items-center">
-                                    <input
-                                        type="radio"
-                                        name="Price"
-                                        class="h-5 w-5 rounded border-gray-300"
-                                    />
-                                    <label class="ml-3 text-sm font-medium">0-1000</label>
-                                </div>
-
-                                <div class="flex items-center">
-                                    <input
-                                        type="radio"
-                                        name="Price"
-                                        class="h-5 w-5 rounded border-gray-300"
-                                    />
-
-                                    <label class="ml-3 text-sm font-medium">1000-2000</label>
-                                </div>
-
-                                <div class="flex items-center">
-                                    <input
-                                        type="radio"
-                                        name="Price"
-                                        class="h-5 w-5 rounded border-gray-300"
-                                    />
-
-                                    <label class="ml-3 text-sm font-medium">2000-3000</label>
-                                </div>
-
-                                <div class="pt-2">
-                                    <button type="button" class="text-xs text-gray-500 underline">
-                                        Reset Price
-                                    </button>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>
-                    <div class="">
-                        <div class="flex justify-between border-t border-gray-200 px-5 py-3">
-                            <button
-                                name="reset"
-                                type="button"
-                                class="rounded text-xs font-medium text-gray-600 underline"
-                            >
-                                Reset All
-                            </button>
-
-                            <button
-                                name="commit"
-                                type="button"
-                                class="rounded bg-blue-600 px-5 py-3 text-xs font-medium text-white active:scale-95"
-                            >
-                                Apply Filters
-                            </button>
-                        </div>
-                    </div>
-                </Modal.Body>
-            </Modal>
         </>
     );
 }
