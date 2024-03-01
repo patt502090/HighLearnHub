@@ -25,6 +25,12 @@
         "videos",
         "audios"
       ]
+    },
+    "promotion": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::promotion.promotion",
+      "mappedBy": "announcement"
     }
   }
 }

@@ -816,6 +816,11 @@ export interface ApiAnnouncementAnnouncement extends Schema.CollectionType {
   attributes: {
     title: Attribute.String;
     image: Attribute.Media;
+    promotion: Attribute.Relation<
+      'api::announcement.announcement',
+      'oneToOne',
+      'api::promotion.promotion'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -923,6 +928,11 @@ export interface ApiCourseCourse extends Schema.CollectionType {
     >;
     like: Attribute.Integer & Attribute.DefaultTo<0>;
     schedule_text: Attribute.String;
+    promotions: Attribute.Relation<
+      'api::course.course',
+      'manyToMany',
+      'api::promotion.promotion'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -976,6 +986,50 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPromotionPromotion extends Schema.CollectionType {
+  collectionName: 'promotions';
+  info: {
+    singularName: 'promotion';
+    pluralName: 'promotions';
+    displayName: 'Promotion';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Descibtion: Attribute.String;
+    discount: Attribute.Integer;
+    start_date: Attribute.DateTime;
+    expiry_date: Attribute.DateTime;
+    special_price: Attribute.Integer;
+    courses: Attribute.Relation<
+      'api::promotion.promotion',
+      'manyToMany',
+      'api::course.course'
+    >;
+    announcement: Attribute.Relation<
+      'api::promotion.promotion',
+      'oneToOne',
+      'api::announcement.announcement'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::promotion.promotion',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::promotion.promotion',
       'oneToOne',
       'admin::user'
     > &
@@ -1094,6 +1148,7 @@ declare module '@strapi/types' {
       'api::booking.booking': ApiBookingBooking;
       'api::course.course': ApiCourseCourse;
       'api::order.order': ApiOrderOrder;
+      'api::promotion.promotion': ApiPromotionPromotion;
       'api::video.video': ApiVideoVideo;
       'api::watch-time.watch-time': ApiWatchTimeWatchTime;
     }

@@ -80,6 +80,12 @@
     },
     "schedule_text": {
       "type": "string"
+    },
+    "promotions": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::promotion.promotion",
+      "mappedBy": "courses"
     }
   }
 }
