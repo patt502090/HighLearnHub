@@ -213,7 +213,7 @@ export default function Course(props) {
               </div>
             ))}
           </div>
-          <div className="mx-auto my-10 sm:mt-20">
+          <div className="mx-auto my-10 sm:mt-10">
             {visibleCourses < props.data.length && (
               <Button
                 gradientDuoTone="cyanToBlue"

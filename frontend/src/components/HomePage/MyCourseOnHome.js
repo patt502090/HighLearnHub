@@ -125,7 +125,7 @@ export default function MyCourseOnHome() {
                         <img
                           src={course.image}
                           alt={course.title}
-                          className="object-cover w-full  mb-3 hover:opacity-50 rounded-t-lg"
+                          className="object-cover w-full  mb-4 hover:opacity-50 rounded-lg"
                         />
                       </div>
                       <div className="mt-auto">
