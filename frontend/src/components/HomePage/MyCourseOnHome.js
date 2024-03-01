@@ -10,7 +10,7 @@ import conf from "../../conf/main";
 import { AuthContext, ContextProvider } from "../../context/Auth.context";
 import { Progress } from "flowbite-react";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-
+import { IoIosPlayCircle } from "react-icons/io";
 
 function calculatePercentage(watchTime, totalDuration) {
   if (watchTime === 0) {
@@ -23,6 +23,7 @@ function calculatePercentage(watchTime, totalDuration) {
 export default function MyCourseOnHome() {
   const [courseData, setCourseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
   const { state: ContextState } = useContext(AuthContext);
   const { user } = ContextState || {};
 
@@ -93,14 +94,13 @@ export default function MyCourseOnHome() {
               className="float-right flex items-center text-xl text-slate-900"
             >
               {" "}
-              คอร์สเรียนของฉัน <MdOutlineKeyboardArrowRight  className="ml-2" />
+              คอร์สเรียนของฉัน <MdOutlineKeyboardArrowRight className="ml-2" />
             </Link>
           </p>
           <div>
             <Swiper
               spaceBetween={30}
               modules={[Navigation, Pagination]}
-              navigation={true}
               slidesPerView={1}
               breakpoints={{
                 640: {
@@ -117,16 +117,29 @@ export default function MyCourseOnHome() {
                 },
               }}
             >
-              {courseData.map((course) => (
+              {courseData.map((course, index) => (
                 <SwiperSlide key={course.id}>
                   <Link to={`/mycourse/${course.id}`} title="ดูคลิปวิดิโอ">
-                    <div className="p-2 bg-gray-100 rounded-lg  hover:translate-y-[-2px] transition-transform duration-300 ">
-                      <div className="h-30 overflow-hidden">
+                    <div
+                      className="p-2 bg-gray-100 rounded-lg  hover:translate-y-[-2px] transition-transform duration-300 "
+                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                    >
+                      <div className="h-30 overflow-hidden relative flex justify-center items-center">
                         <img
                           src={course.image}
                           alt={course.title}
-                          className="object-cover w-full  mb-4 hover:opacity-50 rounded-lg"
+                          className={`object-cover w-full mb-4 rounded-lg ${
+                            hoveredIndex === index
+                              ? "opacity-70"
+                              : "hover:opacity-70"
+                          }`}
                         />
+                        {hoveredIndex === index && (
+                          <p className="absolute transition-opacity duration-300 opacity-100 text-[5rem] text-indigo-500">
+                            <IoIosPlayCircle />
+                          </p>
+                        )}
                       </div>
                       <div className="mt-auto">
                         <Progress
