@@ -110,7 +110,7 @@ function ProfilePage() {
         <title>โปรไฟล์ของฉัน</title>
       </Helmet>
       <div
-        className="h-screen flex flex-col items-center justify-items-center pt-24 w-80 sm:w-full mx-auto"
+        className="h-full flex flex-col items-center justify-items-center pt-24 w-80 sm:w-full mx-auto"
       >
         <div className="background-profile border border-gray-300 shadow-lg rounded-lg bg-white bg-opacity-90 p-8 w-full sm:w-5/6 md:w-3/4 lg:w-2/3 relative">
           <div className="flex">

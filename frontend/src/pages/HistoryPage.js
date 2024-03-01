@@ -107,7 +107,7 @@ export default function HistoryPage() {
                       <p className="ml-1">Bath</p>
                     </div>
                   </div>
-                  <div className="flex items-center text-xs md:text-xs font-normal sm:ml-4 text-gray-600 dark:text-white">
+                  <div className="flex items-center text-xs md:text-xs font-normal sm:ml-5 text-gray-600 dark:text-white">
                     <p>{calculateDaysAgo(item.createdAt)}d ago</p>
                   </div>
                   {item.status === "success" ? (

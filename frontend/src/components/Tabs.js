@@ -87,7 +87,7 @@ export default function BasicTabs(props) {
                 class="justify-between grid lg:grid-cols-2  text-base font-base text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 style={{ justifyContent: "center" }}
               >
-                <li class="justify-between text-center w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center">
+                <li class="justify-between text-center gap-8 w-full px-4 py-2 border-b border-gray-200 rounded-t-lg dark:border-gray-600 flex items-center">
                   <div>
                     <svg
                       class="w-8 h-8 inline-block mr-2 text-gray-500 dark:text-white"
@@ -98,7 +98,7 @@ export default function BasicTabs(props) {
                     >
                       <path d="M7.8 2c-.5 0-1 .2-1.3.6A2 2 0 0 0 6 3.9V21a1 1 0 0 0 1.6.8l4.4-3.5 4.4 3.5A1 1 0 0 0 18 21V3.9c0-.5-.2-1-.5-1.3-.4-.4-.8-.6-1.3-.6H7.8Z" />
                     </svg>
-                    <span className="font-medium">วิชา:</span>
+                    <span className="font-medium gap-8  ">วิชา:</span>
                     {data.subject}
                   </div>
                 </li>

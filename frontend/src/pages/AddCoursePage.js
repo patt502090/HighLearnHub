@@ -77,7 +77,7 @@ export default function AddCoursePage() {
       setTimeout(() => {
         navigate("/admin");
         setLoading(false);
-      }, );
+      },500);
     } catch (error) {
       console.error("Error adding course:", error);
     }
