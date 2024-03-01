@@ -69,13 +69,13 @@ const Filter = () => {
                 Promotion & Event
               </h2>
               <Link
-                to="/sort/popularity"
+                to="/promotion"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:text-gray-200"
               >
                 ข้อเสนอพิเศษ
               </Link>
               <Link
-                to="/sort/popularity"
+                to="/event"
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:text-gray-200"
               >
                 เทศกาลลดราคา

@@ -25,6 +25,8 @@ import AddCoursePage from "./pages/AddCoursePage";
 import ManageVideoPage from "./pages/ManageVideoPage"
 import Dashboard from "./pages/Dashboard";
 import ListUserPage from "./pages/ListUserPage";
+import EventPage from "./pages/EventPage";
+import PromotionPage from "./pages/PromotionPage";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -48,6 +50,8 @@ root.render(
           <Route path="/history" element={<HistoryPage />} />
           <Route path="/finishpayment" element={<FinishPaymentPage />} />
           <Route path="/mycourse/:id" element={<VideoPage />} />
+          <Route path="/event" element={<EventPage />} />
+          <Route path="/promotion" element={<PromotionPage />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="/connect/google/redirect" element={<LoginRedirect />} />
           <Route path="/admin/approve" element={<ApprovePaymentPage />} />
