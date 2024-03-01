@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 
 export default function EventPage() {
   return (
-    <div className="container mx-auto max-w-screen-lg">
+    <div className="container mx-auto max-w-screen-lg" >
       <div
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -29,7 +29,7 @@ export default function EventPage() {
                 รีบเข้าร่วมกับเทศกาลแห่งความประทับใจนี้ก่อนที่โปรโมชั่นจะสิ้นสุด!
               </p>
               <a
-                href="#"
+                href="#shopping-section"
                 className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
               >
                 Shopping
@@ -55,7 +55,7 @@ export default function EventPage() {
             </div>
           </div>
         </section>
-        <section class="bg-gray-2 dark:bg-dark pt-20 pb-10 lg:pt-[120px] lg:pb-20">
+        <section id="shopping-section" class="bg-gray-2 dark:bg-dark pt-20 pb-10 lg:pt-[120px] lg:pb-20">
           <div class="container mx-auto">
             <div class="flex flex-wrap -mx-4">
               <div class="w-full px-4 md:w-1/2 xl:w-1/3">
