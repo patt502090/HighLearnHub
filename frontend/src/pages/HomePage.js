@@ -13,6 +13,8 @@ import Footer from "../components/Footer";
 import { Helmet } from "react-helmet";
 import ax from "../conf/ax";
 import conf from "../conf/main";
+import MyCourseOnHome from "../components/HomePage/MyCourseOnHome";
+
 export default function HomePage() {
   const [course, setCourse] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
@@ -125,6 +127,7 @@ export default function HomePage() {
           <>
             <Navbar data={course} />
             <Announcements data={announcements} />
+            <MyCourseOnHome/>
             <OnlineBestSeller />
             <OnlineLatest />
             <LiveCourse />

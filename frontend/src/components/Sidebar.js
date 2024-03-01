@@ -9,6 +9,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import { Link } from 'react-router-dom';
 import { AuthContext } from "../context/Auth.context";
+import { Collapse, ListItemText } from '@mui/material';
+import { Dropdown } from 'flowbite-react';
 
 export default function SidebarWithBurgerMenu({ userData, logout }) {
     const { state: ContextState } = useContext(AuthContext);
@@ -22,6 +24,13 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
     });
     const [loginStreak, setLoginStreak] = useState(1);
     const [lastLoginDate, setLastLoginDate] = useState(null);
+    const [open, setOpen] = React.useState(true);
+
+
+    const handleClick = () => {
+        setOpen(!open);
+    };
+
 
     useEffect(() => {
         const savedStreak = localStorage.getItem('loginStreak');
@@ -35,13 +44,45 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
     }, []);
 
     const handleLogin = () => {
+        handleLoginStreak();
+    };
+
+    const handleLoginStreak = () => {
         const currentDate = new Date();
-        if (!lastLoginDate || currentDate - lastLoginDate >= 24 * 60 * 60 * 1000) {
-            localStorage.setItem('loginStreak', loginStreak + 1);
-            localStorage.setItem('lastLoginDate', currentDate.toString());
-            setLoginStreak(prevStreak => prevStreak + 1);
-            setLastLoginDate(currentDate);
+        const lastLoginDateString = localStorage.getItem('lastLoginDate');
+        let lastLoginDate = null;
+
+        if (lastLoginDateString) {
+            lastLoginDate = new Date(lastLoginDateString);
         }
+
+        if (lastLoginDate && !isSameDay(lastLoginDate, currentDate)) {
+            const diffInDays = differenceInDays(currentDate, lastLoginDate);
+
+            if (diffInDays >= 1) {
+                localStorage.setItem('loginStreak', 1);
+                setLoginStreak(1);
+            } else {
+                const newStreak = loginStreak + 1;
+                localStorage.setItem('loginStreak', newStreak);
+                setLoginStreak(newStreak);
+            }
+
+            localStorage.setItem('lastLoginDate', currentDate.toString());
+        }
+    };
+
+    const isSameDay = (date1, date2) => {
+        return (
+            date1.getFullYear() === date2.getFullYear() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getDate() === date2.getDate()
+        );
+    };
+
+    const differenceInDays = (date1, date2) => {
+        const diffInTime = Math.abs(date2.getTime() - date1.getTime());
+        return Math.ceil(diffInTime / (1000 * 60 * 60 * 24));
     };
 
     const toggleDrawer = (right, open) => (event) => {
@@ -144,10 +185,23 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
                                     <List>
                                         <ListItem disablePadding href=''>
                                             <ListItemButton>
-                                                <svg class="w-6 h-6 text-green-600 dark:text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path fill-rule="evenodd" d="M2 12a10 10 0 1 1 20 0 10 10 0 0 1-20 0Zm13.7-1.3a1 1 0 0 0-1.4-1.4L11 12.6l-1.8-1.8a1 1 0 0 0-1.4 1.4l2.5 2.5c.4.4 1 .4 1.4 0l4-4Z" clip-rule="evenodd" />
                                                 </svg>
-                                                <p className='ml-2'>ยืนยัน</p>
+
+                                                <p className='ml-2'>ยืนยันการชำระเงิน</p>
+                                            </ListItemButton>
+                                        </ListItem>
+                                    </List>
+                                </Link>
+                                <Link to="/admin/userlist">
+                                    <List>
+                                        <ListItem disablePadding href=''>
+                                            <ListItemButton>
+                                                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path fill-rule="evenodd" d="M7 2a2 2 0 0 0-2 2v1a1 1 0 0 0 0 2v1a1 1 0 0 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1a1 1 0 1 0 0 2v1c0 1.1.9 2 2 2h11a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H7Zm3 8a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-1 7a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3c0 .6-.4 1-1 1h-6a1 1 0 0 1-1-1Z" clip-rule="evenodd" />
+                                                </svg>
+                                                <p className='ml-2'>ตรวจสอบสมาชิก</p>
                                             </ListItemButton>
                                         </ListItem>
                                     </List>

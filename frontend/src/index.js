@@ -24,6 +24,7 @@ import ApprovePaymentPage from "./pages/ApprovePaymentPage";
 import AddCoursePage from "./pages/AddCoursePage";
 import ManageVideoPage from "./pages/ManageVideoPage"
 import Dashboard from "./pages/Dashboard";
+import ListUserPage from "./pages/ListUserPage";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -51,6 +52,7 @@ root.render(
           <Route path="/connect/google/redirect" element={<LoginRedirect />} />
           <Route path="/admin/approve" element={<ApprovePaymentPage />} />
           <Route path="/admin/addcourse" element={<AddCoursePage />} />
+          <Route path="/admin/userlist" element={<ListUserPage />} />
           <Route path="/manage-video/:id" element={<ManageVideoPage />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
         </Routes>

@@ -4,7 +4,7 @@ import conf from "../conf/main";
 import backgroundImage from "../assets/background.png";
 import Navbar from "../components/Navbar";
 import { Helmet } from "react-helmet";
-
+import { ContextProvider } from "../context/Auth.context";
 export default function HistoryPage() {
   const [courseData, setCourseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -41,6 +41,7 @@ export default function HistoryPage() {
 
   return (
     <>
+    <ContextProvider>
       <Navbar />
       <div className="background-image py-20">
         <head>
@@ -125,6 +126,7 @@ export default function HistoryPage() {
           </div>
         </div>
       </div>
+      </ContextProvider>
     </>
   );
 }

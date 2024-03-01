@@ -4,7 +4,7 @@ import conf from "../conf/main";
 import Navbar from "../components/Navbar";
 import { Modal, ModalBody } from "flowbite-react";
 import toast, { Toaster } from "react-hot-toast";
-
+import { ContextProvider } from "../context/Auth.context";
 export default function ApprovePaymentPage() {
   const [coursebooked, setCoursebooked] = useState([]);
   const [paymentSlip, setPaymentSlip] = useState(null);
@@ -102,6 +102,7 @@ export default function ApprovePaymentPage() {
 
   return (
     <>
+    <ContextProvider>
       <div className="background-image">
         <Navbar />
         <div className="h-screen pt-24 relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -203,6 +204,7 @@ export default function ApprovePaymentPage() {
         </div>
 
       </div>
+      </ContextProvider>
     </>
   );
 }

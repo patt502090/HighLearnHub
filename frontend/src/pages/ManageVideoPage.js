@@ -11,7 +11,7 @@ import ModalCreateVideo from "../components/ManageViedoPage/ModalCreateVideo";
 import { AiTwotoneFileAdd } from "react-icons/ai";
 import toast, { Toaster } from 'react-hot-toast';
 import IconButton from "@mui/material/IconButton";
-
+import { ContextProvider } from "../context/Auth.context";
 const ManageVideoPage = () => {
   const { id } = useParams();
   const [videos, setVideos] = useState([]);
@@ -78,6 +78,7 @@ const ManageVideoPage = () => {
   };
 
   return (
+    <ContextProvider>
     <div>
       <Navbar />
       <div className="container pt-24 mx-auto ">
@@ -218,7 +219,9 @@ const ManageVideoPage = () => {
         idCourse={id}
       />
     </div>
+    </ContextProvider>
   );
+  
 };
 
 export default ManageVideoPage;
