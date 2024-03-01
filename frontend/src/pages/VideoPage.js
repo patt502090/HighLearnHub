@@ -40,6 +40,8 @@ function VideoPage() {
     fetchData().finally(() => {
       setIsLoading(false);
     });
+
+    window.scrollTo(0, 0);
   }, [id]);
 
   useEffect(() => {
