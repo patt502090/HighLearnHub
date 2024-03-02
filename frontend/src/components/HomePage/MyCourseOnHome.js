@@ -87,14 +87,14 @@ export default function MyCourseOnHome() {
     <ContextProvider>
       {courseData.length > 0 ? (
         <div className="w-full md:w-4/5 mx-auto h-full">
-          <p className="font-medium mx-auto mt-20 mb-10 text-center md:text-left text-2xl md:text-3xl">
+          <p className="font-medium mx-auto mt-20 mb-10 text-center md:text-left text-4xl md:text-3xl">
             คอร์สที่คุณกำลังเรียน
             <Link
               to="/mycourse"
               className="float-right flex items-center text-xl text-slate-900"
             >
               {" "}
-              คอร์สเรียนของฉัน <MdOutlineKeyboardArrowRight className="ml-2" />
+              คอร์สเรียนของฉัน <MdOutlineKeyboardArrowRight class="cursor-pointer duration-200 hover:scale-125 active:scale-100"/>
             </Link>
           </p>
           <div>
