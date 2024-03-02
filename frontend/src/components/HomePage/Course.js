@@ -8,7 +8,6 @@ import { FaCalendarDays } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { AuthContext, ContextProvider } from "../../context/Auth.context";
-
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
   const [dropdownLabel, setDropdownLabel] = useState("ทั้งหมด");
@@ -72,7 +71,7 @@ export default function Course(props) {
             คอร์สเรียนทั้งหมด
           </p>
           <div className="flex my-10 mr-3 md:mr-0 z-0">
-            <Dropdown label={dropdownLabel} className="mr-2">
+          <Dropdown label={dropdownLabel} class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none rounded-full">
               <DropdownItem
                 onClick={() => handleFilter("All", "ทั้งหมด")}
                 active={filterType === "All"}
@@ -101,10 +100,11 @@ export default function Course(props) {
             {props.data?.slice(0, visibleCourses).map((item) => (
               <div
                 key={item.id}
-                className={`hover:translate-y-[-10px] transition-transform duration-300 w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 m-1 md:m-2 ${filterType === "All" || item.type === filterType
+                className={`hover:translate-y-[-10px] transition-transform duration-300 w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 m-1 md:m-2 ${
+                  filterType === "All" || item.type === filterType
                     ? "block"
                     : "hidden"
-                  }`}
+                }`}
               >
                 <Link to={`/course/${item.id}`}>
                   <img
@@ -114,8 +114,9 @@ export default function Course(props) {
                   />
                   <div className="p-3 md:p-4 flex flex-col justify-between">
                     <p
-                      className={`text-${item.type === "Live" ? "red-500" : "yellow-300"
-                        } text-xs mb-1`}
+                      className={`text-${
+                        item.type === "Live" ? "red-500" : "yellow-300"
+                      } text-xs mb-1`}
                     >
                       {item.type === "Live" ? "LIVE COURSE" : "ONLINE COURSE"}
                     </p>
@@ -216,7 +217,7 @@ export default function Course(props) {
               <Button
                 gradientDuoTone="cyanToBlue"
                 onClick={() => setVisibleCourses((prev) => prev * 2)}
-                className="text-3xl px-4"
+                class="relative py-2 px-8 text-black text-base font-bold nded-full overflow-hidden bg-white rounded-full transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-gray-950 before:to-gray-900 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-full hover:before:left-0"
                 size="xl"
                 pill
               >
@@ -227,7 +228,7 @@ export default function Course(props) {
               <Button
                 gradientDuoTone="cyanToBlue"
                 onClick={() => setVisibleCourses(8)}
-                className="text-3xl px-4"
+                class="relative py-2 px-8 text-black text-base font-bold nded-full overflow-hidden bg-white rounded-full transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-gray-950 before:to-gray-900 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-full hover:before:left-0"
                 size="xl"
                 pill
               >
@@ -235,7 +236,6 @@ export default function Course(props) {
               </Button>
             )}
           </div>
-
         </div>
       </>
     </ContextProvider>
