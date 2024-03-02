@@ -999,12 +999,13 @@ export interface ApiPromotionPromotion extends Schema.CollectionType {
     singularName: 'promotion';
     pluralName: 'promotions';
     displayName: 'Promotion';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    Descibtion: Attribute.String;
+    Describtion: Attribute.String;
     discount: Attribute.Integer;
     start_date: Attribute.DateTime;
     expiry_date: Attribute.DateTime;
