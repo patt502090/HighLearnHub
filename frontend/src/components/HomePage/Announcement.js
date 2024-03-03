@@ -9,9 +9,9 @@ import { Link } from "react-router-dom";
 export default function Announcements({ data }) {
   return (
     <div>
-      <div className="mx-auto h-full w-full spacing-under-header">
+      <div className="mx-auto px-5 h-full w-full spacing-under-header">
         <Swiper
-          spaceBetween={20}
+          spaceBetween={30}
           modules={[Navigation, Pagination ,Autoplay]}
           navigation={true}
           loop={true}
