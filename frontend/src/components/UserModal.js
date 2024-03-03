@@ -28,7 +28,7 @@ export default function UserModal(props) {
             <Modal show={props.openModal} onClose={() => props.setOpenModal(false)}>
                 <Modal.Header>Profile</Modal.Header>
                 <Modal.Body>
-                    {(loading) ? <p><CircularProgress/></p> : <div className="max-w-xs mx-auto">
+                    {(loading) ? <p><CircularProgress /></p> : <div className="max-w-xs mx-auto">
                         <div className="bg-white rounded-lg p">
                             <div className="photo-wrapper p-2">
                                 {(data?.image) ?
@@ -62,10 +62,14 @@ export default function UserModal(props) {
                                             <td className="px-2 py-2 text-gray-500 font-semibold">ไอดีไลน์</td>
                                             <td className="px-2 py-2">{data?.line_id ? data?.line_id : "ไม่ระบุ"}</td>
                                         </tr>
-                                        <tr>
-                                            <td className="px-2 py-2 text-gray-500 font-semibold">การสั่งซื้อ</td>
-                                            <td className="px-2 py-2"><a href='/course' className=' underline'>ดูรายละเอียด</a></td>
-                                        </tr>
+                                        {(data?.role?.name === "member")
+                                            ?
+                                            <tr>
+                                                <td className="px-2 py-2 text-gray-500 font-semibold">การสั่งซื้อ</td>
+                                                <td className="px-2 py-2"><a href={`/admin/course/${data?.id}`} className='underline'>ดูรายละเอียด</a></td>
+                                            </tr>
+                                            : <></>}
+
                                     </tbody>
                                 </table>
                             </div>
