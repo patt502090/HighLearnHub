@@ -112,6 +112,12 @@
     },
     "line_id": {
       "type": "string"
+    },
+    "login_streak": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::login-streak.login-streak",
+      "mappedBy": "member"
     }
   }
 }

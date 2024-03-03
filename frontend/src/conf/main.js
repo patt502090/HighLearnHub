@@ -3,7 +3,7 @@ const conf = {
   urlPrefix: 'http://localhost:1337',
   loginEndpoint: '/auth/local',
   registerEndpoint: '/auth/local/register',
-  jwtUserEndpoint: '/users/me?populate=role&&populate=image',
+  jwtUserEndpoint: '/users/me?populate=role&&populate=image&&populate=login_streak',
   jwtSessionStorageKey: 'auth.jwt',
   roleSessionStorageKey: 'auth.role',
   googleConnectEndpoint: '/connect/google',

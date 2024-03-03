@@ -738,6 +738,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'api::order.order'
     >;
     line_id: Attribute.String;
+    login_streak: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::login-streak.login-streak'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -951,6 +956,43 @@ export interface ApiCourseCourse extends Schema.CollectionType {
   };
 }
 
+export interface ApiLoginStreakLoginStreak extends Schema.CollectionType {
+  collectionName: 'login_streaks';
+  info: {
+    singularName: 'login-streak';
+    pluralName: 'login-streaks';
+    displayName: 'LoginStreak';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    lastLogin: Attribute.DateTime;
+    CountStreak: Attribute.Integer & Attribute.DefaultTo<1>;
+    member: Attribute.Relation<
+      'api::login-streak.login-streak',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::login-streak.login-streak',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::login-streak.login-streak',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiOrderOrder extends Schema.CollectionType {
   collectionName: 'orders';
   info: {
@@ -1148,6 +1190,7 @@ declare module '@strapi/types' {
       'api::announcement.announcement': ApiAnnouncementAnnouncement;
       'api::booking.booking': ApiBookingBooking;
       'api::course.course': ApiCourseCourse;
+      'api::login-streak.login-streak': ApiLoginStreakLoginStreak;
       'api::order.order': ApiOrderOrder;
       'api::promotion.promotion': ApiPromotionPromotion;
       'api::video.video': ApiVideoVideo;
