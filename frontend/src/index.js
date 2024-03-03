@@ -50,7 +50,7 @@ root.render(
           <Route path="/finishpayment" element={<ProtectMemberRoute><FinishPaymentPage /></ProtectMemberRoute> }/>
           <Route path="/mycourse/:id" element={<ProtectMemberRoute><VideoPage /></ProtectMemberRoute>} />
           <Route path="/event" element={<EventPage />} />
-          <Route path="/promotion" element={<PromotionPage />} />
+          <Route path="/promotion/:id" element={<PromotionPage />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="/connect/google/redirect" element={<LoginRedirect />} />
           <Route path="/admin/approve" element={<ProtectAdminRoute><ApprovePaymentPage /></ProtectAdminRoute>} />

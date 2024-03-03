@@ -48,6 +48,12 @@
         "success"
       ],
       "default": "cart"
+    },
+    "announcements": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::announcement.announcement",
+      "mappedBy": "booking"
     }
   }
 }
