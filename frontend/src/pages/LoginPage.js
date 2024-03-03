@@ -33,7 +33,6 @@ export default function LoginPage() {
   };
 
   const handlePasswordChange = (e) => {
-    
     setPassword(e.target.value);
   };
 
@@ -51,6 +50,7 @@ export default function LoginPage() {
       });
 
       result = await ax.get(`${conf.apiUrlPrefix}${conf.jwtUserEndpoint}`);
+      console.log("id",result.data.id)
       changeRole(result.data.role.name);
       if (result.data.image) {
         sessionStorage.setItem(
@@ -98,6 +98,54 @@ export default function LoginPage() {
 
   const handleRegister = () => {
     navigate("/register");
+  };
+
+  const checkStreak = async ({id}) => {
+    try {
+      const responseStreak = await ax.get(
+        `${conf.apiUrlPrefix}/users/me?populate=login_streak`
+      );
+      const userData = responseStreak.data;
+
+      if (userData && userData.login_streak) {
+        const lastLogin = new Date(userData.login_streak.lastLogin);
+        console.log("lastLogin", lastLogin);
+        const now = new Date();
+        console.log("now", now);
+
+        // คำนวณหาเวลาที่ผ่านไประหว่าง lastLogin และ now ในหน่วยชั่วโมง
+        const timeDifference = (now - lastLogin) / (1000 * 60 * 60); // หน่วยเป็นชั่วโมง
+        console.log("timeDifference", timeDifference);
+
+        // ตรวจสอบว่าเวลาที่ผ่านไปอยู่ในช่วง 24-35 ชั่วโมงหรือไม่
+        if (timeDifference >= 24 && timeDifference <= 35) {
+          // เพิ่ม CountStreak ขึ้น 1
+          await ax.put(`${conf.apiUrlPrefix}/users/${userData.id}`, {
+            login_streak: {
+              CountStreak: userData.login_streak.CountStreak + 1,
+            },
+          });
+        } else if (timeDifference > 35) {
+          // รีเซ็ต CountStreak เป็น 1
+          await ax.put(`${conf.apiUrlPrefix}/users/${userData.id}`, {
+            login_streak: {
+              CountStreak: 1,
+            },
+          });
+        }
+      } else {
+        // หากไม่มีข้อมูล login_streak ให้สร้างข้อมูลใหม่
+        await ax.post(`${conf.apiUrlPrefix}/login-streak`, {
+          lastLogin: new Date(),
+          CountStreak: 1,
+          member: { connect: [{ id: user.id }] },
+        });
+      }
+
+      console.log("Streak checked successfully");
+    } catch (error) {
+      console.error("Error checking streak: ", error);
+    }
   };
 
   return (
