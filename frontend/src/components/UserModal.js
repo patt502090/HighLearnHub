@@ -12,7 +12,7 @@ export default function UserModal(props) {
         try {
             setLoading(true);
             const fetchData = async () => {
-                const response = await ax.get(`${conf.apiUrlPrefix}/users/${props.profileId}?populate=image&populate=role`);
+                const response = await ax.get(`${conf.apiUrlPrefix}/users/${props.profileId}?populate=image&populate=role&populate=login_streak`);
                 setData(response.data);
                 console.log(response);
             }
@@ -22,6 +22,13 @@ export default function UserModal(props) {
             console.error(error);
         }
     }, [props]);
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        return date.toLocaleDateString('th-TH', options);
+      }
 
     return (
         <>
@@ -61,6 +68,10 @@ export default function UserModal(props) {
                                         <tr>
                                             <td className="px-2 py-2 text-gray-500 font-semibold">ไอดีไลน์</td>
                                             <td className="px-2 py-2">{data?.line_id ? data?.line_id : "ไม่ระบุ"}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="px-2 py-2 text-gray-500 font-semibold">เข้าสู่ระบบล่าสุด</td>
+                                            <td className="px-2 py-2">{data?.login_streak?.lastLogin ? formatDate(data?.login_streak?.lastLogin) : "ไม่ระบุ"}</td>
                                         </tr>
                                         {(data?.role?.name === "member")
                                             ?
