@@ -27,6 +27,7 @@ import Dashboard from "./pages/Dashboard";
 import ListUserPage from "./pages/ListUserPage";
 import EventPage from "./pages/EventPage";
 import PromotionPage from "./pages/PromotionPage";
+import CourseControlPanelPage from "./pages/CourseControlPanelPage";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -42,7 +43,7 @@ root.render(
           <Route path="/admin" element={<ProtectAdminRoute><App /></ProtectAdminRoute>} />
           <Route path="/admin/:id" element={
             <ProtectAdminRoute><CourseInfoPage /></ProtectAdminRoute>} />
-          <Route path="/profile/:id" element={<ProtectMemberRoute><ProfilePage /></ProtectMemberRoute>} />
+          <Route path="/profile/:id" element={<ProfilePage />} />
           <Route path="/payment" element={<ProtectMemberRoute><PaymentPage /></ProtectMemberRoute>} />
           <Route path="/MyCart" element={<ProtectMemberRoute><CartPage /></ProtectMemberRoute>} />
           <Route path="/mycourse" element={<ProtectMemberRoute><MyCoursePage /></ProtectMemberRoute>} />
@@ -54,6 +55,7 @@ root.render(
           <Route path="*" element={<PageNotFound />} />
           <Route path="/connect/google/redirect" element={<LoginRedirect />} />
           <Route path="/admin/approve" element={<ProtectAdminRoute><ApprovePaymentPage /></ProtectAdminRoute>} />
+          <Route path="/admin/course/:ownerId" element={<ProtectAdminRoute><CourseControlPanelPage /></ProtectAdminRoute>} />
           <Route path="/admin/addcourse" element={<ProtectAdminRoute><AddCoursePage /></ProtectAdminRoute>} />
           <Route path="/admin/userlist" element={<ProtectAdminRoute><ListUserPage /></ProtectAdminRoute>} />
           <Route path="/manage-video/:id" element={<ProtectAdminRoute><ManageVideoPage /></ProtectAdminRoute>} />

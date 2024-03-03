@@ -182,7 +182,7 @@ export default function CourseInfoPage() {
                   className="w-full h-auto mb-6 rounded-md"
                 />
               )}
-              <h1 className="mb-4 text-2xช font-bold">
+              <h1 className="mb-4 text-2xl font-bold">
                 {course.attributes.title}
               </h1>
               <BasicTabs

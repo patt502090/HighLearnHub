@@ -86,7 +86,7 @@ function ProfilePage() {
       setTimeout(() => {
         setLoading(false);
         navigate(`/profile/${id}`);
-      }, 1500);
+      }, 3000);
     } catch (error) {
       console.error("Error updating user data:", error);
     }
