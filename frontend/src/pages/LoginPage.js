@@ -138,7 +138,7 @@ export default function LoginPage() {
         await ax.post(`${conf.apiUrlPrefix}/login-streak`, {
           lastLogin: new Date(),
           CountStreak: 1,
-          member: { connect: [{ id: user.id }] },
+          member: { connect: [{ id: userData.id }] },
         });
       }
 
