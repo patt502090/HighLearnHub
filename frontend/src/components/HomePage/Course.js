@@ -71,7 +71,10 @@ export default function Course(props) {
             คอร์สเรียนทั้งหมด
           </p>
           <div className="flex my-10 mr-3 md:mr-0 z-0">
-          <Dropdown label={dropdownLabel} class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none rounded-full">
+            <Dropdown
+              label={dropdownLabel}
+              class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-2 px-4 bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none rounded-full"
+            >
               <DropdownItem
                 onClick={() => handleFilter("All", "ทั้งหมด")}
                 active={filterType === "All"}
@@ -131,12 +134,20 @@ export default function Course(props) {
                       )}
                     </div>
                     {item.type === "Live" ? (
-                      <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xs md:text-base">
+                      <p
+                        className={`my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xs md:text-base ${
+                          item.amount >= item.maxamount ? "text-red-500" : ""
+                        }`}
+                      >
                         จำนวนผู้ลงสมัคร{" "}
-                        <span className="hover:underline decoration-red-500/30">
+                        <span
+                          className={`hover:underline ${
+                            item.amount >= item.maxamount ? "text-red-500" : ""
+                          }`}
+                        >
                           {item.amount}/{item.maxamount}
                         </span>{" "}
-                        คน
+                        {item.amount >= item.maxamount ? <span className="text-md  text-red-700">(เต็ม)</span>: "คน"}
                       </p>
                     ) : (
                       <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-red-500 text-xs md:text-base">
@@ -217,7 +228,7 @@ export default function Course(props) {
               <Button
                 gradientDuoTone="cyanToBlue"
                 onClick={() => setVisibleCourses((prev) => prev * 2)}
-                class="relative py-2 px-8 text-black text-base font-bold nded-full overflow-hidden bg-white rounded-full transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-gray-950 before:to-gray-900 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-full hover:before:left-0"
+                class="relative py-1 px-5 text-black text-base font-bold nded-full overflow-hidden bg-white rounded-full transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-gray-950 before:to-gray-900 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-full hover:before:left-0"
                 size="xl"
                 pill
               >
@@ -228,7 +239,7 @@ export default function Course(props) {
               <Button
                 gradientDuoTone="cyanToBlue"
                 onClick={() => setVisibleCourses(8)}
-                class="relative py-2 px-8 text-black text-base font-bold nded-full overflow-hidden bg-white rounded-full transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-gray-950 before:to-gray-900 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-full hover:before:left-0"
+                class="relative py-1 px-5 text-black text-base font-bold nded-full overflow-hidden bg-white rounded-full transition-all duration-400 ease-in-out shadow-md hover:scale-105 hover:text-white hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-gray-950 before:to-gray-900 before:transition-all before:duration-500 before:ease-in-out before:z-[-1] before:rounded-full hover:before:left-0"
                 size="xl"
                 pill
               >

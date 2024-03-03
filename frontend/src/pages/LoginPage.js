@@ -21,6 +21,7 @@ export default function LoginPage() {
   const authContext = useContext(AuthContext);
   const { login, changeRole } = authContext || {};
   const [showPassword, setShowPassword] = useState(false);
+  const [streakID, setStreakID] = useState(null);
   const navigate = useNavigate();
 
   const togglePasswordVisibility = (e) => {
@@ -50,7 +51,8 @@ export default function LoginPage() {
       });
 
       result = await ax.get(`${conf.apiUrlPrefix}${conf.jwtUserEndpoint}`);
-      console.log("id",result.data.id)
+      console.log("id", result.data.id);
+      checkStreak({ id: result.data.id }); //checkStreak
       changeRole(result.data.role.name);
       if (result.data.image) {
         sessionStorage.setItem(
@@ -100,14 +102,17 @@ export default function LoginPage() {
     navigate("/register");
   };
 
-  const checkStreak = async ({id}) => {
+  const checkStreak = async ({ id }) => {
+    console.log("test", id);
     try {
       const responseStreak = await ax.get(
         `${conf.apiUrlPrefix}/users/me?populate=login_streak`
       );
-      const userData = responseStreak.data;
+      const userData = responseStreak?.data;
 
-      if (userData && userData.login_streak) {
+      const steakID = userData?.login_streak?.id;
+
+      if (steakID) {
         const lastLogin = new Date(userData.login_streak.lastLogin);
         console.log("lastLogin", lastLogin);
         const now = new Date();
@@ -117,29 +122,41 @@ export default function LoginPage() {
         const timeDifference = (now - lastLogin) / (1000 * 60 * 60); // หน่วยเป็นชั่วโมง
         console.log("timeDifference", timeDifference);
 
-        // ตรวจสอบว่าเวลาที่ผ่านไปอยู่ในช่วง 24-35 ชั่วโมงหรือไม่
-        if (timeDifference >= 24 && timeDifference <= 35) {
+        // ตรวจสอบว่าเวลาที่ผ่านไปน้อยกว่า 24 ชั่วโมงหรือไม่
+        if (timeDifference < 24) {
+          // อัปเดต lastLogin เฉยๆ โดยไม่ทำอะไรเพิ่มเติม
+          await ax.put(`${conf.apiUrlPrefix}/login-streaks/${steakID}`, {
+            data: {
+              lastLogin: new Date(),
+            },
+          });
+        } else if (timeDifference >= 24 && timeDifference <= 35) {
           // เพิ่ม CountStreak ขึ้น 1
-          await ax.put(`${conf.apiUrlPrefix}/users/${userData.id}`, {
-            login_streak: {
+          await ax.put(`${conf.apiUrlPrefix}/login-streaks/${steakID}`, {
+            data: {
               CountStreak: userData.login_streak.CountStreak + 1,
+              lastLogin: new Date(),
             },
           });
         } else if (timeDifference > 35) {
           // รีเซ็ต CountStreak เป็น 1
-          await ax.put(`${conf.apiUrlPrefix}/users/${userData.id}`, {
-            login_streak: {
+          await ax.put(`${conf.apiUrlPrefix}/login-streaks/${steakID}`, {
+            data: {
               CountStreak: 1,
+              lastLogin: new Date(),
             },
           });
         }
       } else {
-        // หากไม่มีข้อมูล login_streak ให้สร้างข้อมูลใหม่
-        await ax.post(`${conf.apiUrlPrefix}/login-streak`, {
-          lastLogin: new Date(),
-          CountStreak: 1,
-          // member: { connect: [{ id: user.id }] },
+        //หากไม่มีข้อมูล login_streak ให้สร้างข้อมูลใหม่
+        const steakNew = await ax.post(`${conf.apiUrlPrefix}/login-streaks`, {
+          data: {
+            lastLogin: new Date(),
+            CountStreak: 1,
+            member: { connect: [{ id: id }] },
+          },
         });
+        console.log("steakNew", steakNew);
       }
 
       console.log("Streak checked successfully");
