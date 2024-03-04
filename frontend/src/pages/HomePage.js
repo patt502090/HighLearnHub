@@ -88,7 +88,7 @@ export default function HomePage() {
     return (
       <>
         {loading ? (
-          <div className="h-screen flex justify-center items-center">
+          <div className="h-screen flex justify-center items-center scroll-smooth focus:scroll-auto">
             <CircularProgress />
           </div>
         ) : (
@@ -122,7 +122,7 @@ export default function HomePage() {
           <title>HighLearnHub</title>
         </Helmet>
         {loading ? (
-          <div className="h-screen flex justify-center items-center">
+          <div className="h-screen flex justify-center items-center scroll-smooth focus:scroll-auto">
             <CircularProgress />
           </div>
         ) : (

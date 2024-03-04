@@ -8,6 +8,9 @@ import { FaCalendarDays } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { AuthContext, ContextProvider } from "../../context/Auth.context";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
   const [dropdownLabel, setDropdownLabel] = useState("ทั้งหมด");
@@ -20,6 +23,7 @@ export default function Course(props) {
   useEffect(() => {
     const savedLikes = JSON.parse(localStorage.getItem("likes")) || {};
     setLikes(savedLikes);
+    AOS.init();
   }, []);
 
   const handleFilter = (type, label) => {
@@ -66,7 +70,7 @@ export default function Course(props) {
   return (
     <ContextProvider>
       <>
-        <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between">
+        <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between" data-aos="fade-down"> 
           <p className="font-medium text-2xl md:text-3xl pl-3 md:pl-0">
             คอร์สเรียนทั้งหมด
           </p>
