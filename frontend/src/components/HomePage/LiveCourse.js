@@ -31,6 +31,7 @@ const LiveCourse = () => {
           id: course.id,
           title: course.attributes.title,
           price: course.attributes.price,
+          discount : course.attributes.discount,
           amount: course.attributes.amount,
           description: course.attributes.description,
           maxamount: course.attributes.maxamount,
@@ -40,6 +41,7 @@ const LiveCourse = () => {
           date: course.attributes.schedule_text,
         }));
         setliveCourse(liveCourseData);
+        console.log("i here",liveCourseData.discount)
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -127,10 +129,20 @@ const LiveCourse = () => {
                     >
                       <>{course.date}</>
                     </Badge>
+                    {course.discount !== 1 ?(
 
-                    <p className="text-right mt-3 font-semibold">
-                      {course.price} บาท{" "}
-                    </p>
+                
+<p className="text-md text-center font-semibold text-red-700 sm:text-l mb-1">
+<p className="mt-1 text-gray-500 line-through">
+          {course.price} บาท
+        </p>
+        <p className="text-red-500 font-semibold">
+          {course.price*((100-course.discount)/100)} บาท
+        </p>
+</p>
+  ):(<p className="mt-3 text-md text-center font-bold text-grey-700 sm:text-l mb-4">
+  {course.price} บาท 
+</p>)}
                   </div>
                 </div>
               </div>

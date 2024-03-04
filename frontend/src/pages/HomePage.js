@@ -55,6 +55,7 @@ export default function HomePage() {
             price: course.attributes.price,
             amount: course.attributes.amount,
             maxamount: course.attributes.maxamount,
+            discount: course.attributes.discount,
             description: course.attributes.description,
             image:
               `${conf.urlPrefix}` + course.attributes.image.data.attributes.url,
