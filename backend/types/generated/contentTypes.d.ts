@@ -979,6 +979,7 @@ export interface ApiLoginStreakLoginStreak extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+    CountTime: Attribute.DateTime;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

@@ -20,7 +20,6 @@ const Navbar = ({ data }) => {
     logout();
     setShowLogoutModal(false);
     sessionStorage.removeItem("profileURL");
-
     toast.success("ออกจากระบบสำเร็จ!");
     setTimeout(() => {
       navigate("/login");
@@ -28,19 +27,20 @@ const Navbar = ({ data }) => {
   };
 
   return (
-    <>      <Toaster position="top-center" reverseOrder={false} />
+    <>
+      <Toaster position="top-center" reverseOrder={false} />
       <header>
         <div>
           <div className="bg-gray-400">
             <div className="container mx-auto flex justify-between items-center p-2">
               <div className="flex">
-                <Link to={"/home"}>
+                <Link to={"/home"}>             
                   <img src="https://media.discordapp.net/attachments/705005230944813076/1208313872990347264/HLH_2.png?ex=65e2d4fc&is=65d05ffc&hm=10fa3e09ca49cc6796caf9f0ed0e5b4518a1a1708628c840c6c0d821d89555e7&=&format=webp&quality=lossless&width=625&height=312" alt="Logo" className="h-11 w-auto ml-2" />
                 </Link>
               </div>
-              {(data) ? <Filter/> : <></>}
               {user ? (
                 <div className="flex justify-items-center items-center">
+                  {(data) ? <Filter /> : <></>}
                   {(data) ? <Searchbar data={data} /> : <></>}
                   <div>
                     {profileURL ?
