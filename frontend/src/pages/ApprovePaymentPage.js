@@ -37,8 +37,15 @@ export default function ApprovePaymentPage() {
     let totalPrice = 0;
 
     price.data.forEach((pricebooking) => {
-      totalPrice += pricebooking.attributes.course.data.attributes.price
-    });
+      const pricecourse = pricebooking.attributes.course.data.attributes.price
+      const discountcourse = pricebooking.attributes.course.data.attributes.discount
+      if (pricebooking.attributes.course.data.attributes.discount === 1){
+        totalPrice += pricecourse
+      }
+      else{
+        totalPrice += pricecourse*((100-discountcourse)/100)
+      }
+      });
 
     return totalPrice.toLocaleString();
   };

@@ -25,7 +25,7 @@ export default function Course(props) {
     setFilterType(type);
     setDropdownLabel(label);
   };
-
+  console.log(props.data)
   useEffect(() => {
     AOS.init();
   }, [])
@@ -176,9 +176,21 @@ export default function Course(props) {
                             "ไม่ระบุวันที่"
                           )}
                         </Badge>
-                        <p className="mt-2 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
-                          {item.price} บาท{" "}
+                        { item.discount !== 1?(
+
+                          
+                          <p className="mt-2 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
+          
+               <span class=" font-bold text-red-700">{item.price*((100-(item.discount))/100)}</span>
+                  <span class="text-sm text-slate-900 line-through"> {item.price}</span>
+                  <span class=" font-bold text-grey-700">  บาท{" "}</span>
                         </p>
+                            ):(<p className="mt-2 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
+          
+                            <span class=" font-bold text-grey-700">{item.price} บาท{" "}</span>
+                                     </p>)
+              
+                        }
                       </div>
                     )}
                   </div>

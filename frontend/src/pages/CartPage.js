@@ -117,9 +117,19 @@ export default function CartPage() {
                                       </p>
                                       <hr className="mt-6 " />
                                       <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 flex justify-between">
-                                        <span>
-                                          ราคา {item.course.price} บาท,
-                                        </span>
+                                        {item.course.discount?(
+                
+                <p className="text-md text-center font-bold text-red-700 sm:text-2xl mb-4">
+               <p className="text-gray-500 line-through">
+                          {(item.course.price).toFixed(2)} บาท
+                        </p>
+                        <p className=" text-red-500 font-semibold">
+                          {(item.course.price*((100-item.course.discount)/100)).toFixed(2)} บาท
+                        </p>
+              </p>
+                  ):(<p className="text-md text-center font-bold text-grey-700 sm:text-2xl mb-4">
+                  <span class="text-3xl font-bold text-slate-900">{(item.attributes.price).toFixed(2)} บาท </span>
+                </p>)}
                                         <span>x1</span>
                                       </p>
                                     </div>
