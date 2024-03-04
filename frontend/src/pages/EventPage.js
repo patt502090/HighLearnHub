@@ -1,151 +1,168 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { useNavigate } from "react-router-dom";
+import "swiper/css/navigation";
+import { Navigation, Pagination } from "swiper/modules";
+import { Badge } from "flowbite-react";
+import { HiClock } from "react-icons/hi";
+import conf from "../conf/main";
+import ax from "../conf/ax";
 import backgroundImage from "../assets/background.png";
-import Navbar from "../components/Navbar";
-import { Helmet } from "react-helmet";
 
 export default function EventPage() {
+  const [onlineSelling, setOnlineSelling] = useState([]);
+  const navigate = useNavigate();
+
+  const handleCardClick = (id) => {
+    navigate(`/course/${id}`);
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const onlineSellingResponse = await ax.get(
+          `${conf.apiUrlPrefix}/courses?populate=image&filters[study_type][$eq]=Online&sort=amount:desc&pagination[pageSize]=10&populate=videos`
+        );
+        const onlineSellingData = onlineSellingResponse.data.data.map(
+          (course) => {
+            const totalDurationSeconds = course.attributes.videos.data.reduce(
+              (totalDuration, video) =>
+                totalDuration + video.attributes.duration,
+              0
+            );
+
+            const minutes = Math.floor(totalDurationSeconds / 60);
+            const seconds = Math.floor(totalDurationSeconds % 60);
+
+            return {
+              id: course.id,
+              title: course.attributes.title,
+              price: course.attributes.price,
+              amount: course.attributes.amount,
+              description: course.attributes.description,
+              image:
+                "http://localhost:1337" +
+                course.attributes.image.data.attributes.url,
+              duration: { minutes, seconds },
+            };
+          }
+        );
+
+        setOnlineSelling(onlineSellingData);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <div className="container mx-auto max-w-screen-lg" >
-      <div
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          height: "100vh",
-        }}
+    <div className="container mx-auto">
+      <section
+        className="bg-white dark:bg-gray-900 bg-center bg-cover h-screen flex items-center justify-center"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
       >
-        <section className="bg-white dark:bg-gray-900">
-          <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-            <div className="mr-auto place-self-center lg:col-span-7">
-              <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
-                เทศกาลลดราคา
-              </h1>
-              <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-                พบกับการลดราคาพิเศษที่ไม่ควรพลาดในงาน "Spring Sales 2024"
-                ที่จะเปิดขายสินค้าและบริการหลากหลายจากผู้ผลิตและธุรกิจชั้นนำ
-                ร่วมกับโปรโมชั่นพิเศษและส่วนลดที่น่าตื่นเต้น
-                เตรียมพบกับโอกาสในการอัพเกรดสินค้าหรือบริการที่คุณต้องการในราคาที่ย่อมเหลือใจ
-                รีบเข้าร่วมกับเทศกาลแห่งความประทับใจนี้ก่อนที่โปรโมชั่นจะสิ้นสุด!
-              </p>
-              <a
-                href="#shopping-section"
-                className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-              >
-                Shopping
-                <svg
-                  className="w-5 h-5 ml-2 -mr-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-              </a>
-            </div>
-            <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
-              <img
-                src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/hero/phone-mockup.png"
-                alt="mockup"
-              />
-            </div>
+        <div className="max-w-3xl px-6 py-12 mx-auto text-center flex items-center justify-center flex-col">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+            เทศกาลลดราคา
+          </h1>
+          <p className="mt-4 text-lg text-gray-700 dark:text-gray-300" >
+            พบกับการลดราคาพิเศษที่ไม่ควรพลาดในงาน "Spring Sales 2024"
+            ที่จะเปิดขายสินค้าและบริการหลากหลายจากผู้ผลิตและธุรกิจชั้นนำ
+            ร่วมกับโปรโมชั่นพิเศษและส่วนลดที่น่าตื่นเต้น
+            เตรียมพบกับโอกาสในการอัพเกรดสินค้าหรือบริการที่คุณต้องการในราคาที่ย่อมเหลือใจ
+            รีบเข้าร่วมกับเทศกาลแห่งความประทับใจนี้ก่อนที่โปรโมชั่นจะสิ้นสุด!
+          </p>
+          <a
+            href="#shopping-section"
+            className="inline-flex items-center justify-center px-8 py-4 mt-8 text-lg font-semibold text-white bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+          >
+            Shopping
+            <svg
+              className="w-5 h-5 ml-2 -mr-1"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              ></path>
+            </svg>
+          </a>
+        </div>
+        <img
+          src="https://png.pngtree.com/png-clipart/20210310/original/pngtree-cartoon-thai-songkran-festival-characters-and-elephant-illustration-png-image_5936860.png"
+          alt="คำอธิบายรูปภาพ"
+          className="mt-8 max-w-full float-right"
+          style={{ maxWidth: "100%", maxHeight: "100%" }}
+        />
+      </section>
+
+      <section id="shopping-section" className="py-20">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {onlineSelling.slice(0, 3).map((course) => (
+              <SwiperSlide key={course.id}>
+                <div className="bg-white rounded-lg shadow-lg border border-gray-200 hover:shadow-xl transition duration-300">
+                  <div className="relative h-64 overflow-hidden">
+                    <img
+                      src={course.image}
+                      alt={course.title}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <p className="text-yellow-400 text-xs mb-2">
+                      ONLINE COURSE
+                    </p>
+                    <p className="font-semibold text-lg mb-2">{course.title}</p>
+                    <p className="text-sm text-gray-600 mb-4 line-clamp-3">
+                      {course.description}
+                    </p>
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <Badge color="warning" className="mr-2">
+                          BESTSELLER
+                        </Badge>
+                        <Badge color="failure">Event Promotion</Badge>
+                      </div>
+                      <p className="text-gray-800 font-semibold">
+                        {course.price} บาท
+                      </p>
+                    </div>
+                    <div className="flex justify-between items-center mt-3">
+                      <Badge
+                        color="gray"
+                        icon={HiClock}
+                        className="text-xs font-normal"
+                      >
+                        {course.duration.minutes >= 60
+                          ? `${Math.floor(
+                              course.duration.minutes / 60
+                            )} ชั่วโมง ${course.duration.minutes % 60} นาที ${
+                              course.duration.seconds
+                            } วินาที`
+                          : `${course.duration.minutes} นาที ${course.duration.seconds} วินาที`}
+                      </Badge>
+                      <button
+                        onClick={() => handleCardClick(course.id)}
+                        className="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-300"
+                      >
+                        ดูรายละเอียด
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
           </div>
-        </section>
-        <section id="shopping-section" class="bg-gray-2 dark:bg-dark pt-20 pb-10 lg:pt-[120px] lg:pb-20">
-          <div class="container mx-auto">
-            <div class="flex flex-wrap -mx-4">
-              <div class="w-full px-4 md:w-1/2 xl:w-1/3">
-                <div class="mb-10 overflow-hidden duration-300 bg-white rounded-lg dark:bg-dark-2 shadow-1 hover:shadow-3 dark:shadow-card dark:hover:shadow-3">
-                  <img
-                    src="https://cdn.tailgrids.com/2.0/image/application/images/cards/card-01/image-01.jpg"
-                    alt="image"
-                    class="w-full"
-                  />
-                  <div class="p-8 text-center sm:p-9 md:p-7 xl:p-9">
-                    <h3>
-                      <a
-                        href="javascript:void(0)"
-                        class="text-dark dark:text-white hover:text-primary mb-4 block text-xl font-semibold sm:text-[22px] md:text-xl lg:text-[22px] xl:text-xl 2xl:text-[22px]"
-                      >
-                        ตะลุยข้อสอบเรียลทาม คณิตศาสตร์ ม.ต้น
-                      </a>
-                    </h3>
-                    <p class="text-base leading-relaxed text-body-color dark:text-dark-6 mb-7">
-                    สรุปเข้มเนื้อหาทั้ง ฟิสิกส์ เคมี ชีววิทยา โลก และดาราศาสตร์ ครบทุกประเด็นที่ออกสอบบ่อย ๆ
-                    </p>
-                    <a
-                      href="javascript:void(0)"
-                      class="inline-block py-2 text-base font-medium transition border rounded-full text-body-color hover:border-primary hover:bg-primary border-gray-3 px-7 hover:text-white dark:border-dark-3 dark:text-dark-6"
-                    >
-                      View Details
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div class="w-full px-4 md:w-1/2 xl:w-1/3">
-                <div class="mb-10 overflow-hidden duration-300 bg-white rounded-lg dark:bg-dark-2 shadow-1 hover:shadow-3 dark:shadow-card dark:hover:shadow-3">
-                  <img
-                    src="https://cdn.tailgrids.com/2.0/image/application/images/cards/card-01/image-02.jpg"
-                    alt="image"
-                    class="w-full"
-                  />
-                  <div class="p-8 text-center sm:p-9 md:p-7 xl:p-9">
-                    <h3>
-                      <a
-                        href="javascript:void(0)"
-                        class="text-dark dark:text-white hover:text-primary mb-4 block text-xl font-semibold sm:text-[22px] md:text-xl lg:text-[22px] xl:text-xl 2xl:text-[22px]"
-                      >
-                        ตะลุยข้อสอบเรียลทาม วิทยาศาสตร์ ม.ต้น
-                      </a>
-                    </h3>
-                    <p class="text-base leading-relaxed text-body-color mb-7">
-                    สรุปเข้มเนื้อหาทั้ง ฟิสิกส์ เคมี ชีววิทยา โลก และดาราศาสตร์ ครบทุกประเด็นที่ออกสอบบ่อย ๆ
-                    </p>
-                    <a
-                      href="javascript:void(0)"
-                      class="inline-block py-2 text-base font-medium transition border rounded-full text-body-color hover:border-primary hover:bg-primary border-gray-3 px-7 hover:text-white dark:border-dark-3 dark:text-dark-6"
-                    >
-                      View Details
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div class="w-full px-4 md:w-1/2 xl:w-1/3">
-                <div class="mb-10 overflow-hidden duration-300 bg-white rounded-lg dark:bg-dark-2 shadow-1 hover:shadow-3 dark:shadow-card dark:hover:shadow-3">
-                  <img
-                    src="https://cdn.tailgrids.com/2.0/image/application/images/cards/card-01/image-03.jpg"
-                    alt="image"
-                    class="w-full"
-                  />
-                  <div class="p-8 text-center sm:p-9 md:p-7 xl:p-9">
-                    <h3>
-                      <a
-                        href="javascript:void(0)"
-                        class="text-dark dark:text-white hover:text-primary mb-4 block text-xl font-semibold sm:text-[22px] md:text-xl lg:text-[22px] xl:text-xl 2xl:text-[22px]"
-                      >
-                        ตะลุยข้อสอบเรียลทาม วิทยาศาสตร์ ม.ต้น
-                      </a>
-                    </h3>
-                    <p class="text-base leading-relaxed text-body-color mb-7">
-                    สรุปเข้มเนื้อหาทั้ง ฟิสิกส์ เคมี ชีววิทยา โลก และดาราศาสตร์ ครบทุกประเด็นที่ออกสอบบ่อย ๆ
-                    </p>
-                    <a
-                      href="javascript:void(0)"
-                      class="inline-block py-2 text-base font-medium transition border rounded-full text-body-color hover:border-primary hover:bg-primary border-gray-3 px-7 hover:text-white dark:border-dark-3 dark:text-dark-6"
-                    >
-                      View Details
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   );
 }
