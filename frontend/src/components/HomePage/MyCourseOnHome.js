@@ -11,8 +11,6 @@ import { AuthContext, ContextProvider } from "../../context/Auth.context";
 import { Progress } from "flowbite-react";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { IoIosPlayCircle } from "react-icons/io";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 function calculatePercentage(watchTime, totalDuration) {
   if (watchTime === 0) {
@@ -83,13 +81,12 @@ export default function MyCourseOnHome() {
     };
 
     fetchData();
-    AOS.init();
   }, [user]);
 
   return (
     <ContextProvider>
       {courseData.length > 0 ? (
-        <div className="w-full md:w-4/5 mx-auto h-full"data-aos="fade-up">
+        <div className="relative z-0 w-full md:w-4/5 mx-auto h-full">
           <p className="font-medium mx-auto mt-20 mb-10 text-center md:text-left text-4xl md:text-3xl">
             คอร์สที่คุณกำลังเรียน
             <Link

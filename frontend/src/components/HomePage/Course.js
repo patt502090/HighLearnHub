@@ -8,8 +8,6 @@ import { FaCalendarDays } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { AuthContext, ContextProvider } from "../../context/Auth.context";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
@@ -27,13 +25,12 @@ export default function Course(props) {
   };
   console.log(props.data)
   useEffect(() => {
-    AOS.init();
   }, [])
 
   return (
     <ContextProvider>
       <>
-        <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between" data-aos="fade-down">
+        <div className="relative z-0 w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between">
           <p className="font-medium text-2xl md:text-3xl pl-3 md:pl-0">
             คอร์สเรียนทั้งหมด
           </p>

@@ -10,8 +10,6 @@ import { Badge } from "flowbite-react";
 import { HiClock } from "react-icons/hi";
 import ax from "../../conf/ax";
 import conf from "../../conf/main";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 const OnlineBestSeller = () => {
   const [onlineSelling, setOnlineSelling] = useState([]);
@@ -62,7 +60,6 @@ const OnlineBestSeller = () => {
     };
 
     fetchData();
-    AOS.init();
   }, []);
 
 
@@ -70,7 +67,7 @@ const OnlineBestSeller = () => {
 
   return (
     
-    <div className=" w-full md:w-4/5 mx-auto h-full "data-aos="fade-up">
+    <div className="relative z-0 w-full md:w-4/5 mx-auto h-full "data-aos="fade-up">
       <p className="font-medium mx-auto mt-20 text-center md:text-left text-2xl md:text-3xl">
         คอร์สออนไลน์ยอดนิยม
       </p>

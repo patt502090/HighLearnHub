@@ -10,7 +10,7 @@ export default function Announcements({ data }) {
   console.log("gay = ",data)
   return (
     <div>
-      <div className="mx-auto px-5 h-full w-full spacing-under-header">
+      <div className="relative z-0 mx-auto px-5 h-full w-full spacing-under-header">
         <Swiper
           spaceBetween={30}
           modules={[Navigation, Pagination ,Autoplay]}
