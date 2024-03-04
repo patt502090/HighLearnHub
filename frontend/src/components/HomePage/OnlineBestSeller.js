@@ -67,7 +67,7 @@ const OnlineBestSeller = () => {
 
   return (
     
-    <div className="relative z-0 w-full md:w-4/5 mx-auto h-full "data-aos="fade-up">
+    <div className="relative z-0 w-full md:w-4/5 mx-auto h-full ">
       <p className="font-medium mx-auto mt-20 text-center md:text-left text-2xl md:text-3xl">
         คอร์สออนไลน์ยอดนิยม
       </p>
