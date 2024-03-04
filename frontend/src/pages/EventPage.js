@@ -13,6 +13,7 @@ import backgroundImage from "../assets/background.png";
 
 export default function EventPage() {
   const [onlineSelling, setOnlineSelling] = useState([]);
+  const [originalPrices, setOriginalPrices] = useState([]);
   const navigate = useNavigate();
 
   const handleCardClick = (id) => {
@@ -39,7 +40,8 @@ export default function EventPage() {
             return {
               id: course.id,
               title: course.attributes.title,
-              price: course.attributes.price,
+              price: course.attributes.price * 0.8,
+              originalPrice: course.attributes.price, 
               amount: course.attributes.amount,
               description: course.attributes.description,
               image:
@@ -106,7 +108,7 @@ export default function EventPage() {
       <section id="shopping-section" className="py-20">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {onlineSelling.slice(0, 3).map((course) => (
+            {onlineSelling.slice(0, 3).map((course, index) => (
               <SwiperSlide key={course.id}>
                 <div className="bg-white rounded-lg shadow-lg border border-gray-200 hover:shadow-xl transition duration-300">
                   <div className="relative h-64 overflow-hidden">
@@ -131,9 +133,14 @@ export default function EventPage() {
                         </Badge>
                         <Badge color="failure">Event Promotion</Badge>
                       </div>
-                      <p className="text-gray-800 font-semibold">
-                        {course.price} บาท
-                      </p>
+                      <div>
+                        <p className="text-gray-500 line-through">
+                          {course.originalPrice} บาท
+                        </p>
+                        <p className="text-red-500 font-semibold">
+                          {course.price} บาท
+                        </p>
+                      </div>
                     </div>
                     <div className="flex justify-between items-center mt-3">
                       <Badge
