@@ -24,8 +24,7 @@ export default function CourseControlPanelPage() {
 
     const listCourse = async () => {
         try {
-            const findCourse = await ax.get(`${conf.apiUrlPrefix}/courses`)
-            console.log(findCourse);
+            const findCourse = await ax.get(`${conf.apiUrlPrefix}/courses?populate[bookings][filters][payment_status][$eq]=false`)
             setCourse(findCourse.data.data);
         } catch (error) {
             console.error(error);
@@ -35,7 +34,8 @@ export default function CourseControlPanelPage() {
     const removeDuplicateCourse = () => {
         if (course && data) {
             const dataTitles = data.bookings.map(item => item.course.title);
-            setCourse(course.filter(word => !dataTitles.includes(word.attributes.title)));
+            const remove = (course.filter(word => !dataTitles.includes(word.attributes.title)));
+            setCourse(remove);
         }
     }
 
@@ -75,7 +75,7 @@ export default function CourseControlPanelPage() {
 
     useEffect(() => {
         removeDuplicateCourse();
-    }, [course])
+    }, [data])
 
     return (
         <>
