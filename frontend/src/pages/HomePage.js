@@ -14,9 +14,10 @@ import { Helmet } from "react-helmet";
 import ax from "../conf/ax";
 import conf from "../conf/main";
 import MyCourseOnHome from "../components/HomePage/MyCourseOnHome";
-import Help from"../components/Helper"
+import Help from "../components/Helper"
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import FilterSubject from "../components/HomePage/FilterSubject";
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -82,7 +83,7 @@ export default function HomePage() {
         setLoading(false);
       }
     };
-    
+
     fetchData();
     AOS.init();
   }, []);
@@ -97,20 +98,21 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-           <div className="scroll-smooth focus:scroll-auto">
-            <Helmet>
-              <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1.0"
-              />
-              <title>HighLearnHub</title>
-            </Helmet>
-            <Navbar data={course} />
-            <Announcements data={announcements} />
-            <Course data={course} userRole={ContextState.userRole} />
-            <Footer />
+            <div className="scroll-smooth focus:scroll-auto">
+              <Helmet>
+                <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1.0"
+                />
+                <title>HighLearnHub</title>
+              </Helmet>
+              <Navbar data={course} />
+              <Announcements data={announcements} />
+              <FilterSubject/>
+              <Course data={course} userRole={ContextState.userRole} />
+              <Footer />
             </div>
-          
+
           </>
         )}
       </>
@@ -133,17 +135,17 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-          <div className="scroll-smooth focus:scroll-auto">
-            <Navbar data={course} />
-            <Announcements data={announcements} />
-            <MyCourseOnHome/>
-            <OnlineBestSeller />
-            <OnlineLatest />
-            <LiveCourse />
-            <Course data={course} />
-            <Footer></Footer>
-            <Outlet />
-            <Help/>
+            <div className="scroll-smooth focus:scroll-auto">
+              <Navbar data={course} />
+              <Announcements data={announcements} />
+              <MyCourseOnHome />
+              <OnlineBestSeller />
+              <OnlineLatest />
+              <LiveCourse />
+              <Course data={course} />
+              <Footer></Footer>
+              <Outlet />
+              <Help />
             </div>
           </>
         )}
