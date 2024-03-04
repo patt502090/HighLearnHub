@@ -64,7 +64,11 @@ const OnlineBestSeller = () => {
     AOS.init();
   }, []);
 
+
+
+
   return (
+    
     <div className=" w-full md:w-4/5 mx-auto h-full "data-aos="fade-up">
       <p className="font-medium mx-auto mt-20 text-center md:text-left text-2xl md:text-3xl">
         คอร์สออนไลน์ยอดนิยม

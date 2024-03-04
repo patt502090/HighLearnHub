@@ -20,52 +20,15 @@ export default function Course(props) {
   const { state: ContextState } = useContext(AuthContext);
   const { user } = ContextState || {};
 
-  useEffect(() => {
-    const savedLikes = JSON.parse(localStorage.getItem("likes")) || {};
-    setLikes(savedLikes);
-    AOS.init();
-  }, []);
 
   const handleFilter = (type, label) => {
     setFilterType(type);
     setDropdownLabel(label);
   };
 
-  const handleLike = async (courseId) => {
-    try {
-      if (!user) {
-        toast.error("กรุณาเข้าสู่ระบบก่อนกด Like");
-        return;
-      }
-
-      if (likes[courseId]) {
-        toast.success("คุณกด Like หลักสูตรนี้แล้ว");
-        return;
-      }
-
-      const response = await ax.put(`/courses/${courseId}/like`);
-      if (response.data.ok === 1) {
-        setLikes((prevLikes) => {
-          const updatedLikes = { ...prevLikes };
-          updatedLikes[courseId] = true;
-          localStorage.setItem("likes", JSON.stringify(updatedLikes));
-          return updatedLikes;
-        });
-
-        // อัปเดตจำนวนไลค์ของคอร์สที่ถูกกด Like
-        props.data.forEach((item) => {
-          if (item.id === courseId) {
-            item.like = (item.like || 0) + 1;
-          }
-        });
-      } else {
-        console.error("ไม่สามารถอัปเดตการชอบได้");
-      }
-    } catch (error) {
-      console.error("เกิดข้อผิดพลาดในการอัปเดตการชอบ:", error);
-      navigate("/");
-    }
-  };
+  useEffect(()=>{
+    AOS.init();
+  },[])
 
   return (
     <ContextProvider>

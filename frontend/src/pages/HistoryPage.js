@@ -5,6 +5,7 @@ import backgroundImage from "../assets/background.png";
 import Navbar from "../components/Navbar";
 import { Helmet } from "react-helmet";
 import { ContextProvider } from "../context/Auth.context";
+
 export default function HistoryPage() {
   const [courseData, setCourseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
