@@ -26,14 +26,14 @@ export default function Course(props) {
     setDropdownLabel(label);
   };
   console.log(props.data)
-  useEffect(()=>{
+  useEffect(() => {
     AOS.init();
-  },[])
+  }, [])
 
   return (
     <ContextProvider>
       <>
-        <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between" data-aos="fade-down"> 
+        <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between" data-aos="fade-down">
           <p className="font-medium text-2xl md:text-3xl pl-3 md:pl-0">
             คอร์สเรียนทั้งหมด
           </p>
@@ -70,11 +70,10 @@ export default function Course(props) {
             {props.data?.slice(0, visibleCourses).map((item) => (
               <div
                 key={item.id}
-                className={`hover:translate-y-[-10px] transition-transform duration-300 w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 m-1 md:m-2 ${
-                  filterType === "All" || item.type === filterType
+                className={`hover:translate-y-[-10px] transition-transform duration-300 w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 m-1 md:m-2 ${filterType === "All" || item.type === filterType
                     ? "block"
                     : "hidden"
-                }`}
+                  }`}
               >
                 <Link to={`/course/${item.id}`}>
                   <img
@@ -84,9 +83,8 @@ export default function Course(props) {
                   />
                   <div className="p-3 md:p-4 flex flex-col justify-between">
                     <p
-                      className={`text-${
-                        item.type === "Live" ? "red-500" : "yellow-300"
-                      } text-xs mb-1`}
+                      className={`text-${item.type === "Live" ? "red-500" : "yellow-300"
+                        } text-xs mb-1`}
                     >
                       {item.type === "Live" ? "LIVE COURSE" : "ONLINE COURSE"}
                     </p>
@@ -102,19 +100,17 @@ export default function Course(props) {
                     </div>
                     {item.type === "Live" ? (
                       <p
-                        className={`my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xs md:text-base ${
-                          item.amount >= item.maxamount ? "text-red-500" : ""
-                        }`}
+                        className={`my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-xs md:text-base ${item.amount >= item.maxamount ? "text-red-500" : ""
+                          }`}
                       >
                         จำนวนผู้ลงสมัคร{" "}
                         <span
-                          className={`hover:underline ${
-                            item.amount >= item.maxamount ? "text-red-500" : ""
-                          }`}
+                          className={`hover:underline ${item.amount >= item.maxamount ? "text-red-500" : ""
+                            }`}
                         >
                           {item.amount}/{item.maxamount}
                         </span>{" "}
-                        {item.amount >= item.maxamount ? <span className="text-md  text-red-700">(เต็ม)</span>: "คน"}
+                        {item.amount >= item.maxamount ? <span className="text-md  text-red-700">(เต็ม)</span> : "คน"}
                       </p>
                     ) : (
                       <p className="my-5 mb-1 bg-clip-text text-transparent bg-gradient-to-r from-sky-500 to-red-500 text-xs md:text-base">
