@@ -86,12 +86,12 @@ export default function MyCourseOnHome() {
   return (
     <ContextProvider>
       {courseData.length > 0 ? (
-        <div className="relative z-0 w-full md:w-4/5 mx-auto h-full">
-          <p className="font-medium mx-auto mt-20 mb-10 text-center md:text-left text-4xl md:text-3xl">
+        <div className="relative z-0 w-full md:w-4/5 px-14 h-full">
+          <p className="font-medium mx-auto mt-20 mb-10 text-center md:text-left text-2xl md:text-3xl">
             คอร์สที่คุณกำลังเรียน
             <Link
               to="/mycourse"
-              className="float-right flex items-center text-xl text-slate-900"
+              className="float-right flex items-center text-sm sm:text-xl text-slate-700 sm:text-slate-900"
             >
               {" "}
               คอร์สเรียนของฉัน <MdOutlineKeyboardArrowRight class="cursor-pointer duration-200 hover:scale-125 active:scale-100"/>
