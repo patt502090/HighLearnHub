@@ -26,9 +26,6 @@
         "audios"
       ]
     },
-    "start_date": {
-      "type": "date"
-    },
     "expiry_date": {
       "type": "date"
     },
@@ -37,9 +34,6 @@
       "relation": "oneToMany",
       "target": "api::course.course",
       "mappedBy": "announcement"
-    },
-    "discount": {
-      "type": "integer"
     },
     "Describtion": {
       "type": "text"

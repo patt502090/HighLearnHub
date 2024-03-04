@@ -95,6 +95,10 @@
         "NEW",
         "RECOMMEND"
       ]
+    },
+    "discount": {
+      "type": "integer",
+      "default": 1
     }
   }
 }

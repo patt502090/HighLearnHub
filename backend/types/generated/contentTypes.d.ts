@@ -821,14 +821,12 @@ export interface ApiAnnouncementAnnouncement extends Schema.CollectionType {
   attributes: {
     title: Attribute.String;
     image: Attribute.Media;
-    start_date: Attribute.Date;
     expiry_date: Attribute.Date;
     courses: Attribute.Relation<
       'api::announcement.announcement',
       'oneToMany',
       'api::course.course'
     >;
-    discount: Attribute.Integer;
     Describtion: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -945,6 +943,7 @@ export interface ApiCourseCourse extends Schema.CollectionType {
     status: Attribute.Enumeration<
       ['PROMOTION', 'BESSELLER', 'NEW', 'RECOMMEND']
     >;
+    discount: Attribute.Integer & Attribute.DefaultTo<1>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

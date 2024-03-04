@@ -99,10 +99,10 @@ export default function PromotiPage() {
                   ))
                 }
                 </p>
-            <p>
+            <p className="text-right">
               
-                <span className="text-3xl font-bold text-red-600 ">{lastprice(promotion.data.attributes.courses).totalPricediscount}฿</span>
-                <span className="text-sm text-slate-900 line-through ">{lastprice(promotion.data.attributes.courses).totalPrice}฿</span>
+                <span className="text-3xl  font-bold text-red-600 ">ลด {promotion.data.attributes.discount}%!!!</span>
+                
             </p>
             
             
