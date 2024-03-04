@@ -26,11 +26,32 @@
         "audios"
       ]
     },
-    "promotion": {
+    "start_date": {
+      "type": "date"
+    },
+    "expiry_date": {
+      "type": "date"
+    },
+    "special_price": {
+      "type": "integer"
+    },
+    "courses": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::promotion.promotion",
+      "relation": "oneToMany",
+      "target": "api::course.course",
       "mappedBy": "announcement"
+    },
+    "discount": {
+      "type": "integer"
+    },
+    "Describtion": {
+      "type": "text"
+    },
+    "booking": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::booking.booking",
+      "inversedBy": "announcements"
     }
   }
 }

@@ -7,6 +7,7 @@ import "swiper/css/navigation";
 import "./SwiperButton.css";
 import { Link } from "react-router-dom";
 export default function Announcements({ data }) {
+  console.log("gay = ",data)
   return (
     <div>
       <div className="mx-auto px-5 h-full w-full spacing-under-header">
@@ -29,7 +30,7 @@ export default function Announcements({ data }) {
         >
           {data?.map((announcement) => (
             <SwiperSlide key={announcement.id}>
-              <Link>
+              <Link to={`/promotion/${announcement.id}`}>
                 <img
                   className="mx-auto border rounded-3xl shadow hover:scale-105 transition duration-500 cursor-pointer"
                   src={announcement.image}

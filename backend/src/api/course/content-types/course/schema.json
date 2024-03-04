@@ -81,11 +81,11 @@
     "schedule_text": {
       "type": "string"
     },
-    "promotions": {
+    "announcement": {
       "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::promotion.promotion",
-      "mappedBy": "courses"
+      "relation": "manyToOne",
+      "target": "api::announcement.announcement",
+      "inversedBy": "courses"
     }
   }
 }
