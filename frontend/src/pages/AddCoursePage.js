@@ -23,7 +23,6 @@ export default function AddCoursePage() {
     maxamount: null,
     schedule_text: null,
   });
-  console.log("courseData",courseData)
 
   useEffect(() => {
     if (selectedImage) {
