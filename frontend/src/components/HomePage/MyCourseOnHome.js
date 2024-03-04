@@ -89,15 +89,15 @@ export default function MyCourseOnHome() {
   return (
     <ContextProvider>
       {courseData.length > 0 ? (
-        <div className="w-full md:w-4/5 mx-auto h-full"data-aos="fade-up">
+        <div className="w-full md:w-4/5 mx-auto h-full" data-aos="fade-up">
           <p className="font-medium mx-auto mt-20 mb-10 text-center md:text-left text-4xl md:text-3xl">
             คอร์สที่คุณกำลังเรียน
             <Link
               to="/mycourse"
-              className="float-right flex items-center text-xl text-slate-900"
+              className="max-lg:hidden float-right flex items-center text-xl text-slate-900"
             >
               {" "}
-              คอร์สเรียนของฉัน <MdOutlineKeyboardArrowRight class="cursor-pointer duration-200 hover:scale-125 active:scale-100"/>
+              คอร์สเรียนของฉัน <MdOutlineKeyboardArrowRight class="cursor-pointer duration-200 hover:scale-125 active:scale-100" />
             </Link>
           </p>
           <div>
@@ -120,11 +120,18 @@ export default function MyCourseOnHome() {
                 },
               }}
             >
+              <Link
+                to="/mycourse"
+                className="lg:hidden float-right flex items-center text-xl text-slate-900"
+              >
+                {" "}
+                คอร์สเรียนของฉัน <MdOutlineKeyboardArrowRight class="cursor-pointer duration-200 hover:scale-125 active:scale-100" />
+              </Link>
               {courseData.map((course, index) => (
                 <SwiperSlide key={course.id}>
                   <Link to={`/mycourse/${course.id}`} title="ดูคลิปวิดิโอ">
                     <div
-                      className="p-2 bg-gray-100 rounded-lg  hover:translate-y-[-2px] transition-transform duration-300 "
+                      className="p-4 lg:bg-gray-100 rounded-lg  hover:translate-y-[-2px] transition-transform duration-300 "
                       onMouseEnter={() => setHoveredIndex(index)}
                       onMouseLeave={() => setHoveredIndex(null)}
                     >
@@ -132,11 +139,10 @@ export default function MyCourseOnHome() {
                         <img
                           src={course.image}
                           alt={course.title}
-                          className={`object-cover w-full mb-4 rounded-lg ${
-                            hoveredIndex === index
+                          className={`object-cover w-full mb-4 rounded-lg ${hoveredIndex === index
                               ? "opacity-70"
                               : "hover:opacity-70"
-                          }`}
+                            }`}
                         />
                         {hoveredIndex === index && (
                           <p className="absolute transition-opacity duration-300 opacity-100 text-[5rem] text-indigo-500">
@@ -144,7 +150,7 @@ export default function MyCourseOnHome() {
                           </p>
                         )}
                       </div>
-                      <div className="mt-auto">
+                      <div className=" mt-auto">
                         <Progress
                           progress={course.percentage}
                           color="yellow"

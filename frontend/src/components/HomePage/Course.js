@@ -33,7 +33,7 @@ export default function Course(props) {
   return (
     <ContextProvider>
       <>
-        <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between" data-aos="fade-down">
+        <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between" data-aos="fade-up">
           <p className="font-medium text-2xl md:text-3xl pl-3 md:pl-0">
             คอร์สเรียนทั้งหมด
           </p>
