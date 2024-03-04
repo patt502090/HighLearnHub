@@ -10,6 +10,8 @@ import { Badge } from "flowbite-react";
 import { FaCalendarDays } from "react-icons/fa6";
 import ax from "../../conf/ax";
 import conf from "../../conf/main";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const LiveCourse = () => {
   const [liveCourse, setliveCourse] = useState([]);
@@ -44,10 +46,14 @@ const LiveCourse = () => {
     };
 
     fetchData();
+    AOS.init();
   }, []);
 
+
+
   return (
-    <div className="w-full md:w-4/5 mx-auto h-full mb:20">
+
+    <div className="w-full md:w-4/5 mx-auto h-full mb:20"  data-aos="fade-right">
       <p className="font-medium mx-auto mt-20 text-center md:text-left text-2xl md:text-3xl">
         คอร์สเรียนสดออนไลน์แนะนำ
       </p>
@@ -133,6 +139,7 @@ const LiveCourse = () => {
         </Swiper>
       </div>
     </div>
+
   );
 };
 

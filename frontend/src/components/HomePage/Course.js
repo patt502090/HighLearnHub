@@ -8,6 +8,9 @@ import { FaCalendarDays } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { AuthContext, ContextProvider } from "../../context/Auth.context";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
   const [dropdownLabel, setDropdownLabel] = useState("ทั้งหมด");
@@ -17,56 +20,20 @@ export default function Course(props) {
   const { state: ContextState } = useContext(AuthContext);
   const { user } = ContextState || {};
 
-  useEffect(() => {
-    const savedLikes = JSON.parse(localStorage.getItem("likes")) || {};
-    setLikes(savedLikes);
-  }, []);
 
   const handleFilter = (type, label) => {
     setFilterType(type);
     setDropdownLabel(label);
   };
 
-  const handleLike = async (courseId) => {
-    try {
-      if (!user) {
-        toast.error("กรุณาเข้าสู่ระบบก่อนกด Like");
-        return;
-      }
-
-      if (likes[courseId]) {
-        toast.success("คุณกด Like หลักสูตรนี้แล้ว");
-        return;
-      }
-
-      const response = await ax.put(`/courses/${courseId}/like`);
-      if (response.data.ok === 1) {
-        setLikes((prevLikes) => {
-          const updatedLikes = { ...prevLikes };
-          updatedLikes[courseId] = true;
-          localStorage.setItem("likes", JSON.stringify(updatedLikes));
-          return updatedLikes;
-        });
-
-        // อัปเดตจำนวนไลค์ของคอร์สที่ถูกกด Like
-        props.data.forEach((item) => {
-          if (item.id === courseId) {
-            item.like = (item.like || 0) + 1;
-          }
-        });
-      } else {
-        console.error("ไม่สามารถอัปเดตการชอบได้");
-      }
-    } catch (error) {
-      console.error("เกิดข้อผิดพลาดในการอัปเดตการชอบ:", error);
-      navigate("/");
-    }
-  };
+  useEffect(()=>{
+    AOS.init();
+  },[])
 
   return (
     <ContextProvider>
       <>
-        <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between">
+        <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between" data-aos="fade-down"> 
           <p className="font-medium text-2xl md:text-3xl pl-3 md:pl-0">
             คอร์สเรียนทั้งหมด
           </p>

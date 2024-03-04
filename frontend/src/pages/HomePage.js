@@ -15,6 +15,8 @@ import ax from "../conf/ax";
 import conf from "../conf/main";
 import MyCourseOnHome from "../components/HomePage/MyCourseOnHome";
 import Help from"../components/Helper"
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -80,9 +82,11 @@ export default function HomePage() {
         setLoading(false);
       }
     };
-
+    
     fetchData();
+    AOS.init();
   }, []);
+
 
   if (userRole === "admin") {
     return (
@@ -93,6 +97,7 @@ export default function HomePage() {
           </div>
         ) : (
           <>
+           <div className="scroll-smooth focus:scroll-auto">
             <Helmet>
               <meta
                 name="viewport"
@@ -104,6 +109,7 @@ export default function HomePage() {
             <Announcements data={announcements} />
             <Course data={course} userRole={ContextState.userRole} />
             <Footer />
+            </div>
           
           </>
         )}
@@ -127,6 +133,7 @@ export default function HomePage() {
           </div>
         ) : (
           <>
+          <div className="scroll-smooth focus:scroll-auto">
             <Navbar data={course} />
             <Announcements data={announcements} />
             <MyCourseOnHome/>
@@ -137,6 +144,7 @@ export default function HomePage() {
             <Footer></Footer>
             <Outlet />
             <Help/>
+            </div>
           </>
         )}
       </ContextProvider>
