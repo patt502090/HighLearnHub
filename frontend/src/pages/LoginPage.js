@@ -112,14 +112,16 @@ export default function LoginPage() {
 
       const steakID = userData?.login_streak?.id;
 
+      const createdAt = userData?.createdAt;
+
       if (steakID) {
-        const lastLogin = new Date(userData.login_streak.lastLogin);
-        console.log("lastLogin", lastLogin);
+        const CountTimeData = new Date(userData.login_streak.CountTime);
+        console.log("CreateData", CountTimeData);
         const now = new Date();
         console.log("now", now);
 
         // คำนวณหาเวลาที่ผ่านไประหว่าง lastLogin และ now ในหน่วยชั่วโมง
-        const timeDifference = (now - lastLogin) / (1000 * 60 * 60); // หน่วยเป็นชั่วโมง
+        const timeDifference = (now - CountTimeData) / (1000 * 60 * 60); // หน่วยเป็นชั่วโมง
         console.log("timeDifference", timeDifference);
 
         // ตรวจสอบว่าเวลาที่ผ่านไปน้อยกว่า 24 ชั่วโมงหรือไม่
@@ -136,6 +138,7 @@ export default function LoginPage() {
             data: {
               CountStreak: userData.login_streak.CountStreak + 1,
               lastLogin: new Date(),
+              CountTime: new Date(),
             },
           });
         } else if (timeDifference > 35) {
@@ -144,6 +147,7 @@ export default function LoginPage() {
             data: {
               CountStreak: 1,
               lastLogin: new Date(),
+              CountTime: new Date(),
             },
           });
         }
@@ -153,6 +157,7 @@ export default function LoginPage() {
           data: {
             lastLogin: new Date(),
             CountStreak: 1,
+            CountTime: new Date(),
             member: { connect: [{ id: id }] },
           },
         });
