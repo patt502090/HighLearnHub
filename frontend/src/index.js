@@ -28,6 +28,7 @@ import ListUserPage from "./pages/ListUserPage";
 import EventPage from "./pages/EventPage";
 import PromotionPage from "./pages/PromotionPage";
 import CourseControlPanelPage from "./pages/CourseControlPanelPage";
+import AddAnnouncementPage from "./pages/AddAnnouncementPage";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -60,6 +61,7 @@ root.render(
           <Route path="/admin/userlist" element={<ProtectAdminRoute><ListUserPage /></ProtectAdminRoute>} />
           <Route path="/manage-video/:id" element={<ProtectAdminRoute><ManageVideoPage /></ProtectAdminRoute>} />
           <Route path="/admin/dashboard" element={<ProtectAdminRoute><Dashboard /></ProtectAdminRoute>} />
+          <Route path="/admin/addAnnouncement" element={<ProtectAdminRoute><AddAnnouncementPage /></ProtectAdminRoute>} />
         </Routes>
       </Router>
     </ContextProvider>

@@ -17,7 +17,7 @@ export default function PromotiPage() {
     const {id} = useParams();
     const [promotion, setPromotion] = useState([]);
     const [checkcoursedata,setCheckcoursedata]=useState();
-    const [Userid,setUserId]=useState();
+    const [discount,setDiscount] = useState();
     console.log("id = ",id)
 
   useEffect(() => {
@@ -29,18 +29,7 @@ export default function PromotiPage() {
         console.log("gay is real :",response);
 
         setPromotion(response.data);
-        const user = await ax.get(conf.apiUrlPrefix+"/users/me")
-        setUserId(user.data.id)
-        
-
-
-
-        //เดะผมค่อยมาแก้ตรงนี้ต่อนอนล้ะ 5555 ค้างไว้ก่อน 
-        //กับการที่จะโพสสร้างตะกร้าแพ็คเกจ
-        //และอีกเยอะเลย t-t
-        
-  
-        
+        setDiscount(response.data.data.attributes.discount);       
       } catch (error) {
         console.error("Error fetching Data:", error);
       }
@@ -48,6 +37,24 @@ export default function PromotiPage() {
 
     fetchData();
   }, []);
+
+  const lastprice = (course) =>{
+      console.log("ต่อยกัน",course)
+      console.log("ส่วนลด",discount)
+      let totalPricediscount = 0;
+      let totalPrice = 0;
+      course.data.forEach((item) => {
+        const discount = item.attributes.price * (10/100); // หาค่าส่วนลด 10%
+        const discountedPrice = item.attributes.price - discount; // หาราคาหลังลด
+        totalPricediscount += discountedPrice;
+        totalPrice += item.attributes.price
+
+      });
+      console.log("price : ",totalPrice,totalPricediscount)
+    
+      return {totalPrice: totalPrice,totalPricediscount:totalPricediscount
+      };
+  };
 
   
   
@@ -61,10 +68,10 @@ export default function PromotiPage() {
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
-          <title>รายละเอียดคอร์ส</title>
+          <title>รายละเอียดประกาศ</title>
         </Helmet>
-        <div className="max-w-4xl mx-auto p-6 pt-24 text-center">
-          {promotion.data ? (
+       <div className="max-w-4xl mx-auto p-6 pt-24 text-center">
+        {promotion.data ? (
             <div className="bg-white shadow-md rounded-md p-6">
               {promotion.data.attributes.image && (
                 <img
@@ -81,11 +88,25 @@ export default function PromotiPage() {
               <p className="text-md sm:text-lg font-normal sm:font-medium mb-4">
                 {promotion.data.attributes?.Describtion}
               </p>
-
-              {/* <p className="text-md text-center font-bold text-red-700 sm:text-2xl mb-4">
-                ราคา: {course.attributes.price} บาท
-              </p> */}
+               <p className="text-left">
+                ประกอบด้วยคอร์สดังนี้
+                {promotion.data.attributes.courses.data?.map(course =>(
+                  <ul class="text-left indent-8">
+                  <li>{course.attributes.title}</li>
+                  
+                  </ul>
+                  
+                  ))
+                }
+                </p>
+            <p>
               
+                <span className="text-3xl font-bold text-red-600 ">{lastprice(promotion.data.attributes.courses).totalPricediscount}฿</span>
+                <span className="text-sm text-slate-900 line-through ">{lastprice(promotion.data.attributes.courses).totalPrice}฿</span>
+            </p>
+            
+            
+          
             </div>
           ) : (
             <div className="h-screen flex justify-center items-center">

@@ -942,6 +942,9 @@ export interface ApiCourseCourse extends Schema.CollectionType {
       'manyToOne',
       'api::announcement.announcement'
     >;
+    status: Attribute.Enumeration<
+      ['PROMOTION', 'BESSELLER', 'NEW', 'RECOMMEND']
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
