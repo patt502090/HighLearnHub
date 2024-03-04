@@ -8,8 +8,6 @@ import { FaCalendarDays } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { AuthContext, ContextProvider } from "../../context/Auth.context";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 export default function Course(props) {
   const [filterType, setFilterType] = useState("All");
@@ -27,13 +25,12 @@ export default function Course(props) {
   };
   console.log(props.data)
   useEffect(() => {
-    AOS.init();
   }, [])
 
   return (
     <ContextProvider>
       <>
-        <div className="w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between" data-aos="fade-up">
+        <div className="relative z-0 w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between">
           <p className="font-medium text-2xl md:text-3xl pl-3 md:pl-0">
             คอร์สเรียนทั้งหมด
           </p>
@@ -71,8 +68,8 @@ export default function Course(props) {
               <div
                 key={item.id}
                 className={`hover:translate-y-[-10px] transition-transform duration-300 w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 m-1 md:m-2 ${filterType === "All" || item.type === filterType
-                    ? "block"
-                    : "hidden"
+                  ? "block"
+                  : "hidden"
                   }`}
               >
                 <Link to={`/course/${item.id}`}>
@@ -176,20 +173,20 @@ export default function Course(props) {
                             "ไม่ระบุวันที่"
                           )}
                         </Badge>
-                        { item.discount !== 1?(
+                        {item.discount !== 1 ? (
 
-                          
+
                           <p className="mt-2 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
-          
-               <span class=" font-bold text-red-700">{item.price*((100-(item.discount))/100)}</span>
-                  <span class="text-sm text-slate-900 line-through"> {item.price}</span>
-                  <span class=" font-bold text-grey-700">  บาท{" "}</span>
-                        </p>
-                            ):(<p className="mt-2 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
-          
-                            <span class=" font-bold text-grey-700">{item.price} บาท{" "}</span>
-                                     </p>)
-              
+
+                            <span class=" font-bold text-red-700">{item.price * ((100 - (item.discount)) / 100)}</span>
+                            <span class="text-sm text-slate-900 line-through"> {item.price}</span>
+                            <span class=" font-bold text-grey-700">  บาท{" "}</span>
+                          </p>
+                        ) : (<p className="mt-2 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
+
+                          <span class=" font-bold text-grey-700">{item.price} บาท{" "}</span>
+                        </p>)
+
                         }
                       </div>
                     )}

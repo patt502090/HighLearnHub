@@ -962,6 +962,39 @@ export interface ApiCourseCourse extends Schema.CollectionType {
   };
 }
 
+export interface ApiFooterAnnouncementFooterAnnouncement
+  extends Schema.CollectionType {
+  collectionName: 'footer_announcements';
+  info: {
+    singularName: 'footer-announcement';
+    pluralName: 'footer-announcements';
+    displayName: 'Footer-Announcement';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    start_date: Attribute.DateTime;
+    expiry_date: Attribute.DateTime;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::footer-announcement.footer-announcement',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::footer-announcement.footer-announcement',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiLoginStreakLoginStreak extends Schema.CollectionType {
   collectionName: 'login_streaks';
   info: {
@@ -1152,6 +1185,7 @@ declare module '@strapi/types' {
       'api::announcement.announcement': ApiAnnouncementAnnouncement;
       'api::booking.booking': ApiBookingBooking;
       'api::course.course': ApiCourseCourse;
+      'api::footer-announcement.footer-announcement': ApiFooterAnnouncementFooterAnnouncement;
       'api::login-streak.login-streak': ApiLoginStreakLoginStreak;
       'api::order.order': ApiOrderOrder;
       'api::video.video': ApiVideoVideo;

@@ -15,8 +15,8 @@ import ax from "../conf/ax";
 import conf from "../conf/main";
 import MyCourseOnHome from "../components/HomePage/MyCourseOnHome";
 import Help from "../components/Helper"
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import BannerComponent from "../components/HomePage/Banner";
+import AdminFooterAnnouncement from "../components/AdminBanner"
 import FilterSubject from "../components/HomePage/FilterSubject";
 import FilterSubjectMoblie from "../components/HomePage/FilterSubjectMoblie";
 
@@ -87,7 +87,6 @@ export default function HomePage() {
     };
 
     fetchData();
-    AOS.init();
   }, []);
 
 
@@ -113,6 +112,9 @@ export default function HomePage() {
               <FilterSubject />
               <Course data={course} userRole={ContextState.userRole} />
               <FilterSubjectMoblie />
+              <div className="fixed bottom-0 left-0 w-full z-9999">
+                <AdminFooterAnnouncement/>
+              </div>
               <Footer />
             </div>
 
@@ -151,6 +153,9 @@ export default function HomePage() {
               <Footer></Footer>
               <Outlet />
               <Help />
+              <div className="fixed bottom-0 left-0 w-full z-9999">
+                <BannerComponent/>
+              </div>
             </div>
           </>
         )}

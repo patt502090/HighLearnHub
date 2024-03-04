@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "footer_announcements",
+  "info": {
+    "singularName": "footer-announcement",
+    "pluralName": "footer-announcements",
+    "displayName": "Footer-Announcement"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "datetime"
+    },
+    "expiry_date": {
+      "type": "datetime"
+    }
+  }
+}
