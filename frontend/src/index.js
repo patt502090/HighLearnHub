@@ -29,6 +29,7 @@ import EventPage from "./pages/EventPage";
 import PromotionPage from "./pages/PromotionPage";
 import CourseControlPanelPage from "./pages/CourseControlPanelPage";
 import AddAnnouncementPage from "./pages/AddAnnouncementPage";
+import FilterSubjectPage from "./pages/FilterSubjectPage";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
@@ -38,6 +39,7 @@ root.render(
           <Route path="/" element={<App />} />
           <Route path="/home" element={<App />} />
           <Route path="/course/:id" element={<CourseInfoPage />} />
+          <Route path="/course/filters/:id" element={<FilterSubjectPage/>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/registerAccount" element={<RegisterAccountPage />} />

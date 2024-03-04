@@ -18,6 +18,7 @@ import Help from "../components/Helper"
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import FilterSubject from "../components/HomePage/FilterSubject";
+import FilterSubjectMoblie from "../components/HomePage/FilterSubjectMoblie";
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -108,8 +109,9 @@ export default function HomePage() {
               </Helmet>
               <Navbar data={course} />
               <Announcements data={announcements} />
-              <FilterSubject/>
+              <FilterSubject />
               <Course data={course} userRole={ContextState.userRole} />
+              <FilterSubjectMoblie />
               <Footer />
             </div>
 

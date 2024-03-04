@@ -40,7 +40,6 @@ const Navbar = ({ data }) => {
               </div>
               {user ? (
                 <div className="flex justify-items-center items-center">
-                  {(data) ? <Filter /> : <></>}
                   {(data) ? <Searchbar data={data} /> : <></>}
                   <div>
                     {profileURL ?
