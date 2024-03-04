@@ -32,9 +32,6 @@
     "expiry_date": {
       "type": "date"
     },
-    "special_price": {
-      "type": "integer"
-    },
     "courses": {
       "type": "relation",
       "relation": "oneToMany",
@@ -46,12 +43,6 @@
     },
     "Describtion": {
       "type": "text"
-    },
-    "booking": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::booking.booking",
-      "inversedBy": "announcements"
     }
   }
 }

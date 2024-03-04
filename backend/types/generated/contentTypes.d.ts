@@ -823,7 +823,6 @@ export interface ApiAnnouncementAnnouncement extends Schema.CollectionType {
     image: Attribute.Media;
     start_date: Attribute.Date;
     expiry_date: Attribute.Date;
-    special_price: Attribute.Integer;
     courses: Attribute.Relation<
       'api::announcement.announcement',
       'oneToMany',
@@ -831,11 +830,6 @@ export interface ApiAnnouncementAnnouncement extends Schema.CollectionType {
     >;
     discount: Attribute.Integer;
     Describtion: Attribute.Text;
-    booking: Attribute.Relation<
-      'api::announcement.announcement',
-      'manyToOne',
-      'api::booking.booking'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -886,11 +880,6 @@ export interface ApiBookingBooking extends Schema.CollectionType {
     >;
     status: Attribute.Enumeration<['cart', 'process', 'success']> &
       Attribute.DefaultTo<'cart'>;
-    announcements: Attribute.Relation<
-      'api::booking.booking',
-      'oneToMany',
-      'api::announcement.announcement'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
