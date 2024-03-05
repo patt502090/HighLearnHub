@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ax from "../../conf/ax";
 import conf from "../../conf/main";
+import { Link } from "react-router-dom";
 const BannerComponent = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [footerData,setFooterData] = useState([])
@@ -66,12 +67,12 @@ const BannerComponent = () => {
               </svg>
             {footerData.title}
             </p>
-            <a
-              href="#"
+            <Link
+              to="/promotion"
               className="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
             >
               สนใจ <span aria-hidden="true">&rarr;</span>
-            </a>
+            </Link>
           </div>
           <div className="flex flex-1 justify-start">
             <button
