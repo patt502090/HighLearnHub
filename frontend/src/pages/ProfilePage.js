@@ -82,11 +82,10 @@ function ProfilePage() {
       }
       setEditedUserData({});
       setShowEditForm(false);
-      fetchData();
       setTimeout(() => {
         setLoading(false);
         navigate(`/profile/${id}`);
-      }, 3000);
+      }, 1500);
     } catch (error) {
       console.error("Error updating user data:", error);
     }
