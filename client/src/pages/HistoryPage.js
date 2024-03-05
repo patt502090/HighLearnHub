@@ -67,16 +67,10 @@ export default function HistoryPage() {
               </div >
               {coursebooked.map((item) => (
                 <div
-                  style={{
-                    backgroundImage: `url('https://media.istockphoto.com/vectors/grey-wheel-geometric-technology-background-with-gear-shape-vector-vector-id1162545693?b=1&k=6&m=1162545693&s=612x612&w=0&h=88fSqo6fvX2LRjKeAxTtNrkTSa92A-KH3Y92Bx9l6BU=')`,
-                    backgroundSize: 'cover', 
-                    backgroundRepeat: 'no-repeat', 
-                    backgroundPosition: 'center', 
-                  }}
                   key={item.course.id}
-                  className="flex h-full w-full justify-between rounded-md border-[1px] border-[transparent] dark:hover:border-white/20 bg-white px-3 py-[20px] md:py-4 transition-all duration-150 hover:border-gray-200 dark:!bg-navy-800 dark:hover:!bg-navy-700"
+                  className="flex max-lg:h-1/2 w-full justify-between rounded-md border-[1px] border-[transparent] dark:hover:border-white/20 bg-white px-3 py-[20px] md:py-4 transition-all duration-150 hover:border-gray-200 dark:!bg-navy-800 dark:hover:!bg-navy-700"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center">
                     <div className="">
                       <img
                         className="object-cover w-[96px] h-[54px] lg:w-[198px] lg:h-[108px] rounded-t-lg"
@@ -88,12 +82,10 @@ export default function HistoryPage() {
                         {item.course.title}
                       </h5>
                       </div>
-                      <p className="mt-1 text-xs sm:text-sm md:text-sm font-normal text-gray-600">
-                        {/* {item.course.description} */}
-                      </p>
+            
                     </div>
                   </div>
-                  <div className="mt-1 flex items-center justify-start lg:justify-between py-4 max-lg:flex-col w-1/3 md:w-auto text-navy-700 dark:text-white">
+                  <div className="mt-1 flex items-center justify-center lg:justify-between py-2 max-lg:flex-col w-1/3 md:w-auto text-navy-700 dark:text-white">
                     <div className="flex items-center">
                       <svg
                         stroke="currentColor"

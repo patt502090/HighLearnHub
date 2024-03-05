@@ -379,7 +379,7 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
           >
             <div className="mb-2 flex items-center gap-4 p-4">
               <img
-                src="https://media.discordapp.net/attachments/705005230944813076/1207665128879824917/HighLearnHub.png?ex=65e078cc&is=65ce03cc&hm=a49d1fee0719ab7706f2d7acad9c954db6f9d7d0699f6afb97fe6b31c0b508ed&=&format=webp&quality=lossless&width=625&height=625"
+                src="https://wd09-admin.cloud-workshop.online/uploads/_8072a878b4.png"
                 alt="brand"
                 className="h-10 w-10"
               />
