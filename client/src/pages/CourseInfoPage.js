@@ -178,7 +178,7 @@ export default function CourseInfoPage() {
             <div className="bg-white shadow-md rounded-md p-6">
               {course.attributes.image && (
                 <img
-                  src={`${conf.apiUrlPrefix}${course.attributes.image.data.attributes.url}`}
+                  src={`${conf.urlPrefix}${course.attributes.image.data.attributes.url}`}
                   alt={course.attributes.title}
                   className="w-full h-auto mb-6 rounded-md"
                 />
@@ -197,8 +197,8 @@ export default function CourseInfoPage() {
                     {course.attributes.price} บาท
                   </p>
                   <p className="text-red-500 font-semibold">
-                    {course.attributes.price *
-                      ((100 - course.attributes.discount) / 100)}{" "}
+                    {Math.round(course.attributes.price *
+                      ((100 - course.attributes.discount) / 100))}{" "}
                     บาท
                   </p>
                 </p>

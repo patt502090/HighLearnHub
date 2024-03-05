@@ -30,8 +30,14 @@ export default function CartPage() {
 
   const calculateTotalPrice = () => {
     let totalPrice = 0;
+    console.log(coursebooked)
     coursebooked.forEach((item) => {
-      totalPrice += item.course.price;
+      if(item.course.discount === 1){
+
+        totalPrice += item.course.price;
+      }else{
+        totalPrice += item.course.price*((100-item.course.discount)/100)
+      }
     });
     return totalPrice.toLocaleString();
   };
@@ -121,10 +127,10 @@ export default function CartPage() {
                 
                 <p className="text-md text-center font-bold text-red-700 sm:text-2xl mb-4">
                <p className="text-gray-500 line-through">
-                          {(item.course.price).toFixed(2)} บาท
+                          {(item.course.price)} บาท
                         </p>
                         <p className=" text-red-500 font-semibold">
-                          {(item.course.price*((100-item.course.discount)/100)).toFixed(2)} บาท
+                          {Math.round(item.course.price*((100-item.course.discount)/100))} บาท
                         </p>
               </p>
                   ):(<p className="text-md text-center font-bold text-grey-700 sm:text-2xl mb-4">
