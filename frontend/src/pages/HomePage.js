@@ -40,7 +40,7 @@ export default function HomePage() {
         const announcementResponse = await ax.get(
           `${conf.apiUrlPrefix}/announcements?populate=image`
         );
-
+          console.log("test",announcementResponse)
         const courseData = courseResponse?.data?.data?.map((course) => {
           const totalDurationSeconds = course.attributes.videos.data.reduce(
             (totalDuration, video) => totalDuration + video.attributes.duration,
@@ -79,6 +79,7 @@ export default function HomePage() {
 
         setCourse(courseData);
         setAnnouncements(announcementData);
+        console.log("test",announcementData)
       } catch (error) {
         console.error("Error fetching data: ", error);
       } finally {

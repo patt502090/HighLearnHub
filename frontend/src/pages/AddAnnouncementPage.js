@@ -6,6 +6,9 @@ import conf from "../conf/main";
 import { Box, Button, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ContextProvider } from "../context/Auth.context";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 export default function AddAnnouncementPage() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -15,17 +18,28 @@ export default function AddAnnouncementPage() {
   const navigate = useNavigate();
   const [courseData, setCourseData] = useState({
     title: "",
-    description: "", // Fixed typo in description key
-    expiry_date: "",
+    Describtion: "",
+    expiry_date: null,
+    courses: [], // Add courseIds to initial state
+    discount: "",
   });
+  
   const [dataofcourses, setDataofcourses] = useState([]); // Ensure it's initialized as an empty array
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ax.get(`${conf.apiUrlPrefix}/courses`);
+        const response = await ax.get(`${conf.apiUrlPrefix}/courses?populate=announcement`);
         console.log("response =", response.data);
-        setDataofcourses(response.data);
+        if (Array.isArray(response.data.data)) {
+          // Filter the data where announcement is not null
+          const filteredData = response.data.data.filter(item => item.attributes.announcement.data === null);
+          console.log("Filtered data:", filteredData);
+          // Update state with the filtered data
+          setDataofcourses(filteredData);
+        } else {
+          console.error("Error: Response data is not an array");
+        }
         if (selectedImage) {
           setImageUrl(URL.createObjectURL(selectedImage[0]));
         }
@@ -40,18 +54,51 @@ export default function AddAnnouncementPage() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'subject') {
-      setCourseData((prevState) => ({ ...prevState, courseIds: [value] }));
-    } else {
+      setCourseData((prevState) => ({ ...prevState, courses: [value] }));
+      
+    }
+    else if (name === 'discount') {
+      // ตรวจสอบว่าค่าที่รับเข้ามาไม่น้อยกว่า 1
+      if (parseInt(value) >= 1) {
+        setCourseData((prevState) => ({ ...prevState, [name]: value }));
+      }}
+    else {
       setCourseData((prevState) => ({ ...prevState, [name]: value }));
     }
+
+  };
+
+
+  const handleDateChange = (date) => {
+    setCourseData((prevState) => ({ ...prevState, expiry_date: date }));
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { value } = e.target;
+    const updatedCourseIds = [...courseData.courses];
+
+    if (updatedCourseIds.includes(value)) {
+      // Remove from state if already selected
+      const index = updatedCourseIds.indexOf(value);
+      updatedCourseIds.splice(index, 1);
+    } else {
+      // Add to state if not already selected
+      updatedCourseIds.push(value);
+    }
+
+    // Update the state
+    setCourseData((prevState) => ({
+      ...prevState,
+      courses: updatedCourseIds,
+    }));
   };
 
   const uploadImg = async (e) => {
     const formData = new FormData();
 
     formData.append("field", "image");
-    formData.append("ref", "api::course.course");
-    formData.append("refId", e);
+    formData.append("ref", "api::announcement.announcement");
+    formData.append("refId", parseInt(e));
     formData.append("files", selectedImage[0]);
 
     try {
@@ -64,15 +111,27 @@ export default function AddAnnouncementPage() {
 
   const handleSubmit = async () => {
     try {
-      if (!courseData.title || !courseData.description || !courseData.expiry_date) {
+      if (!courseData.title || !courseData.Describtion || !courseData.expiry_date || courseData.courses.length === 0) {
         alert("โปรดกรอกข้อมูลให้ครบทุกช่อง");
-        return; 
+        return;
       }
-  
       setLoading(true);
-      const response = await ax.post(`${conf.apiUrlPrefix}/courses`, {
-        data: courseData,
+      const response = await ax.post(`${conf.apiUrlPrefix}/announcements`, {
+        data: {
+          title:courseData.title,
+          expiry_date:courseData.expiry_date,
+          Describtion:courseData.Describtion,
+          courses: courseData.courses?.map(id => parseInt(id)), // แปลงค่าทุกค่าในอาเรย์เป็น Int
+        },
       });
+      for (const id of courseData.courses) {
+        await ax.put(conf.apiUrlPrefix + `/courses/${id}`, {
+          data: {
+            discount: parseInt(courseData.discount),
+          },
+        });
+      }
+
       console.log(courseData);
       uploadImg(response.data.data.id);
       setTimeout(() => {
@@ -114,35 +173,64 @@ export default function AddAnnouncementPage() {
                         required
                       />
                     </div>
-                    <div>
-  <Label htmlFor="subject" value="วิชา" />
-  <Select
-    id="subject"
-    name="subject"
-    value={courseData.courseIds}
-    onChange={handleChange}
-    multiple={true} // Enable multiple selection
-    required
-  >
-    <option value="" disabled hidden>
-      เลือกวิชา
-    </option>
-    {console.log(dataofcourses)}
-    {Array.isArray(dataofcourses) && dataofcourses.map(course => (
-      <option key={course.id} value={course.id}>
-        {course.data.attributes?.title} {/* Assuming 'name' is the property that holds the course name */}
-      </option>
-    ))}
-  </Select>
+                    <div className="indent-2 mt-">
+                    <label className="indent-12 mt-2" htmlFor="courses">รายการคอร์ส</label>
+                      {console.log("fffff", courseData.courses)}
+                      {dataofcourses.map((course) => (
+                        <div key={course.id} className="flex items-center mb-4">
+                          <input
+                            id={`course-${course.id}`}
+                            type="checkbox"
+                            value={course.id}
+                            checked={courseData.courses.includes(course.id)}
+                            onChange={handleCheckboxChange}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                          <label
+                            htmlFor={`course-${course.id}`}
+                            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                          >
+                            {course.attributes.title}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  {console.log("discount = ",courseData.discount)}
+                  <div className="grid lg:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="ส่วนลด%" value="ส่วนลด%" />
+                    <TextInput
+                      id="discount"
+                      name="discount"
+                      placeholder="discount"
+                      type="number"
+                      min="0"
+                      value={courseData.discount}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
 </div>
 
+                    <div>
+                      {console.log("date:", courseData.expiry_date)}
+                      <label htmlFor="expiry_date">วันที่หมดอายุ:</label>
+                      <DatePicker
+                        id="expiry_date"
+                        selected={courseData.expiry_date}
+                        onChange={handleDateChange}
+                        dateFormat="dd/MM/yyyy" // Specify the date format
+                        isClearable // Enable clearing the date
+                        placeholderText="เลือกวันที่"
+                      />
+                    </div>
+                    {console.log("sgsdd",courseData.Describtion)}
                     <div className="lg:col-span-2">
-                      <Label htmlFor="description" value="คำอธิบาย" />
+                      <Label htmlFor="describtion" value="คำอธิบาย" />
                       <Textarea
-                        id="description"
-                        name="description"
+                        id="describtion"
+                        name="Describtion"
                         placeholder="คำอธิบาย"
-                        value={courseData.description}
+                        defaultValue={courseData.Describtion}
                         onChange={handleChange}
                         required
                       />
@@ -183,7 +271,7 @@ export default function AddAnnouncementPage() {
                       type="button"
                       className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                     >
-                      เพิ่มคอร์ส
+                      เพิ่มประกาศ
                     </button>
                   </div>
                 </div>
