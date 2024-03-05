@@ -43,7 +43,7 @@ export default function ApprovePaymentPage() {
         totalPrice += pricecourse
       }
       else{
-        totalPrice += pricecourse*((100-discountcourse)/100)
+        totalPrice += Math.round(pricecourse*((100-discountcourse)/100))
       }
       });
 
@@ -114,7 +114,7 @@ export default function ApprovePaymentPage() {
           :
           <div className="background-image">
             <Navbar />
-            <div className="h-screen pt-24 relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div className="h-screen pt-24 relative overflow-x-auto shadow-md sm:rounded-lg px-6">
               <div className="overflow-auto">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

@@ -23,7 +23,7 @@ export default function Course(props) {
     setFilterType(type);
     setDropdownLabel(label);
   };
-  console.log(props.data)
+  console.log("test03",props.data)
   useEffect(() => {
   }, [])
 
@@ -150,9 +150,20 @@ export default function Course(props) {
                             </>
                           )}
                         </Badge>
-                        <p className="mt-2 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
-                          {item.price} บาท{" "}
-                        </p>
+                        {item.discount !== 1 ?(
+
+                
+<p className="text-md text-center font-semibold text-red-700 sm:text-l mb-1">
+<p className="mt-1 text-gray-500 line-through">
+          {item.price} บาท
+        </p>
+        <p className="text-red-500 font-semibold">
+          {(Math.round(item.price*((100-item.discount)/100)))} บาท
+        </p>
+</p>
+  ):(<p className="mt-3 text-md text-center font-bold text-grey-700 sm:text-l mb-4">
+  {item.price} บาท 
+</p>)}
                       </div>
                     ) : (
                       <div className="md:flex md:flex-wrap gap-2 md:justify-between ">
@@ -181,7 +192,7 @@ export default function Course(props) {
           {item.price} บาท
         </p>
         <p className="text-red-500 font-semibold">
-          {(item.price*((100-item.discount)/100)).toFixed(1)} บาท
+          {(Math.round(item.price*((100-item.discount)/100)))} บาท
         </p>
 </p>
   ):(<p className="mt-3 text-md text-center font-bold text-grey-700 sm:text-l mb-4">

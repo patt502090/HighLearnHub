@@ -43,6 +43,38 @@ export default function AddAnnouncementPage() {
         if (selectedImage) {
           setImageUrl(URL.createObjectURL(selectedImage[0]));
         }
+        
+        
+        const anndata = await ax.get(
+          `${conf.apiUrlPrefix}/announcements?populate=courses`
+        );
+        const Checkboxdata = anndata.data.data.map(item =>({
+          Annid: item.id, 
+          expiry_date:item.attributes.expiry_date,
+          courses : item.attributes.courses,
+
+        }))
+        console.log(Checkboxdata)
+        // for (const item of Checkboxdata) {
+        //   console.log("yea",item)
+
+        //   // await ax.put(conf.apiUrlPrefix + `/courses/${}`, {
+        //   //   data: {
+        //   //     discount: 1,
+        //   //   },
+        //   // });
+        //   const courseIds = 
+        //   const expiryDate = new Date(item.expiry_date);
+        //   console.log(expiryDate)
+        //   if (expiryDate.getTime() === new Date().getTime()) {
+        //     console.log("yes this pro is ended hahha");
+        //     // await ax.delete(conf.apiUrlPrefix + `/announcements/${item.id}`, );
+                
+        //   } else {
+        //     console.log("yeet");
+        //   }
+        // };
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }

@@ -153,8 +153,7 @@ const OnlineBestSeller = () => {
                           {course.price} บาท
                         </p>
                         <p className="text-red-500 font-semibold">
-                          {course.price *
-                            ((100 - course.discount) / 100).toFixed(1)}{" "}
+                          {Math.round(course.price *((100 - course.discount) / 100))}{" "}
                           บาท
                         </p>
                       </p>

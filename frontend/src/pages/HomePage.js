@@ -19,6 +19,7 @@ import BannerComponent from "../components/HomePage/Banner";
 import AdminFooterAnnouncement from "../components/AdminBanner"
 import FilterSubject from "../components/HomePage/FilterSubject";
 import FilterSubjectMoblie from "../components/HomePage/FilterSubjectMoblie";
+import { check } from "prettier";
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -26,6 +27,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const { state: ContextState } = useContext(AuthContext);
   const { userRole } = ContextState;
+  const [prodata,setProdata] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,19 +69,23 @@ export default function HomePage() {
             like: course.attributes.like,
           };
         });
-
+        
         const announcementData = announcementResponse.data.data.map((item) => ({
           id: item.id,
-          title: item.attributes.title,
+          title: item.attributes?.title,
           image:
-            `${conf.urlPrefix}` + item.attributes.image.data.attributes.url,
+            `${conf.urlPrefix}` + item.attributes.image.data.attributes?.url,
         }));
 
         // console.log("กรองข้อมูลแล้ว",courseData)
-
+         console.log("anno =",announcementData) 
         setCourse(courseData);
         setAnnouncements(announcementData);
-        console.log("test",announcementData)
+
+        //get data to check expiry_date
+        
+
+        // console.log("test",Checkboxdata)
       } catch (error) {
         console.error("Error fetching data: ", error);
       } finally {

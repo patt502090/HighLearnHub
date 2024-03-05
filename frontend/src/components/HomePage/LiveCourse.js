@@ -135,7 +135,7 @@ const LiveCourse = () => {
           {course.price} บาท
         </p>
         <p className="text-red-500 font-semibold">
-          {(course.price*((100-course.discount)/100)).toFixed(1)} บาท
+          {Math.round(course.price*((100-course.discount)/100))} บาท
         </p>
 </p>
   ):(<p className="mt-3 text-md text-center font-bold text-grey-700 sm:text-l mb-4">
