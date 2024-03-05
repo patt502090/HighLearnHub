@@ -21,6 +21,7 @@ const AdminFooterAnnouncement = () => {
       title: "",
       start_date: "",
       expiry_date: "",
+      status: "",
     },
   });
 
@@ -33,6 +34,7 @@ const AdminFooterAnnouncement = () => {
             title: editedBanner.attributes.title,
             start_date: editedBanner.attributes.start_date,
             expiry_date: editedBanner.attributes.expiry_date,
+            status: editedBanner.attributes.status,
           },
         }
       );
@@ -87,6 +89,7 @@ const AdminFooterAnnouncement = () => {
               title: response.data.data.attributes.title,
               start_date: response.data.data.attributes.start_date,
               expiry_date: response.data.data.attributes.expiry_date,
+              status: response.data.data.attributes.status,
             },
           });
         }
@@ -98,10 +101,10 @@ const AdminFooterAnnouncement = () => {
     fetchData();
   }, [isModalOpen]);
 
-
-
   return (
     <>
+     {isVisible &&
+      (
       <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-3 sm:px-3.5 before:flex-1 mt-16 z-9999">
         <div
           className="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
@@ -163,11 +166,30 @@ const AdminFooterAnnouncement = () => {
             </svg>
           </button>
         </div>
-      </div>
+      </div> )}
       {isModalOpen && (
         <Modal show={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <div className="bg-white p-8 rounded-lg">
             <div className="flex items-center mb-4">
+              <label className="inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  value={editedBanner.attributes.status === "enable"}
+                  className="sr-only peer"
+                  checked={editedBanner.attributes.status === "enable"}
+                  onChange={(event) =>
+                    handleChanged({
+                      status: event.target.checked ? "enable" : "disable",
+                    })
+                  }
+                />
+                <div className="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  {editedBanner.attributes.status === "enable"
+                    ? "Enable"
+                    : "Disable"}
+                </span>
+              </label>
               <Label
                 htmlFor="TitleBanner"
                 value="ประกาศ : "
@@ -240,7 +262,7 @@ const AdminFooterAnnouncement = () => {
             </div>
           </div>
         </Modal>
-      )}
+                )}
     </>
   );
 };

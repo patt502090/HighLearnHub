@@ -1,121 +1,101 @@
-import React, { useState } from "react";
-import backgroundImage from "../assets/background.png";
+import React, { useState, useEffect, useContext } from "react";
+import { AuthContext, ContextProvider } from "../context/Auth.context";
+import { Outlet } from "react-router-dom";
+import "../App.css";
 import Navbar from "../components/Navbar";
-import { Helmet } from "react-helmet";
-import { useEffect } from "react";
-import conf from "../conf/main";
-import ax from "../conf/ax";
-import { Link, useParams } from "react-router-dom";
+import Course from "../components/PromotionPage/Course";
 import CircularProgress from "@mui/material/CircularProgress";
-import { ContextProvider } from "../context/Auth.context";
-import { Button } from "flowbite-react";
-
-
-
-
-export default function PromotiPage() {
-    const {id} = useParams();
-    const [promotion, setPromotion] = useState([]);
-    const [checkcoursedata,setCheckcoursedata]=useState();
-    const [discount,setDiscount] = useState();
-    console.log("id = ",id)
+import Footer from "../components/Footer";
+import { Helmet } from "react-helmet";
+import ax from "../conf/ax";
+import conf from "../conf/main";
+import Help from "../components/Helper";
+import PromotionSort from "../components/PromotionPage/PromotionSort";
+import PromotionSection from "../components/PromotionPage/LandingOnPromotion";
+import backgroundImage from "../assets/background.png";
+export default function HomePage() {
+  const [course, setCourse] = useState([]);
+  const [announcements, setAnnouncements] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { state: ContextState } = useContext(AuthContext);
+  const { userRole } = ContextState;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ax.get(
-          conf.apiUrlPrefix +
-            `/announcements/${id}?populate=*`)
-        console.log("gay is real :",response);
+        setLoading(true);
+        const courseResponse = await ax.get(
+          `${conf.apiUrlPrefix}/courses?populate=image&populate=videos&filters[discount][$nei]=1`
+        );
 
-        setPromotion(response.data);
-        setDiscount(response.data.data.attributes.discount);       
+        // console.log("courseResponse",courseResponse)
+        const courseData = courseResponse?.data?.data?.map((course) => {
+          const totalDurationSeconds = course.attributes.videos.data.reduce(
+            (totalDuration, video) => totalDuration + video.attributes.duration,
+            0
+          );
+          console.log("Course", course);
+
+          const minutes = Math.floor(totalDurationSeconds / 60);
+          const seconds = Math.floor(totalDurationSeconds % 60);
+
+          return {
+            id: course.id,
+            title: course.attributes.title,
+            price: course.attributes.price,
+            amount: course.attributes.amount,
+            maxamount: course.attributes.maxamount,
+            discount: course.attributes.discount,
+            description: course.attributes.description,
+            image:
+              `${conf.urlPrefix}` + course.attributes.image.data.attributes.url,
+            type: course?.attributes?.study_type,
+            duration: { minutes, seconds },
+            date: course.attributes.schedule_text,
+          };
+        });
+        // console.log("กรองข้อมูลแล้ว",courseData)
+        setCourse(courseData);
       } catch (error) {
-        console.error("Error fetching Data:", error);
+        console.error("Error fetching data: ", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  const lastprice = (course) =>{
-      console.log("ต่อยกัน",course)
-      console.log("ส่วนลด",discount)
-      let totalPricediscount = 0;
-      let totalPrice = 0;
-      course.data.forEach((item) => {
-        const discount = item.attributes.price * (10/100); // หาค่าส่วนลด 10%
-        const discountedPrice = item.attributes.price - discount; // หาราคาหลังลด
-        totalPricediscount += discountedPrice;
-        totalPrice += item.attributes.price
-
-      });
-      console.log("price : ",totalPrice,totalPricediscount)
-    
-      return {totalPrice: totalPrice,totalPricediscount:totalPricediscount
-      };
-  };
-
-  
-  
   return (
-    <ContextProvider>
-    
-      <div className="background-image">
-        <Navbar />
+    <>
+      <ContextProvider>
         <Helmet>
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
-          <title>รายละเอียดประกาศ</title>
+          <title>Promotion</title>
         </Helmet>
-       <div className="max-w-4xl mx-auto p-6 pt-24 text-center">
-        {promotion.data ? (
-            <div className="bg-white shadow-md rounded-md p-6">
-              {promotion.data.attributes.image && (
-                <img
-                  src={`${conf.urlPrefix}${promotion.data.attributes.image.data.attributes.url}`}
-                  alt={promotion.data.attributes.title}
-                  className="w-full h-auto mb-6 rounded-md"
-                />
-              )}
-              <h1 className="mb-4 text-2xl font-bold">
-                {promotion.data.attributes.title}
-              </h1>
-  
-
-              <p className="text-md sm:text-lg font-normal sm:font-medium mb-4">
-                {promotion.data.attributes?.Describtion}
-              </p>
-               <p className="text-left">
-                ประกอบด้วยคอร์สดังนี้
-                {promotion.data.attributes.courses.data?.map(course =>(
-                  <ul class="text-left indent-8">
-                  <li>{course.attributes.title}</li>
-                  
-                  </ul>
-                  
-                  ))
-                }
-                </p>
-            <p className="text-right">
-              
-                <span className="text-3xl  font-bold text-red-600 ">ลด {promotion.data.attributes.discount}%!!!</span>
-                
-            </p>
-            
-            
-          
+        {loading ? (
+          <div className="h-screen flex justify-center items-center">
+            <CircularProgress />
+          </div>
+        ) : (
+          <>
+            <div className="scroll-smooth focus:scroll-auto">
+              <PromotionSection/>
+              <Navbar data={course} />
+              <div className="py-20">
+                <PromotionSort/>
+                <Course data={course} />
+              </div>
+              <Footer></Footer>
+              <Outlet />
+              <Help />
             </div>
-          ) : (
-            <div className="h-screen flex justify-center items-center">
-              <CircularProgress />
-            </div>
-          )}
-        </div>
-      </div>
-    </ContextProvider>
-    
+          </>
+        )}
+      </ContextProvider>
+    </>
   );
 }

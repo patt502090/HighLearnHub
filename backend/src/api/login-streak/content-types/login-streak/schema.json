@@ -27,6 +27,14 @@
     },
     "CountTime": {
       "type": "datetime"
+    },
+    "Status": {
+      "type": "enumeration",
+      "enum": [
+        "Disable",
+        "Enable"
+      ],
+      "default": "Enable"
     }
   }
 }

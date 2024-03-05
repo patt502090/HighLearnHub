@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import myImage from './main.png';
+import myImage from '../assets/helper.png';
 
 
 
@@ -17,26 +17,24 @@ const FloatingButton = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
+    <div className="max-lg:hidden fixed bottom-4 right-4 z-50">
       <button onClick={toggleFormVisibility} className="floating-button hover:scale-110 transition transform duration-300 ease-in-out">
         {isFormVisible ? (
-          <img
-            src="https://img.icons8.com/office/40/cancel.png"L
-            alt="cancel"
-            className="w-50 h-50 mr-5"
-          />
+          <svg class="w-12 h-12 mr-5 text-red-500 dark:text-white animate-slide-up" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" d="M2 12a10 10 0 1 1 20 0 10 10 0 0 1-20 0Zm7.7-3.7a1 1 0 0 0-1.4 1.4l2.3 2.3-2.3 2.3a1 1 0 1 0 1.4 1.4l2.3-2.3 2.3 2.3a1 1 0 0 0 1.4-1.4L13.4 12l2.3-2.3a1 1 0 0 0-1.4-1.4L12 10.6 9.7 8.3Z" clip-rule="evenodd" />
+          </svg>
         ) : (
           <div>
-          <img
-            src={myImage}
-            alt="help"
-            className="w-10 h-10 mr-5"
-          />
+            <img
+              src={myImage}
+              alt="help"
+              className="w-12 h-12 mr-5"
+            />
           </div>
         )}
       </button>
       {isFormVisible && (
-        <div className="absolute bottom-14 right-4 floating-button hover:scale-110">
+        <div className="absolute bottom-14 right-5 floating-button hover:scale-110">
           <a
             href="https://line.me/R/ti/p/@210tmlid?oat_content=url"
             target="_blank"
@@ -63,35 +61,16 @@ const FloatingButton = () => {
         </div>
       )}
       {isFormVisible && (
-        <div className="absolute bottom-28 right-5 floating-button hover:scale-110">
+        <div className="absolute bottom-28 right-[21px] floating-button hover:scale-110">
           <a
             href="https://www.facebook.com/people/Highlearnhub/61556519805077/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              x="0px"
-              y="0px"
-              width="40"
-              height="40"
-              viewBox="0 0 30 30"
-            >
-              <path
-                fill="#8bb7f0"
-                d="M15 1A14 14 0 1 0 15 29A14 14 0 1 0 15 1Z"
-              ></path>
-              <path
-                fill="#fff"
-                d="M28.921 16.479c.002-.02.006-.039.008-.059C28.926 16.439 28.922 16.459 28.921 16.479zM1.071 16.415c.003.027.008.053.011.08C1.079 16.468 1.074 16.441 1.071 16.415zM16.996 18.71h3.623l.569-3.68h-4.192v-2.012c0-1.529.5-2.885 1.93-2.885h2.298V6.922c-.404-.054-1.257-.174-2.871-.174-3.37 0-5.345 1.78-5.345 5.834v2.449H9.544v3.68h3.464v9.92c.684.103 1.379.173 2.093.173.644 0 1.274-.059 1.895-.143V18.71z"
-              ></path>
-              <g>
-                <path
-                  fill="#4e7ab5"
-                  d="M15,2c7.168,0,13,5.832,13,13s-5.832,13-13,13S2,22.168,2,15S7.832,2,15,2 M15,1 C7.268,1,1,7.268,1,15s6.268,14,14,14s14-6.268,14-14S22.732,1,15,1L15,1z"
-                ></path>
-              </g>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="#0000CD" x="0px" y="0px" width="43" height="43" viewBox="0 0 50 50">
+              <path d="M25,3C12.85,3,3,12.85,3,25c0,11.03,8.125,20.137,18.712,21.728V30.831h-5.443v-5.783h5.443v-3.848 c0-6.371,3.104-9.168,8.399-9.168c2.536,0,3.877,0.188,4.512,0.274v5.048h-3.612c-2.248,0-3.033,2.131-3.033,4.533v3.161h6.588 l-0.894,5.783h-5.694v15.944C38.716,45.318,47,36.137,47,25C47,12.85,37.15,3,25,3z"></path>
             </svg>
+
           </a>
         </div>
       )}
