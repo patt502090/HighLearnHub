@@ -1,6 +1,7 @@
 import React from "react";
+import backgroundImage from "../../assets/background.png";
 
-const PromotionSection = ({ backgroundImage, shoppingSectionId }) => {
+const PromotionSection = ({ shoppingSectionId }) => {
   return (
     <section
       className="bg-white dark:bg-gray-900 bg-center bg-cover h-screen flex items-center justify-center"

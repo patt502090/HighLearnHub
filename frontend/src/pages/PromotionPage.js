@@ -12,7 +12,7 @@ import conf from "../conf/main";
 import Help from "../components/Helper";
 import PromotionSort from "../components/PromotionPage/PromotionSort";
 import PromotionSection from "../components/PromotionPage/LandingOnPromotion";
-
+import backgroundImage from "../assets/background.png";
 export default function HomePage() {
   const [course, setCourse] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
