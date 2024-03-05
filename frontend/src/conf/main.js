@@ -1,6 +1,6 @@
 const conf = {
-  apiUrlPrefix: 'http://localhost:1337/api',
-  urlPrefix: 'http://localhost:1337',
+  apiUrlPrefix: 'https://wd09-admin.cloud-workshop.online/api',
+  urlPrefix: 'https://wd09-admin.cloud-workshop.online',
   loginEndpoint: '/auth/local',
   registerEndpoint: '/auth/local/register',
   jwtUserEndpoint: '/users/me?populate=role&&populate=image&&populate=login_streak',
@@ -15,3 +15,6 @@ export default conf;
 
 //  apiUrlPrefix: 'https://wd09-admin.cloud-workshop.online/api',
 // urlPrefix: 'https://wd09-admin.cloud-workshop.online',
+
+// apiUrlPrefix: 'http://localhost:1337/api',
+// urlPrefix: 'http://localhost:1337',
