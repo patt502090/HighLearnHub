@@ -19,7 +19,6 @@ import BannerComponent from "../components/HomePage/Banner";
 import AdminFooterAnnouncement from "../components/AdminBanner"
 import FilterSubject from "../components/HomePage/FilterSubject";
 import FilterSubjectMoblie from "../components/HomePage/FilterSubjectMoblie";
-import { check } from "prettier";
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -27,7 +26,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const { state: ContextState } = useContext(AuthContext);
   const { userRole } = ContextState;
-  const [prodata,setProdata] = useState();
+
 
   useEffect(() => {
     const fetchData = async () => {

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import conf from "../conf/main";
 
 
-
-const backendUrl = "http://localhost:1337";
+const backendUrl = `${conf.urlPrefix}`;
 
 const LoginRedirect = () => {
   const [text, setText] = useState("กำลังโหลด...");

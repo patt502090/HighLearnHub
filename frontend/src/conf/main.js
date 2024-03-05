@@ -12,3 +12,6 @@ const conf = {
 }
 
 export default conf;
+
+//  apiUrlPrefix: 'https://wd09-admin.cloud-workshop.online/api',
+// urlPrefix: 'https://wd09-admin.cloud-workshop.online',

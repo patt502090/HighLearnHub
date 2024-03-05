@@ -45,7 +45,7 @@ export default function EventPage() {
               amount: course.attributes.amount,
               description: course.attributes.description,
               image:
-                "http://localhost:1337" +
+                `${conf.urlPrefix}` +
                 course.attributes.image.data.attributes.url,
               duration: { minutes, seconds },
             };

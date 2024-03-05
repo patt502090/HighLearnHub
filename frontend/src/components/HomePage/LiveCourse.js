@@ -35,7 +35,7 @@ const LiveCourse = () => {
           description: course.attributes.description,
           maxamount: course.attributes.maxamount,
           image:
-            "http://localhost:1337" +
+            `${conf.urlPrefix}` +
             course.attributes.image.data.attributes.url,
           date: course.attributes.schedule_text,
         }));
