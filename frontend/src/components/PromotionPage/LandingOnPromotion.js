@@ -1,11 +1,12 @@
 import React from "react";
 import backgroundImage from "../../assets/background.png";
+import hero from "../../assets/hero.png";
 
 const PromotionSection = ({ shoppingSectionId }) => {
   return (
     <section
       className="bg-white dark:bg-gray-900 bg-center bg-cover h-screen flex items-center justify-center"
-      style={{ backgroundImage: `url(${backgroundImage})` }}
+      style={{ backgroundImage: `url(https://images.hdqwalls.com/wallpapers/anime-girl-sky-clouds-ls.jpg)` }}
     >
       <div className="max-w-3xl px-6 py-12 mx-auto text-center flex items-center justify-center flex-col">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
@@ -19,8 +20,8 @@ const PromotionSection = ({ shoppingSectionId }) => {
           รีบเข้าร่วมกับเทศกาลแห่งความประทับใจนี้ก่อนที่โปรโมชั่นจะสิ้นสุด!
         </p>
         <a
-          href={`#${shoppingSectionId}`}
-          className="inline-flex items-center justify-center px-8 py-4 mt-8 text-lg font-semibold text-white bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+          href={`#goShop`}
+          className="inline-flex items-center justify-center px-8 py-3 mt-16 text-lg font-semibold text-white bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
         >
           Shopping
           <svg
@@ -37,12 +38,12 @@ const PromotionSection = ({ shoppingSectionId }) => {
           </svg>
         </a>
       </div>
-      <img
-        src="https://png.pngtree.com/png-clipart/20210310/original/pngtree-cartoon-thai-songkran-festival-characters-and-elephant-illustration-png-image_5936860.png"
+      {/* <img
+        src={hero}
         alt="คำอธิบายรูปภาพ"
         className="mt-8 max-w-full float-right"
-        style={{ maxWidth: "100%", maxHeight: "100%" }}
-      />
+        style={{ maxWidth: "40%", maxHeight: "100%" }}
+      /> */}
     </section>
   );
 };

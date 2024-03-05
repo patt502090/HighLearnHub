@@ -13,6 +13,8 @@ import Help from "../components/Helper";
 import PromotionSort from "../components/PromotionPage/PromotionSort";
 import PromotionSection from "../components/PromotionPage/LandingOnPromotion";
 import backgroundImage from "../assets/background.png";
+import SponsorList from "../components/PromotionPage/SponserList";
+
 export default function HomePage() {
   const [course, setCourse] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
@@ -82,10 +84,11 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            <div className="scroll-smooth focus:scroll-auto">
+            <div className="scroll-smooth focus:scroll-auto ">
               <PromotionSection/>
+            <SponsorList/>
               <Navbar data={course} />
-              <div className="py-20">
+              <div className="py-4">
                 <PromotionSort/>
                 <Course data={course} />
               </div>

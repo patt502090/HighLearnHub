@@ -82,7 +82,7 @@ export default function CourseInfoPage() {
   };
 
   useEffect(() => {
-    console.log("dfgsgs ", own)
+    console.log("dfgsgs ", own);
     if (own) {
       if (own.payment_status === true) {
         setOwnCourseDisplay(
@@ -192,20 +192,23 @@ export default function CourseInfoPage() {
                 OnEdition={setOnEdition}
               />
               {course.attributes.discount !== 1 ? (
-
-
                 <p className="text-md text-center font-bold text-red-700 sm:text-2xl mb-4">
                   <p className="text-gray-500 line-through">
                     {course.attributes.price} บาท
                   </p>
                   <p className="text-red-500 font-semibold">
-                    {course.attributes.price * ((100 - course.attributes.discount) / 100)} บาท
+                    {course.attributes.price *
+                      ((100 - course.attributes.discount) / 100)}{" "}
+                    บาท
                   </p>
                 </p>
-              ) : (<p className="text-md text-center font-bold text-grey-1000 sm:text-2xl mb-4">
-                <span class="text-3xl font-bold text-slate-900">{course.attributes.price} บาท </span>
-              </p>)
-              }
+              ) : (
+                <p className="text-md text-center font-bold text-grey-1000 sm:text-2xl mb-4">
+                  <span class="text-3xl font-bold text-slate-900">
+                    {course.attributes.price} บาท{" "}
+                  </span>
+                </p>
+              )}
             </div>
           ) : (
             <div className="h-screen flex justify-center items-center">
@@ -313,20 +316,25 @@ export default function CourseInfoPage() {
               </p>
               {console.log("gay", course.attributes.discount)}
               {course.attributes.discount !== 1 ? (
-
-
                 <p className="text-md text-center font-bold text-red-700 sm:text-2xl mb-4">
                   <p className="text-gray-500 line-through">
                     {course.attributes.price} บาท
                   </p>
                   <p className="text-red-500 font-semibold">
-                    {course.attributes.price * ((100 - course.attributes.discount) / 100)} บาท
+                    {Math.round(
+                      course.attributes.price *
+                        ((100 - course.attributes.discount) / 100)
+                    )}{" "}
+                    บาท
                   </p>
                 </p>
-              ) : (<p className="text-md text-center font-bold text-grey-1000 sm:text-2xl mb-4">
-                <span class="text-3xl font-bold text-slate-900">{course.attributes.price} บาท </span>
-              </p>)
-              }
+              ) : (
+                <p className="text-md text-center font-bold text-grey-1000 sm:text-2xl mb-4">
+                  <span class="text-3xl font-bold text-slate-900">
+                    {course.attributes.price} บาท{" "}
+                  </span>
+                </p>
+              )}
               <div className=" items-center">
                 <div>{ownCourseDisplay}</div>
               </div>

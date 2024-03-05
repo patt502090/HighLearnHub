@@ -62,11 +62,7 @@ const OnlineBestSeller = () => {
     fetchData();
   }, []);
 
-
-
-
   return (
-    
     <div className="relative z-0 w-full md:w-4/5 mx-auto h-full ">
       <p className="font-medium mx-auto mt-20 text-center md:text-left text-2xl md:text-3xl">
         คอร์สออนไลน์ยอดนิยม
@@ -151,21 +147,22 @@ const OnlineBestSeller = () => {
                       )}
                     </Badge>
 
-                    {course.discount !== 1 ?(
-
-                
-<p className="text-md text-center font-semibold text-red-700 sm:text-l mb-1">
-<p className="mt-1 text-gray-500 line-through">
-          {course.price} บาท
-        </p>
-        <p className="text-red-500 font-semibold">
-          {course.price*((100-course.discount)/100).toFixed(1)} บาท
-        </p>
-</p>
-  ):(<p className="mt-2 text-md text-center font-bold text-grey-700 sm:text-l mb-4">
-  {course.price} บาท 
-</p>)
-}
+                    {course.discount !== 1 ? (
+                      <p className="text-md text-center font-semibold text-red-700 sm:text-l mb-1">
+                        <p className="mt-1 text-gray-500 line-through">
+                          {course.price} บาท
+                        </p>
+                        <p className="text-red-500 font-semibold">
+                          {course.price *
+                            ((100 - course.discount) / 100).toFixed(1)}{" "}
+                          บาท
+                        </p>
+                      </p>
+                    ) : (
+                      <p className="mt-2 text-md text-center font-bold text-grey-700 sm:text-l mb-4">
+                        {course.price} บาท
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
