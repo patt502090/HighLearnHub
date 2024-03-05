@@ -969,6 +969,7 @@ export interface ApiFooterAnnouncementFooterAnnouncement
     singularName: 'footer-announcement';
     pluralName: 'footer-announcements';
     displayName: 'Footer-Announcement';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -977,6 +978,8 @@ export interface ApiFooterAnnouncementFooterAnnouncement
     title: Attribute.String;
     start_date: Attribute.DateTime;
     expiry_date: Attribute.DateTime;
+    status: Attribute.Enumeration<['enable', 'disable']> &
+      Attribute.DefaultTo<'enable'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1015,6 +1018,8 @@ export interface ApiLoginStreakLoginStreak extends Schema.CollectionType {
       'plugin::users-permissions.user'
     >;
     CountTime: Attribute.DateTime;
+    Status: Attribute.Enumeration<['Disable', 'Enable']> &
+      Attribute.DefaultTo<'Enable'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

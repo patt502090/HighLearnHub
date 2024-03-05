@@ -86,7 +86,7 @@ export default function MyCourseOnHome() {
   return (
     <ContextProvider>
       {courseData.length > 0 ? (
-        <div className="relative z-0 w-full md:w-4/5 px-14 h-full">
+        <div className="relative z-0 w-full md:w-4/5 px-14 sm:px-0 mx-auto h-full">
           <p className="font-medium mx-auto mt-20 mb-10 text-center md:text-left text-2xl md:text-3xl">
             คอร์สที่คุณกำลังเรียน
             <Link
@@ -128,7 +128,7 @@ export default function MyCourseOnHome() {
                 <SwiperSlide key={course.id}>
                   <Link to={`/mycourse/${course.id}`} title="ดูคลิปวิดิโอ">
                     <div
-                      className="p-4 lg:bg-gray-100 rounded-lg  hover:translate-y-[-2px] transition-transform duration-300 "
+                      className="p-2 lg:bg-gray-100 rounded-lg  hover:translate-y-[-2px] transition-transform duration-300 "
                       onMouseEnter={() => setHoveredIndex(index)}
                       onMouseLeave={() => setHoveredIndex(null)}
                     >

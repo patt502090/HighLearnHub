@@ -4,7 +4,8 @@
   "info": {
     "singularName": "footer-announcement",
     "pluralName": "footer-announcements",
-    "displayName": "Footer-Announcement"
+    "displayName": "Footer-Announcement",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -19,6 +20,14 @@
     },
     "expiry_date": {
       "type": "datetime"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "enable",
+        "disable"
+      ],
+      "default": "enable"
     }
   }
 }
