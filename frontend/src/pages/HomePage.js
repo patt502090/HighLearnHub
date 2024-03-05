@@ -143,11 +143,13 @@ export default function HomePage() {
             <div className="scroll-smooth focus:scroll-auto">
               <Navbar data={course} />
               <Announcements data={announcements} />
+              <FilterSubject />
               <MyCourseOnHome />
               <OnlineBestSeller />
               <OnlineLatest />
               <LiveCourse />
               <Course data={course} />
+              <FilterSubjectMoblie />
               <Footer></Footer>
               <Outlet />
               <Help />

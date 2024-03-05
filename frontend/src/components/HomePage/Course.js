@@ -68,8 +68,8 @@ export default function Course(props) {
               <div
                 key={item.id}
                 className={`hover:translate-y-[-10px] transition-transform duration-300 w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 m-1 md:m-2 ${filterType === "All" || item.type === filterType
-                    ? "block"
-                    : "hidden"
+                  ? "block"
+                  : "hidden"
                   }`}
               >
                 <Link to={`/course/${item.id}`}>

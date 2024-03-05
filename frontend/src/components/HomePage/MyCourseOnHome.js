@@ -94,7 +94,7 @@ export default function MyCourseOnHome() {
               className="float-right flex items-center text-sm sm:text-xl text-slate-700 sm:text-slate-900"
             >
               {" "}
-              คอร์สเรียนของฉัน <MdOutlineKeyboardArrowRight class="cursor-pointer duration-200 hover:scale-125 active:scale-100"/>
+              คอร์สเรียนของฉัน <MdOutlineKeyboardArrowRight class="cursor-pointer duration-200 hover:scale-125 active:scale-100" />
             </Link>
           </p>
           <div>
@@ -117,11 +117,18 @@ export default function MyCourseOnHome() {
                 },
               }}
             >
+              <Link
+                to="/mycourse"
+                className="lg:hidden float-right flex items-center text-xl text-slate-900"
+              >
+                {" "}
+                คอร์สเรียนของฉัน <MdOutlineKeyboardArrowRight class="cursor-pointer duration-200 hover:scale-125 active:scale-100" />
+              </Link>
               {courseData.map((course, index) => (
                 <SwiperSlide key={course.id}>
                   <Link to={`/mycourse/${course.id}`} title="ดูคลิปวิดิโอ">
                     <div
-                      className="p-2 bg-gray-100 rounded-lg  hover:translate-y-[-2px] transition-transform duration-300 "
+                      className="p-4 lg:bg-gray-100 rounded-lg  hover:translate-y-[-2px] transition-transform duration-300 "
                       onMouseEnter={() => setHoveredIndex(index)}
                       onMouseLeave={() => setHoveredIndex(null)}
                     >
@@ -129,11 +136,10 @@ export default function MyCourseOnHome() {
                         <img
                           src={course.image}
                           alt={course.title}
-                          className={`object-cover w-full mb-4 rounded-lg ${
-                            hoveredIndex === index
+                          className={`object-cover w-full mb-4 rounded-lg ${hoveredIndex === index
                               ? "opacity-70"
                               : "hover:opacity-70"
-                          }`}
+                            }`}
                         />
                         {hoveredIndex === index && (
                           <p className="absolute transition-opacity duration-300 opacity-100 text-[5rem] text-indigo-500">
@@ -141,7 +147,7 @@ export default function MyCourseOnHome() {
                           </p>
                         )}
                       </div>
-                      <div className="mt-auto">
+                      <div className=" mt-auto">
                         <Progress
                           progress={course.percentage}
                           color="yellow"
