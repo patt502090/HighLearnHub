@@ -173,21 +173,20 @@ export default function Course(props) {
                             "ไม่ระบุวันที่"
                           )}
                         </Badge>
-                        { item.discount !== 1?(
+                        {item.discount !== 1 ?(
 
-                          
-                          <p className="mt-2 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
-          
-               <span class=" font-bold text-red-700">{item.price*((100-(item.discount))/100)}</span>
-                  <span class="text-sm text-slate-900 line-through"> {item.price}</span>
-                  <span class=" font-bold text-grey-700">  บาท{" "}</span>
-                        </p>
-                            ):(<p className="mt-2 font-normal md:font-semibold text-center md:text-right text-[13px] md:text-base">
-          
-                            <span class=" font-bold text-grey-700">{item.price} บาท{" "}</span>
-                                     </p>)
-              
-                        }
+                
+<p className="text-md text-center font-semibold text-red-700 sm:text-l mb-1">
+<p className="mt-1 text-gray-500 line-through">
+          {item.price} บาท
+        </p>
+        <p className="text-red-500 font-semibold">
+          {(item.price*((100-item.discount)/100)).toFixed(1)} บาท
+        </p>
+</p>
+  ):(<p className="mt-3 text-md text-center font-bold text-grey-700 sm:text-l mb-4">
+  {item.price} บาท 
+</p>)}
                       </div>
                     )}
                   </div>
