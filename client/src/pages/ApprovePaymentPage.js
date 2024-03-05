@@ -6,6 +6,7 @@ import { Modal, ModalBody } from "flowbite-react";
 import toast, { Toaster } from "react-hot-toast";
 import { ContextProvider } from "../context/Auth.context";
 import { CircularProgress } from "@mui/material";
+import { Helmet } from "react-helmet";
 
 
 export default function ApprovePaymentPage() {
@@ -105,6 +106,13 @@ export default function ApprovePaymentPage() {
   return (
     <>
       <ContextProvider>
+      <Helmet>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <title>ยืนยันการชำระเงิน</title>
+        </Helmet>
         {loading ?
           <div className="background-image">
             <div className="h-screen flex justify-center items-center">
@@ -120,25 +128,25 @@ export default function ApprovePaymentPage() {
                   <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                       <th scope="col" className="px-6 py-3">
-                        User name
+                        ชื่อผู้ใช้
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        Product name
+                        คอร์ส
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        Date
+                        วันและเวลาที่ซื้อ
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        Price
+                        ราคา
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        Slip
+                        ใบเสร็จชำระเงิน
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        Action
+                        การลบ
                       </th>
                       <th scope="col" className="px-6 py-3">
-                        Action
+                        การยอมรับ
                       </th>
                     </tr>
                   </thead>
@@ -167,20 +175,20 @@ export default function ApprovePaymentPage() {
                         <td className="px-6 py-4">
                           <button className="font-medium text-blue-600 dark:text-red-500 hover:underline"
                             onClick={() => [setShowmodal(true), setConfirmationUrl(item.attributes.confirmation.data.attributes.url)]}>
-                            View Slip
+                            ดูใบเสร็จชำระเงิน
                           </button>
                         </td>
                         <td className="px-6 py-4">
                           <button className="font-medium text-red-600 dark:text-red-500 hover:underline"
                             onClick={() => DeletePayment(item.id, item.attributes.bookings, item.id)}
                           >
-                            delete
+                            ลบ
                           </button>
                         </td>
                         <td className="px-6 py-4">
                           {console.log(item.attributes.bookings.data)}
                           <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                            onClick={() => [approvePayment(item.attributes.bookings, item.id), updateAmount(item.attributes.bookings)]}>Approve</button>
+                            onClick={() => [approvePayment(item.attributes.bookings, item.id), updateAmount(item.attributes.bookings)]}>ยอมรับ</button>
                         </td>
                       </tr>
                     ))}
@@ -193,7 +201,7 @@ export default function ApprovePaymentPage() {
                     <ModalBody><div>
                       <img
                         className=" w-full  "
-                        src={"http://localhost:1337" + confirmationUrl}
+                        src={conf.urlPrefix + confirmationUrl}
                         alt=""
                       />
                     </div></ModalBody>

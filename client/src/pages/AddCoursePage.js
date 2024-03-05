@@ -6,6 +6,8 @@ import conf from "../conf/main";
 import { Box, Button, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ContextProvider } from "../context/Auth.context";
+import { Helmet } from "react-helmet";
+
 export default function AddCoursePage() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -87,6 +89,13 @@ export default function AddCoursePage() {
   return (
     <>
     <ContextProvider>
+    <Helmet>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <title>เพิ่มคอร์ส</title>
+        </Helmet>
       {loading ? (
         <div className="background-image">
           <div className="h-screen flex justify-center items-center">

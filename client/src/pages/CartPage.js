@@ -90,7 +90,7 @@ export default function CartPage() {
                                     <img
                                       className="object-cover w-full sm:w-4/12 h-1/2 sm:h-auto rounded-t-lg md:rounded-none md:rounded-s-lg"
                                       src={
-                                        "http://localhost:1337" +
+                                        conf.urlPrefix +
                                         item.course.image.url
                                       }
                                       alt=""

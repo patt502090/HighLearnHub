@@ -62,7 +62,7 @@ export default function HistoryPage() {
             <div className="relative flex flex-col rounded-[10px] border-[1px] border-gray-200 w-5/6  h-full sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[55%] mx-auto p-4 mt-20 sm:mt-0 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none">
               <div className="flex justify-center rounded-t-3xl p-3 w-full" >
                 <div className="text-lg text-center font-bold text-navy-700 dark:text-white"  >
-                {coursebooked.length === 0 ? "ซื้อสักคอร์สสิ 0-0" : "ประวัติการสั่งซื้อ" }
+                {coursebooked.length === 0 ? "ไม่มีคอร์สที่ซื้อแล้ว" : "ประวัติการสั่งซื้อ" }
                 </div>
               </div >
               {coursebooked.map((item) => (

@@ -5,6 +5,7 @@ import conf from '../conf/main';
 import SearchMemberBar from '../components/SearchMemberBar';
 import UserModal from '../components/UserModal';
 import { CircularProgress } from '@mui/material';
+import { Helmet } from 'react-helmet';
 
 function ListUserPage() {
     const [data, setData] = useState([]);
@@ -49,6 +50,13 @@ function ListUserPage() {
 
     return (
         <>
+        <Helmet>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <title>ตรวจสอบสมาชิก</title>
+        </Helmet>
             <div className='h-screen background-image'>
                 <Navbar />
                 <div className='pt-24'></div>

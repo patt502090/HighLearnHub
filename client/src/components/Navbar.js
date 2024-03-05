@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import Searchbar from "./Searchbar";
 import Filter from "./Filter"
+import conf from "../conf/main";
 
 const Navbar = ({ data }) => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -35,7 +36,7 @@ const Navbar = ({ data }) => {
             <div className="container mx-auto flex justify-between items-center p-2">
               <div className="flex">
                 <Link to={"/home"}>             
-                  <img src="https://media.discordapp.net/attachments/705005230944813076/1208313872990347264/HLH_2.png?ex=65e2d4fc&is=65d05ffc&hm=10fa3e09ca49cc6796caf9f0ed0e5b4518a1a1708628c840c6c0d821d89555e7&=&format=webp&quality=lossless&width=625&height=312" alt="Logo" className="h-11 w-auto ml-2" />
+                  <img src={conf.urlPrefix+"/uploads/Logo_With_Text_1585914ac6.png?fbclid=IwAR0AeIW_KEM3fzgR6qn-bxt1uVYoDH2kwquZaCHfHT7LZ8fSgP18x9OHrCE"} alt="Logo" className="h-11 w-auto ml-2" />
                 </Link>
               </div>
               {user ? (

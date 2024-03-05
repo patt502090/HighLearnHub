@@ -30,13 +30,12 @@ export default function Announcements({ data }) {
         >
           {data?.map((announcement) => (
             <SwiperSlide key={announcement.id}>
-              <Link to={`/promotion/${announcement.id}`}>
+              
                 <img
                   className="mx-auto border rounded-3xl shadow hover:scale-105 transition duration-500 cursor-pointer"
                   src={announcement.image}
                   alt={announcement.title}
                 />
-              </Link>
             </SwiperSlide>
           ))}
         </Swiper>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, } from "react";
 import { AuthContext, ContextProvider } from "../context/Auth.context";
 import { Outlet } from "react-router-dom";
 import "../App.css";
@@ -14,6 +14,7 @@ import PromotionSort from "../components/PromotionPage/PromotionSort";
 import PromotionSection from "../components/PromotionPage/LandingOnPromotion";
 import backgroundImage from "../assets/background.png";
 import SponsorList from "../components/PromotionPage/SponserList";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
   const [course, setCourse] = useState([]);
@@ -21,6 +22,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const { state: ContextState } = useContext(AuthContext);
   const { userRole } = ContextState;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,6 +98,24 @@ export default function HomePage() {
               <Outlet />
               <Help />
             </div>
+           < button
+        onClick={() => navigate("/home")}
+        className="fixed z-50 bottom-5 left-8 bg-gray-500 w-12 h-12 rounded-full drop-shadow-lg flex justify-center items-center text-white text-4xl hover:bg-gray-500 hover:drop-shadow-2xl hover:animate-bounce duration-300"
+      >
+        <svg
+          className="w-6 h-6 text-white dark:text-white"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fillRule="evenodd"
+            d="M11.3 3.3a1 1 0 0 1 1.4 0l6 6 2 2a1 1 0 0 1-1.4 1.4l-.3-.3V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3c0 .6-.4 1-1 1H7a2 2 0 0 1-2-2v-6.6l-.3.3a1 1 0 0 1-1.4-1.4l2-2 6-6Z"
+            clipRule="evenodd"
+          />
+        </svg>
+      </button>
           </>
         )}
       </ContextProvider>

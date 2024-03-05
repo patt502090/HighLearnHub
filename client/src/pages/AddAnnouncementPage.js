@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { ContextProvider } from "../context/Auth.context";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Helmet } from "react-helmet";
 
 
 export default function AddAnnouncementPage() {
@@ -178,6 +179,13 @@ export default function AddAnnouncementPage() {
   return (
     <>
       <ContextProvider>
+      <Helmet>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <title>เพิ่มประกาศ</title>
+        </Helmet>
         {loading ? (
           <div className="background-image">
             <div className="h-screen flex justify-center items-center">
