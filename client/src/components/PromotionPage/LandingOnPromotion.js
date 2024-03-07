@@ -6,7 +6,7 @@ const PromotionSection = ({ shoppingSectionId }) => {
   return (
     <section
       className="bg-white dark:bg-gray-900 bg-center bg-cover h-screen flex items-center justify-center"
-      style={{ backgroundImage: `url(https://images.hdqwalls.com/wallpapers/anime-girl-sky-clouds-ls.jpg)` }}
+      style={{ backgroundImage: `url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-uS-Xd3d7JFosKFwoefw2OhvMoFafFd47qw&usqp=CAU)` }}
     >
       <div className="max-w-3xl px-6 py-12 mx-auto text-center flex items-center justify-center flex-col">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">

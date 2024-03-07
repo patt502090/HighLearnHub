@@ -8,13 +8,14 @@ import { ContextProvider } from "../context/Auth.context";
 import { CircularProgress } from "@mui/material";
 import { Helmet } from "react-helmet";
 
-
 export default function ApprovePaymentPage() {
   const [coursebooked, setCoursebooked] = useState([]);
-  const [paymentSlip, setPaymentSlip] = useState(null);
   const [showmodal, setShowmodal] = useState(false);
   const [confirmationUrl, setConfirmationUrl] = useState();
   const [loading, setLoading] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showApproveModal, setShowApproveModal] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   useEffect(() => {
     fetchData();
@@ -36,7 +37,6 @@ export default function ApprovePaymentPage() {
 
   const calculateTotalPrice = (price) => {
     let totalPrice = 0;
-
     price.data.forEach((pricebooking) => {
       const pricecourse = pricebooking.attributes.course.data.attributes.price
       const discountcourse = pricebooking.attributes.course.data.attributes.discount
@@ -46,8 +46,7 @@ export default function ApprovePaymentPage() {
       else{
         totalPrice += Math.round(pricecourse*((100-discountcourse)/100))
       }
-      });
-
+    });
     return totalPrice.toLocaleString();
   };
 
@@ -76,20 +75,16 @@ export default function ApprovePaymentPage() {
       }
       await DeletePayment(orderIds)
       toast.success("ยืนยันการชำระเงินสำเร็จ!");
-
-
     } catch (error) {
       console.error("Error updating payment status:", error);
     }
   };
 
-
-  const DeletePayment = async (ordersId, bookingIds) => {
+  const DeletePayment = async (orderId) => {
     try {
       setLoading(true);
-      await ax.delete(conf.apiUrlPrefix + `/orders/${ordersId}`
-      );
-      for (const booking of bookingIds.data) {
+      await ax.delete(conf.apiUrlPrefix + `/orders/${orderId}`);
+      for (const booking of orderId.attributes.bookings.data) {
         await ax.put(conf.apiUrlPrefix + `/bookings/${booking.id}`, {
           data: {
             "status": "cart"
@@ -103,10 +98,39 @@ export default function ApprovePaymentPage() {
     }
   };
 
+  const handleDeleteClick = (orderId) => {
+    setSelectedOrderId(orderId);
+    setShowDeleteModal(true);
+  };
+
+  const handleApproveClick = (orderId) => {
+    setSelectedOrderId(orderId);
+    setShowApproveModal(true);
+  };
+
+  const handleDelete = async (orderId) => {
+    try {
+      await DeletePayment(orderId);
+      setShowDeleteModal(false);
+      toast.success("ลบรายการสำเร็จ!");
+    } catch (error) {
+      console.error("Error deleting order:", error);
+    }
+  };
+
+  const handleApprove = async (orderId) => {
+    try {
+      await approvePayment(orderId.attributes.bookings, orderId.id);
+      setShowApproveModal(false);
+    } catch (error) {
+      console.error("Error approving payment:", error);
+    }
+  };
+
   return (
     <>
       <ContextProvider>
-      <Helmet>
+        <Helmet>
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0"
@@ -158,7 +182,6 @@ export default function ApprovePaymentPage() {
                           {item.attributes.bookings?.data.map((booking) => (
                             <div key={booking?.id}>{booking?.attributes.course?.data?.attributes?.title}</div>
                           ))}
-
                         </td>
                         <td className="px-6 py-4">
                           {new Date(item.attributes.payment_date).toLocaleString('en-US', {
@@ -180,32 +203,60 @@ export default function ApprovePaymentPage() {
                         </td>
                         <td className="px-6 py-4">
                           <button className="font-medium text-red-600 dark:text-red-500 hover:underline"
-                            onClick={() => DeletePayment(item.id, item.attributes.bookings, item.id)}
+                            onClick={() => handleDeleteClick(item.id)}
                           >
                             ลบ
                           </button>
                         </td>
                         <td className="px-6 py-4">
-                          {console.log(item.attributes.bookings.data)}
                           <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                            onClick={() => [approvePayment(item.attributes.bookings, item.id), updateAmount(item.attributes.bookings)]}>ยอมรับ</button>
+                            onClick={() => handleApproveClick(item)}
+                          >
+                            ยอมรับ
+                          </button>
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-                {console.log(coursebooked)}
                 {coursebooked.map(item => (
-                  <Modal show={showmodal} onClose={() => setShowmodal(false)}>
+                  <Modal key={item.id} show={showmodal} onClose={() => setShowmodal(false)}>
                     <Modal.Header>Confirmation</Modal.Header>
-                    <ModalBody><div>
-                      <img
-                        className=" w-full  "
-                        src={conf.urlPrefix + confirmationUrl}
-                        alt=""
-                      />
-                    </div></ModalBody>
-                  </Modal>))}
+                    <ModalBody>
+                      <div className="flex justify-center">
+                        <img src={conf.urlPrefix + confirmationUrl} className="w-full max-h-96 object-contain" alt="Payment Confirmation" />
+                      </div>
+                    </ModalBody>
+                  </Modal>
+                ))}
+                {showDeleteModal && (
+                  <Modal show={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
+                    <Modal.Header className="bg-red-500 text-white">
+                      ยืนยันการลบ
+                    </Modal.Header>
+                    <Modal.Body>
+                      <p className="text-gray-700">คุณต้องการลบรายการนี้ใช่หรือไม่?</p>
+                      <div className="flex justify-end mt-4">
+                        <button onClick={() => handleDelete(selectedOrderId)} className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2">ลบ</button>
+                        <button onClick={() => setShowDeleteModal(false)} className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded">ยกเลิก</button>
+                      </div>
+                    </Modal.Body>
+                  </Modal>
+                )}
+                {showApproveModal && (
+                  <Modal show={showApproveModal} onClose={() => setShowApproveModal(false)}>
+                    <Modal.Header className="bg-blue-500 text-white">
+                      ยืนยันการชำระเงิน
+                    </Modal.Header>
+                    <Modal.Body>
+                      <p className="text-gray-700">คุณต้องการยืนยันการชำระเงินสำหรับรายการนี้ใช่หรือไม่?</p>
+                      <div className="flex justify-end mt-4">
+                        <button onClick={() => handleApprove(selectedOrderId)} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">ยืนยัน</button>
+                        <button onClick={() => setShowApproveModal(false)} className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded">ยกเลิก</button>
+                      </div>
+                    </Modal.Body>
+                  </Modal>
+                )}
               </div>
             </div>
           </div>}
