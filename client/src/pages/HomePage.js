@@ -38,7 +38,7 @@ export default function HomePage() {
 
 
         const announcementResponse = await ax.get(
-          `${conf.apiUrlPrefix}/announcements?populate=image`
+          `${conf.apiUrlPrefix}/announcements?populate=image&sort=createdAt:desc`
         );
         const courseData = courseResponse?.data?.data?.map((course) => {
           const totalDurationSeconds = course.attributes.videos.data.reduce(
