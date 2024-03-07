@@ -12,7 +12,6 @@ function Searchbar(props) {
   }));
 
   const handleShowing = (e) => {
-    console.log(data);
     if (!e) {
       setShowingItem(null);
     } else {
@@ -30,7 +29,6 @@ function Searchbar(props) {
         ));
 
       setShowingItem(item);
-      console.log(showingItem);
     }
   };
 

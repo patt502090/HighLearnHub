@@ -8,7 +8,6 @@ export default function UserModal(props) {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState();
 
-    console.log("Last",data)
 
     useEffect(() => {
         try {
@@ -16,7 +15,6 @@ export default function UserModal(props) {
             const fetchData = async () => {
                 const response = await ax.get(`${conf.apiUrlPrefix}/users/${props.profileId}?populate=image&populate=role&populate=login_streak`);
                 setData(response.data);
-                console.log(response);
             }
             fetchData();
             setLoading(false);

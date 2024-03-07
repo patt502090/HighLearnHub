@@ -18,7 +18,6 @@ export default function BasicTabs(props) {
   const id = props.data.id;
   const [review, setReview] = useState("");
   const [totalDurations, setTotalDurations] = useState(null);
-  console.log(id)
   useEffect(() => {
     fetchFirstVideo();
   }, [id]);
@@ -49,7 +48,6 @@ export default function BasicTabs(props) {
       if (videos && videos.length > 0) {
         setFirstVideo(videos[0]?.attributes.url);
       }
-      console.log(videos);
       const durations = videos.map((video) => {
         return video.attributes.duration;
       });

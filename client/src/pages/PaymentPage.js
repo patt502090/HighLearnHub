@@ -40,8 +40,6 @@ export default function PaymentPage() {
     try {
       const bookingIds = dataId.map((item) => item.bookingId);
       const userIds = dataId.map((item) => item.userId);
-      console.log("Idbooking", bookingIds);
-      console.log("Idbooking", userIds);
 
       for (const id of bookingIds) {
         await ax.put(conf.apiUrlPrefix + `/bookings/${id}`, {

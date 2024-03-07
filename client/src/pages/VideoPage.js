@@ -24,8 +24,6 @@ function VideoPage() {
   const [durationSelected, setDurationSelected] = useState(0);
   const [imageCourse, setImageCourse] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(played);
-  console.log("T1", selectedVideo);
 
   const handleLeaveRoom = () => {
     setIsModalOpen(true);
@@ -62,7 +60,6 @@ function VideoPage() {
         const imageResponse = await ax.get(
           `${conf.apiUrlPrefix}/courses?populate=image&filters[id][$eq]=${id}`
         );
-        console.log("imageResponse", imageResponse);
         const imageData = imageResponse.data.data.map((course) => ({
           id: course.id,
           image:
@@ -98,7 +95,6 @@ function VideoPage() {
         (booking) => booking.course.videos
       );
       setVideoData(allVideos);
-      console.log("AllVideo", allVideos);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data: ", error);
@@ -108,12 +104,10 @@ function VideoPage() {
 
   const updateWatchTime = async () => {
     try {
-      console.log("watchID", watchTimeId);
       if (watchTimeId) {
         await ax.put(`${conf.apiUrlPrefix}/watch-times/${watchTimeId}`, {
           data: { watch_time: played },
         });
-        console.log("อัปเดต watch time สำเร็จ.");
       } else {
         const response = await ax.post(`${conf.apiUrlPrefix}/watch-times`, {
           data: {
@@ -123,7 +117,6 @@ function VideoPage() {
             member: { connect: [{ id: userID }] },
           },
         });
-        console.log("สร้าง watch time สำเร็จ. ID:", response?.data?.data?.id);
         setWatchTimeId(response?.data?.data?.id);
       }
     } catch (error) {
@@ -135,29 +128,19 @@ function VideoPage() {
     if (!isLoading) {
       setIsLoading(true);
       const selected = videoData.find((video) => video.id === videoId);
-      console.log("Selected", selected);
       if (selected) {
         setSelectedVideo(selected);
         setDurationSelected(selected.duration);
         if (userID) {
-          console.log("UserID", userID);
           const watchTimeResponse = await ax.get(
             `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userID}&filters[video][id][$eq]=${selected.id}&filters[course][id][$eq]=${id}`
           );
-          console.log("WatchTimeResponse", watchTimeResponse);
           if (watchTimeResponse?.data?.data?.length > 0) {
             setCurrentTime(
               Math.round(
                 watchTimeResponse?.data?.data[0]?.attributes?.watch_time
               )
             );
-            console.log(
-              "Watch Current Time Current",
-              Math.round(
-                watchTimeResponse?.data.data[0]?.attributes?.watch_time
-              )
-            );
-            console.log("Watch Time ID", watchTimeResponse?.data?.data[0]?.id);
             setWatchTimeId(watchTimeResponse?.data?.data[0]?.id);
           } else {
             setWatchTimeId(null);
@@ -175,8 +158,6 @@ function VideoPage() {
     0
   );
 
-  console.log("totalWatchTime", totalWatchTime);
-  console.log("totalDuration", totalDuration);
   const calculateProgress = () => {
     if (totalDuration === 0) return 0;
     const progress = (totalWatchTime / totalDuration) * 100;
@@ -197,9 +178,7 @@ function VideoPage() {
       const watchTimesResponse = await ax.get(
         `${conf.apiUrlPrefix}/watch-times?populate=*&filters[member][id][$eq]=${userStartData}&filters[course][id][$eq]=${id}`
       );
-      console.log("watchTimesResponse", watchTimesResponse);
       const watchTimesData = watchTimesResponse.data.data;
-      console.log("watchTimesData", watchTimesData);
       let totalWatchTime = 0;
       watchTimesData.forEach((watchTime) => {
         totalWatchTime += watchTime.attributes.watch_time;
@@ -233,7 +212,6 @@ function VideoPage() {
 
     return formattedTime.trim();
   };
-  // console.log("image", imageCourse[0]);
 
   return (
     <ContextProvider>

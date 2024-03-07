@@ -51,7 +51,6 @@ const PromotionSort = () => {
           }
         );
 
-        // console.log("ข้อมูลหลังจากการกรอง API ของ OnlineSelling", onlineSellingData);
         setPromotionSelling(PromotionSellingData);
       } catch (error) {
         console.error("Error fetching data: ", error);

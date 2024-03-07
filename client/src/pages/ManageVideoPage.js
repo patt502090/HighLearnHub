@@ -41,13 +41,11 @@ const ManageVideoPage = () => {
   }, [editModalOpen, deleteModalOpen, isCreateModalOpen]);
 
   const handleEdit = (videoId) => {
-    console.log("Edit video with id:", videoId);
     setSelectedVideoId(videoId);
     setEditModalOpen(true);
   };
 
   const handleDeleteModalOpen = (videoId, videoTitle) => {
-    console.log(videoId, videoTitle);
     setSelectedVideoId(videoId);
     setSelectedVideoTitle(videoTitle);
     setDeleteModalOpen(true);

@@ -65,7 +65,6 @@ export default function CourseInfoPage() {
     setLoading(true);
     ax.delete(conf.apiUrlPrefix + `/courses/${id}`)
       .then((response) => {
-        console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -82,7 +81,6 @@ export default function CourseInfoPage() {
   };
 
   useEffect(() => {
-    console.log("dfgsgs ", own);
     if (own) {
       if (own.payment_status === true) {
         setOwnCourseDisplay(
@@ -314,7 +312,6 @@ export default function CourseInfoPage() {
               <p className="text-md sm:text-lg font-normal sm:font-medium mb-4">
                 {course.attributes.description}
               </p>
-              {console.log("gay", course.attributes.discount)}
               {course.attributes.discount !== 1 ? (
                 <p className="text-md text-center font-bold text-red-700 sm:text-2xl mb-4">
                   <p className="text-gray-500 line-through">

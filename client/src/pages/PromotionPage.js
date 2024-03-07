@@ -32,13 +32,11 @@ export default function HomePage() {
           `${conf.apiUrlPrefix}/courses?populate=image&populate=videos&filters[discount][$nei]=1`
         );
 
-        // console.log("courseResponse",courseResponse)
         const courseData = courseResponse?.data?.data?.map((course) => {
           const totalDurationSeconds = course.attributes.videos.data.reduce(
             (totalDuration, video) => totalDuration + video.attributes.duration,
             0
           );
-          console.log("Course", course);
 
           const minutes = Math.floor(totalDurationSeconds / 60);
           const seconds = Math.floor(totalDurationSeconds % 60);
@@ -58,7 +56,6 @@ export default function HomePage() {
             date: course.attributes.schedule_text,
           };
         });
-        // console.log("กรองข้อมูลแล้ว",courseData)
         setCourse(courseData);
       } catch (error) {
         console.error("Error fetching data: ", error);

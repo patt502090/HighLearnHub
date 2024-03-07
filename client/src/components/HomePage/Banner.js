@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import ax from "../../conf/ax";
 import conf from "../../conf/main";
 import { Link } from "react-router-dom";
+
+
 const BannerComponent = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [footerData,setFooterData] = useState([])
@@ -16,7 +18,6 @@ const BannerComponent = () => {
           `${conf.apiUrlPrefix}/footer-announcements`
         );
         setFooterData(responseStreak?.data?.data[0]?.attributes)
-        console.log("FFr",responseStreak?.data?.data[0]?.attributes)
       } catch (error) {
         console.error('Error fetching streak:', error);
       }

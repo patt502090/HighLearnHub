@@ -74,7 +74,6 @@ export default function AddCoursePage() {
       const response = await ax.post(`${conf.apiUrlPrefix}/courses`, {
         data: courseData,
       });
-      console.log(courseData);
       uploadImg(response.data.data.id);
       setTimeout(() => {
         navigate("/admin");

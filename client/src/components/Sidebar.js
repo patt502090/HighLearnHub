@@ -40,7 +40,6 @@ export default function SidebarWithBurgerMenu({ userData, logout }) {
         );
         const Count = CountStreakResponse.data.login_streak.CountStreak;
         setCountStreak(Count);
-        console.log("Count", Count);
       } catch (error) {
         console.error("Error fetching data: ", error);
       }

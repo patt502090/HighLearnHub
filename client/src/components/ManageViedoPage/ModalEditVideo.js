@@ -13,7 +13,6 @@ export default function ManageVideoModal({ data, onCloseModal, openModal }) {
       duration: "",
     },
   });
-  console.log(data);
   useEffect(() => {
     if (data && data.attributes) {
       setEditedVideo({
@@ -26,9 +25,6 @@ export default function ManageVideoModal({ data, onCloseModal, openModal }) {
       });
     }
   }, [data]);
-  console.log("T1", editedVideo.attributes);
-  console.log("T2", editedVideo);
-
   const handleUpdateVideo = async () => {
     try {
       const response = await ax.put(`${conf.apiUrlPrefix}/videos/${data.id}`, {

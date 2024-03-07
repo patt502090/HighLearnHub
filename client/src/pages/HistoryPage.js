@@ -18,12 +18,10 @@ export default function HistoryPage() {
           conf.apiUrlPrefix +
           "/users/me?populate[bookings][populate][course][populate]=image"
         );
-        console.log(response);
         const filterDatas = response.data.bookings.filter(
           (item) => item.status !== "cart"
         );
         setCoursebooked(filterDatas);
-        console.log(filterDatas);
       } catch (error) {
         console.error("Error fetching Data:", error);
       }

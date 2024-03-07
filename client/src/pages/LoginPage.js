@@ -51,7 +51,6 @@ export default function LoginPage() {
       });
 
       result = await ax.get(`${conf.apiUrlPrefix}${conf.jwtUserEndpoint}`);
-      console.log("id", result.data.id);
       checkStreak({ id: result.data.id }); //checkStreak
       changeRole(result.data.role.name);
       if (result.data.image) {
@@ -103,7 +102,6 @@ export default function LoginPage() {
   };
 
   const checkStreak = async ({ id }) => {
-    console.log("test", id);
     try {
       const responseStreak = await ax.get(
         `${conf.apiUrlPrefix}/users/me?populate=login_streak`
@@ -116,17 +114,10 @@ export default function LoginPage() {
 
       if (steakID) {
         const CountTimeData = new Date(userData.login_streak.CountTime);
-        console.log("CreateData", CountTimeData);
         const now = new Date();
-        console.log("now", now);
 
-        // คำนวณหาเวลาที่ผ่านไประหว่าง lastLogin และ now ในหน่วยชั่วโมง
-        const timeDifference = (now - CountTimeData) / (1000 * 60 * 60); // หน่วยเป็นชั่วโมง
-        console.log("timeDifference", timeDifference);
-
-        // ตรวจสอบว่าเวลาที่ผ่านไปน้อยกว่า 24 ชั่วโมงหรือไม่
+        const timeDifference = (now - CountTimeData) / (1000 * 60 * 60);
         if (timeDifference < 24) {
-          // อัปเดต lastLogin เฉยๆ โดยไม่ทำอะไรเพิ่มเติม
           await ax.put(`${conf.apiUrlPrefix}/login-streaks/${steakID}`, {
             data: {
               lastLogin: new Date(),
@@ -152,7 +143,6 @@ export default function LoginPage() {
           });
         }
       } else {
-        //หากไม่มีข้อมูล login_streak ให้สร้างข้อมูลใหม่
         const steakNew = await ax.post(`${conf.apiUrlPrefix}/login-streaks`, {
           data: {
             lastLogin: new Date(),
@@ -161,7 +151,6 @@ export default function LoginPage() {
             member: { connect: [{ id: id }] },
           },
         });
-        console.log("steakNew", steakNew);
       }
 
       console.log("Streak checked successfully");

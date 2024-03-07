@@ -15,7 +15,6 @@ export default function Course(props) {
   const navigate = useNavigate();
   const { state: ContextState } = useContext(AuthContext);
   const { user } = ContextState || {};
-  console.log("test1",props)
   const handleFilter = (type, label) => {
     if (type === "Price") {
       if (label === "0 - 99999 บาท") {
@@ -252,7 +251,6 @@ export default function Course(props) {
                               "ไม่ระบุวันที่"
                             )}
                           </Badge>
-                          {console.log("test10",item)}
                           {item?.discount !== 1 ? (
                             <p className="text-md text-center font-semibold text-red-700 sm:text-l mb-1">
                               <p className="mt-1 text-gray-500 line-through">

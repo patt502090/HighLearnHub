@@ -70,7 +70,6 @@ function ProfilePage() {
         formData.append("files", newImage[0]);
         ax.post(conf.apiUrlPrefix + `/upload`, formData)
           .then((response) => {
-            console.log(response);
             sessionStorage.setItem(
               "profileURL",
               `${conf.urlPrefix}${response.data[0].url}`

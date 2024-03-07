@@ -23,7 +23,6 @@ export default function Course(props) {
     setFilterType(type);
     setDropdownLabel(label);
   };
-  console.log("test03",props.data)
   useEffect(() => {
   }, [])
 

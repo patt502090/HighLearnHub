@@ -25,7 +25,6 @@ const OnlineBestSeller = () => {
         const onlineSellingResponse = await ax.get(
           `${conf.apiUrlPrefix}/courses?populate=image&filters[study_type][$eq]=Online&sort=amount:desc&pagination[pageSize]=10&populate=videos`
         );
-        // console.log("ข้อมูลหลังเรียก API ของ OnlineSelling", onlineSellingResponse);
         const onlineSellingData = onlineSellingResponse.data.data.map(
           (course) => {
             const totalDurationSeconds = course.attributes.videos.data.reduce(
@@ -52,7 +51,6 @@ const OnlineBestSeller = () => {
           }
         );
 
-        // console.log("ข้อมูลหลังจากการกรอง API ของ OnlineSelling", onlineSellingData);
         setOnlineSelling(onlineSellingData);
       } catch (error) {
         console.error("Error fetching data: ", error);

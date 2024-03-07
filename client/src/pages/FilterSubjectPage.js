@@ -7,10 +7,8 @@ import Navbar from '../components/Navbar';
 function FilterSubjectPage() {
     const { id } = useParams();
     const [courseData, setCourseData] = useState();
-    console.log("🚀 ~ FilterSubjectPage ~ courseData:", courseData)
     const [loading, setLoading] = useState(false);
     const [subject, setSubject] = useState();
-    console.log("🚀 ~ FilterSubjectPage ~ subject:", subject)
     useEffect(() => {
         switch (id) {
             case "math":
@@ -38,7 +36,6 @@ function FilterSubjectPage() {
 
     const fetchData = async () => {
         setLoading(true);
-        console.log('asdad', subject);
         if (subject) {
             const req = await ax.get(`${conf.apiUrlPrefix}/courses?filters[subject][$eq]=${subject}&populate=image`)
             setCourseData(req.data.data);

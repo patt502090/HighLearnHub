@@ -40,7 +40,6 @@ const LiveCourse = () => {
           date: course.attributes.schedule_text,
         }));
         setliveCourse(liveCourseData);
-        console.log("i here",liveCourseData.discount)
       } catch (error) {
         console.error("Error fetching data: ", error);
       }

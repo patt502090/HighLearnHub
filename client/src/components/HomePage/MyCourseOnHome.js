@@ -53,7 +53,6 @@ export default function MyCourseOnHome() {
               },
             }
           );
-          console.log(watchTimeResponse);
           const totalWatchTime = watchTimeResponse.data.reduce(
             (total, watchTime) => total + watchTime.watch_time,
             0

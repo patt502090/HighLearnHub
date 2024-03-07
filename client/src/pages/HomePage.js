@@ -36,18 +36,15 @@ export default function HomePage() {
           `${conf.apiUrlPrefix}/courses?populate=image&populate=videos`
         );
 
-        // console.log("courseResponse",courseResponse)
 
         const announcementResponse = await ax.get(
           `${conf.apiUrlPrefix}/announcements?populate=image`
         );
-          console.log("test",announcementResponse)
         const courseData = courseResponse?.data?.data?.map((course) => {
           const totalDurationSeconds = course.attributes.videos.data.reduce(
             (totalDuration, video) => totalDuration + video.attributes.duration,
             0
           );
-          console.log("Course", course);
 
           const minutes = Math.floor(totalDurationSeconds / 60);
           const seconds = Math.floor(totalDurationSeconds % 60);
@@ -68,7 +65,7 @@ export default function HomePage() {
             like: course.attributes.like,
           };
         });
-        
+
         const announcementData = announcementResponse.data.data.map((item) => ({
           id: item.id,
           title: item.attributes?.title,
@@ -76,15 +73,8 @@ export default function HomePage() {
             `${conf.urlPrefix}` + item.attributes.image.data.attributes?.url,
         }));
 
-        // console.log("กรองข้อมูลแล้ว",courseData)
-         console.log("anno =",announcementData) 
         setCourse(courseData);
         setAnnouncements(announcementData);
-
-        //get data to check expiry_date
-        
-
-        // console.log("test",Checkboxdata)
       } catch (error) {
         console.error("Error fetching data: ", error);
       } finally {
@@ -119,7 +109,7 @@ export default function HomePage() {
               <Course data={course} userRole={ContextState.userRole} />
               <FilterSubjectMoblie />
               <div className="fixed bottom-0 left-0 w-full z-9999">
-                <AdminFooterAnnouncement/>
+                <AdminFooterAnnouncement />
               </div>
               <Footer />
             </div>
@@ -160,7 +150,7 @@ export default function HomePage() {
               <Outlet />
               <Help />
               <div className="fixed bottom-0 left-0 w-full z-9999">
-                <BannerComponent/>
+                <BannerComponent />
               </div>
             </div>
           </>

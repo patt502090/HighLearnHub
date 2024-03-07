@@ -16,7 +16,6 @@ export default function EditCourseModal(props) {
     props.course.attributes.study_type || null
   );
   const { loading, setLoading } = props;
-  console.log(loading);
 
   const handleChanged = (e) => {
     setEditedCourse((prevState) => ({
@@ -41,7 +40,6 @@ export default function EditCourseModal(props) {
     ax.post(conf.apiUrlPrefix + `/upload`, formData)
       .then((response) => {
         setOnChangeImg(response.data[0]);
-        console.log(onChangeImg);
       })
       .catch((error) => {
         console.error(error);

@@ -47,7 +47,6 @@ export default function MyCoursePage() {
               },
             }
           );
-          console.log(watchTimeResponse);
           const totalWatchTime = watchTimeResponse.data.reduce(
             (total, watchTime) => total + watchTime.watch_time,
             0

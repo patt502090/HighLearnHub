@@ -17,7 +17,6 @@ export default function CartPage() {
           conf.apiUrlPrefix +
             "/users/me?populate[bookings][filters][status][$eq]=cart&populate[bookings][populate][course][populate]=image"
         );
-        console.log(response);
 
         setCoursebooked(response.data.bookings);
       } catch (error) {
@@ -30,7 +29,6 @@ export default function CartPage() {
 
   const calculateTotalPrice = () => {
     let totalPrice = 0;
-    console.log(coursebooked)
     coursebooked.forEach((item) => {
       if(item.course.discount === 1){
 
@@ -44,7 +42,6 @@ export default function CartPage() {
 
   const deleteCourseBooked = async (id) => {
     try {
-      console.log("id =", id);
       await ax.delete(conf.apiUrlPrefix + `/bookings/${id}`);
 
       setCoursebooked(coursebooked.filter((course) => course.id !== id));
@@ -53,7 +50,6 @@ export default function CartPage() {
     }
   };
 
-  console.log(coursebooked);
 
   return (
     <>

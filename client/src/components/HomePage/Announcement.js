@@ -5,9 +5,9 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "./SwiperButton.css";
-import { Link } from "react-router-dom";
+
+
 export default function Announcements({ data }) {
-  console.log("gay = ",data)
   return (
     <div>
       <div className="relative z-0 mx-auto px-5 h-full w-full spacing-under-header">

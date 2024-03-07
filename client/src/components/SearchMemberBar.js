@@ -3,7 +3,6 @@ import React, { useState } from "react";
 function SearchMemberBar(props) {
     const [showSubjectFilterModal, setShowSubjectFilterModal] = useState(false);
     const [showingItem, setShowingItem] = useState("");
-    console.log(props.data);
     const data = props.data.map((e) => ({
         ...e,
         username: e.username.toLowerCase(),

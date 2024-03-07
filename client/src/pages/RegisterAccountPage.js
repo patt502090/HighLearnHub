@@ -75,7 +75,6 @@ export default function RegisterAccountPage() {
           postData
         );
         console.log("สมัครข้อมูล:", result.data);
-        console.log(postData);
         toast.success("สมัครสมาชิกสำเร็จ!");
         setTimeout(() => {
           navigate("/login");
@@ -88,7 +87,6 @@ export default function RegisterAccountPage() {
     } catch (error) {
       console.error("ข้อมูลสมัครไม่สำเร็จ:", error.response.data);
       toast.error("การสมัครไม่สำเร็จ กรุณาติดต่อเจ้าหน้าที่");
-      console.log(formData);
     } finally {
       setLoading(false);
       setSubmitEnabled(true);

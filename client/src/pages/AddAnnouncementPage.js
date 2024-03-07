@@ -25,18 +25,14 @@ export default function AddAnnouncementPage() {
     discount: "",
   });
   
-  const [dataofcourses, setDataofcourses] = useState([]); // Ensure it's initialized as an empty array
+  const [dataofcourses, setDataofcourses] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await ax.get(`${conf.apiUrlPrefix}/courses?populate=announcement`);
-        console.log("response =", response.data);
         if (Array.isArray(response.data.data)) {
-          // Filter the data where announcement is not null
           const filteredData = response.data.data.filter(item => item.attributes.announcement.data === null);
-          console.log("Filtered data:", filteredData);
-          // Update state with the filtered data
           setDataofcourses(filteredData);
         } else {
           console.error("Error: Response data is not an array");
@@ -55,27 +51,6 @@ export default function AddAnnouncementPage() {
           courses : item.attributes.courses,
 
         }))
-        console.log(Checkboxdata)
-        // for (const item of Checkboxdata) {
-        //   console.log("yea",item)
-
-        //   // await ax.put(conf.apiUrlPrefix + `/courses/${}`, {
-        //   //   data: {
-        //   //     discount: 1,
-        //   //   },
-        //   // });
-        //   const courseIds = 
-        //   const expiryDate = new Date(item.expiry_date);
-        //   console.log(expiryDate)
-        //   if (expiryDate.getTime() === new Date().getTime()) {
-        //     console.log("yes this pro is ended hahha");
-        //     // await ax.delete(conf.apiUrlPrefix + `/announcements/${item.id}`, );
-                
-        //   } else {
-        //     console.log("yeet");
-        //   }
-        // };
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -91,7 +66,6 @@ export default function AddAnnouncementPage() {
       
     }
     else if (name === 'discount') {
-      // ตรวจสอบว่าค่าที่รับเข้ามาไม่น้อยกว่า 1
       if (parseInt(value) >= 1) {
         setCourseData((prevState) => ({ ...prevState, [name]: value }));
       }}
@@ -111,15 +85,12 @@ export default function AddAnnouncementPage() {
     const updatedCourseIds = [...courseData.courses];
 
     if (updatedCourseIds.includes(value)) {
-      // Remove from state if already selected
       const index = updatedCourseIds.indexOf(value);
       updatedCourseIds.splice(index, 1);
     } else {
-      // Add to state if not already selected
       updatedCourseIds.push(value);
     }
 
-    // Update the state
     setCourseData((prevState) => ({
       ...prevState,
       courses: updatedCourseIds,
@@ -164,8 +135,6 @@ export default function AddAnnouncementPage() {
           },
         });
       }
-
-      console.log(courseData);
       uploadImg(response.data.data.id);
       setTimeout(() => {
         navigate("/admin");
@@ -215,7 +184,6 @@ export default function AddAnnouncementPage() {
                     </div>
                     <div className="indent-2 mt-">
                     <label className="indent-12 mt-2" htmlFor="courses">รายการคอร์ส</label>
-                      {console.log("fffff", courseData.courses)}
                       {dataofcourses.map((course) => (
                         <div key={course.id} className="flex items-center mb-4">
                           <input
@@ -234,7 +202,6 @@ export default function AddAnnouncementPage() {
                         </div>
                       ))}
                     </div>
-                  {console.log("discount = ",courseData.discount)}
                   <div className="grid lg:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="ส่วนลด%" value="ส่วนลด%" />
@@ -252,7 +219,6 @@ export default function AddAnnouncementPage() {
 </div>
 
                     <div>
-                      {console.log("date:", courseData.expiry_date)}
                       <label htmlFor="expiry_date">วันที่หมดอายุ:</label>
                       <DatePicker
                         id="expiry_date"
@@ -263,7 +229,6 @@ export default function AddAnnouncementPage() {
                         placeholderText="เลือกวันที่"
                       />
                     </div>
-                    {console.log("sgsdd",courseData.Describtion)}
                     <div className="lg:col-span-2">
                       <Label htmlFor="describtion" value="คำอธิบาย" />
                       <Textarea

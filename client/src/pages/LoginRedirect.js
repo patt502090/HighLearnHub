@@ -32,7 +32,7 @@ const LoginRedirect = () => {
         setTimeout(() => navigate("/home"), );  
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         setText("เกิดข้อผิดพลาด โปรดดูคอนโซลนักพัฒนาซอฟต์แวร์");
       });
   }, [navigate, location.search]); 

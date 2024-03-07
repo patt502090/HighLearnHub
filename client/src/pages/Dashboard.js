@@ -20,7 +20,6 @@ function Dashboard() {
   const [profileId, setProfileId] = useState(null);
   const [course, setCourse] = useState();
   const [totalProfits, setTotalProfits] = useState(0);
-  console.log("🚀 ~ Dashboard ~ totalProfits:", totalProfits)
 
   useEffect(() => {
     setLoading(true);

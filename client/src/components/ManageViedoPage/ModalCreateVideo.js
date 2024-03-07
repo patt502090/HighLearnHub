@@ -10,8 +10,6 @@ export default function ModalCreateVideo({ onCloseModal, openModal, idCourse }) 
     url: "",
     duration: "",
   });
-  console.log("idCourse:",idCourse)
-  console.log("newVideoData",newVideo)
   const handleCreateVideo = async () => {
     try {
       const response = await ax.post(`${conf.apiUrlPrefix}/videos`, {
