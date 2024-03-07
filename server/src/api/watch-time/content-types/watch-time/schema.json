@@ -32,6 +32,10 @@
       "relation": "manyToOne",
       "target": "api::course.course",
       "inversedBy": "watch_times"
+    },
+    "status": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

@@ -933,7 +933,6 @@ export interface ApiCourseCourse extends Schema.CollectionType {
       'oneToMany',
       'api::watch-time.watch-time'
     >;
-    like: Attribute.Integer & Attribute.DefaultTo<0>;
     schedule_text: Attribute.String;
     announcement: Attribute.Relation<
       'api::course.course',
@@ -1151,6 +1150,7 @@ export interface ApiWatchTimeWatchTime extends Schema.CollectionType {
       'manyToOne',
       'api::course.course'
     >;
+    status: Attribute.Boolean & Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
