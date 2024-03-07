@@ -90,7 +90,7 @@ export default function MyCourseOnHome() {
             คอร์สที่คุณกำลังเรียน
             <Link
               to="/mycourse"
-              className="float-right flex items-center text-sm sm:text-xl text-slate-700 sm:text-slate-900"
+              className="hidden float-right sm:flex items-center text-sm sm:text-xl text-slate-700 sm:text-slate-900"
             >
               {" "}
               คอร์สเรียนของฉัน <MdOutlineKeyboardArrowRight class="cursor-pointer duration-200 hover:scale-125 active:scale-100" />

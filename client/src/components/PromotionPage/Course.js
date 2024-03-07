@@ -38,7 +38,7 @@ export default function Course(props) {
             (course) => course.price >= 2000 && course.price <= 4000
           )
         );
-      } 
+      }
       // สามารถเพิ่มเงื่อนไขกรองราคาตามต้องการเพิ่มเติมได้ที่นี่
     } else {
       setFilterType(type);
@@ -49,7 +49,7 @@ export default function Course(props) {
   useEffect(() => {
     handleFilter("Price", "0 - 99999 บาท");
   }, []);
-  
+
   return (
     <ContextProvider>
       <>
@@ -117,17 +117,18 @@ export default function Course(props) {
             {filteredCourses.length === 0 ? (
               <div className="text-center text-gray-600 py-8">
                 ไม่มีคอร์สเรียน
-              </div>  
+              </div>
             ) : (
-              
               filteredCourses?.slice(0, visibleCourses).map((item) => (
-                
                 <div
                   key={item.id}
                   className={`hover:translate-y-[-10px] transition-transform duration-300 w-full bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 m-1 md:m-2 ${
-                    filterType === "All" || item.type ? "block" : "hidden"
+                    filterType === "All" || item.type === filterType
+                      ? "block"
+                      : "hidden"
                   }`}
                 >
+                  {console.log(item)}
                   <Link to={`/course/${item.id}`}>
                     <img
                       className="rounded-t-lg w-full h-30 md:h-40 object-cover"
@@ -217,20 +218,23 @@ export default function Course(props) {
                               </>
                             )}
                           </Badge>
-                          {item.discount !== 1 ?(
-
-                
-<p className="text-md text-center font-semibold text-red-700 sm:text-l mb-1">
-<p className="mt-1 text-gray-500 line-through">
-          {item.price} บาท
-        </p>
-        <p className="text-red-500 font-semibold">
-          {(Math.round(item.price*((100-item.discount)/100)))} บาท
-        </p>
-</p>
-  ):(<p className="mt-3 text-md text-center font-bold text-grey-700 sm:text-l mb-4">
-  {item.price} บาท 
-</p>)}
+                          {item.discount !== 1 ? (
+                            <p className="text-md text-center font-semibold text-red-700 sm:text-l mb-1">
+                              <p className="mt-1 text-gray-500 line-through">
+                                {item.price} บาท
+                              </p>
+                              <p className="text-red-500 font-semibold">
+                                {Math.round(
+                                  item.price * ((100 - item.discount) / 100)
+                                )}{" "}
+                                บาท
+                              </p>
+                            </p>
+                          ) : (
+                            <p className="mt-3 text-md text-center font-bold text-grey-700 sm:text-l mb-4">
+                              {item.price} บาท
+                            </p>
+                          )}
                         </div>
                       ) : (
                         <div className="md:flex md:flex-wrap gap-2 md:justify-between ">
@@ -258,8 +262,7 @@ export default function Course(props) {
                               </p>
                               <p className="text-red-500 font-semibold">
                                 {Math.round(
-                                  item.price *
-                                  ((100 - item.discount) / 100)
+                                  item.price * ((100 - item.discount) / 100)
                                 )}{" "}
                                 บาท
                               </p>
