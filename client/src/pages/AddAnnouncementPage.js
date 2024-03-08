@@ -21,9 +21,12 @@ export default function AddAnnouncementPage() {
     title: "",
     Describtion: "",
     expiry_date: null,
-    courses: [], // Add courseIds to initial state
+    courses: [], 
     discount: "",
+    coursestitle:[]
   });
+
+
   
   const [dataofcourses, setDataofcourses] = useState([]);
 
@@ -81,9 +84,8 @@ export default function AddAnnouncementPage() {
   };
 
   const handleCheckboxChange = (e) => {
-    const { value } = e.target;
+    const { value } = e.target
     const updatedCourseIds = [...courseData.courses];
-
     if (updatedCourseIds.includes(value)) {
       const index = updatedCourseIds.indexOf(value);
       updatedCourseIds.splice(index, 1);
@@ -125,7 +127,7 @@ export default function AddAnnouncementPage() {
           title:courseData.title,
           expiry_date:courseData.expiry_date,
           Describtion:courseData.Describtion,
-          courses: courseData.courses?.map(id => parseInt(id)), // แปลงค่าทุกค่าในอาเรย์เป็น Int
+          courses: courseData.courses?.map(id => parseInt(id)), 
         },
       });
       for (const id of courseData.courses) {
@@ -144,6 +146,9 @@ export default function AddAnnouncementPage() {
       console.error("Error adding course:", error);
     }
   };
+
+  
+
 
   return (
     <>
@@ -184,15 +189,17 @@ export default function AddAnnouncementPage() {
                     </div>
                     <div className="indent-2 mt-">
                     <label className="indent-12 mt-2" htmlFor="courses">รายการคอร์ส</label>
+                    
                       {dataofcourses.map((course) => (
                         <div key={course.id} className="flex items-center mb-4">
-                          <input
-                            id={`course-${course.id}`}
+                          <input 
+                          
+                          id="checked-checkbox"
                             type="checkbox"
                             value={course.id}
                             checked={courseData.courses.includes(course.id)}
                             onChange={handleCheckboxChange}
-                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                            class="w-4 h-4  text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                           <label
                             htmlFor={`course-${course.id}`}
                             className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
@@ -202,13 +209,14 @@ export default function AddAnnouncementPage() {
                         </div>
                       ))}
                     </div>
+                    <p>{courseData.courses}</p>
                   <div className="grid lg:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="ส่วนลด%" value="ส่วนลด%" />
                     <TextInput
                       id="discount"
                       name="discount"
-                      placeholder="discount"
+                      placeholder="ส่วนลด%"
                       type="number"
                       min="0"
                       value={courseData.discount}
@@ -224,8 +232,8 @@ export default function AddAnnouncementPage() {
                         id="expiry_date"
                         selected={courseData.expiry_date}
                         onChange={handleDateChange}
-                        dateFormat="dd/MM/yyyy" // Specify the date format
-                        isClearable // Enable clearing the date
+                        dateFormat="dd/MM/yyyy" 
+                        isClearable 
                         placeholderText="เลือกวันที่"
                       />
                     </div>

@@ -51,12 +51,14 @@ export default function ApprovePaymentPage() {
   };
 
   const updateAmount = async (courseData) => {
-    const courseIds = courseData.data.map(item => ({
+    const courseIds = courseData?.data.map(item => ({
       id: item.attributes.course.data?.id
     }))
+    
     try {
       for (const chooseId of courseIds) {
         await ax.put(conf.apiUrlPrefix + `/amount/${chooseId.id}`);
+        // console.log(chooseId.id)
       }
     } catch (error) {
       console.error("Error updating payment status:", error);
@@ -72,24 +74,28 @@ export default function ApprovePaymentPage() {
             "status": "success"
           }
         });
-      }
-      await DeletePayment(orderIds)
+      } 
+      
+      updateAmount(bookingIds)
+      console.log(bookingIds)
+      await DeletePayment(bookingIds,orderIds)
       toast.success("ยืนยันการชำระเงินสำเร็จ!");
     } catch (error) {
       console.error("Error updating payment status:", error);
     }
   };
 
-  const DeletePayment = async (orderId) => {
+  const DeletePayment = async (bookingIds,orderIds) => {
     try {
       setLoading(true);
-      await ax.delete(conf.apiUrlPrefix + `/orders/${orderId}`);
-      for (const booking of orderId.attributes.bookings.data) {
+      await ax.delete(conf.apiUrlPrefix + `/orders/${orderIds}`);
+      for (const booking of bookingIds.data) {
         await ax.put(conf.apiUrlPrefix + `/bookings/${booking.id}`, {
           data: {
             "status": "cart"
           }
         });
+  
       }
     } catch (error) {
       console.error("Error updating payment status:", error);

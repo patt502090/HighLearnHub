@@ -40,9 +40,7 @@ export default function HomePage() {
 
         const announcementResponse = await ax.get(
           `${conf.apiUrlPrefix}/announcements?populate=image&populate=courses&sort=createdAt:desc `
-          // `${conf.apiUrlPrefix}/announcements?populate=image&sort=createdAt:desc`
         );
-        console.log("gayyy = ",announcementResponse)
         const courseData = courseResponse?.data?.data?.map((course) => {
           const totalDurationSeconds = course.attributes.videos.data.reduce(
             (totalDuration, video) => totalDuration + video.attributes.duration,
@@ -79,9 +77,20 @@ export default function HomePage() {
           expiry_date : item.attributes.expiry_date
 
         }));
-        console.log("ann2 = ",announcementData)
+        const nonExpiredAnnouncements = announcementData.filter(item => !item.expiry_date || new Date(item.expiry_date) > new Date());
         setCourse(courseData);
-        setAnnouncements(announcementData);
+        setAnnouncements(nonExpiredAnnouncements);
+        
+        if(userRole === "admin"){
+          const expiredAnnouncements = announcementData.filter(item => item.expiry_date && new Date(item.expiry_date) <= new Date());   
+          expiredAnnouncements.forEach(async (announcement) => {
+          await ax.delete(`${conf.apiUrlPrefix}/announcements/${announcement.id}`);
+          updateDiscount(announcement.courses)
+        });
+
+        }
+
+
       } catch (error) {
         console.error("Error fetching data: ", error);
       } finally {
@@ -91,6 +100,24 @@ export default function HomePage() {
 
     fetchData();
   }, []);
+
+  const updateDiscount = async (course) => {
+    const courseIds = course.data.map(item => ({
+      id: item.id
+    }))
+    
+    try {
+     for(const id of courseIds){
+      const response = await ax.put(
+        `${conf.apiUrlPrefix}/courses/${id.id}`,{
+        data:{ discount: 1 }} 
+      );
+      console.log("Discount updated successfully:", response.data);
+     }
+    } catch (error) {
+      console.error("Error updating discount:", error);
+    }
+  };
 
 
   if (userRole === "admin") {

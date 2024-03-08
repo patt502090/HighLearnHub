@@ -115,21 +115,17 @@ export default function CourseInfoPage() {
 
   const Addcart = async (course) => {
     try {
-      const bookedDate = new Date(); // สร้างวันที่และเวลาปัจจุบัน
-
-      // แยกระหว่างวันที่และเวลา
-      const date = bookedDate.toISOString().split("T")[0]; // แยกวันที่ (อันดับแรกของ ISO string)
-      const time = bookedDate.toISOString().split("T")[1].split(".")[0]; // แยกเวลา (อันดับสองของ ISO string)
-
-      // สร้างวันหมดอายุโดยเพิ่ม 3 วันลงไปจาก booked_date
+      const bookedDate = new Date(); 
+      const date = bookedDate.toISOString().split("T")[0]; 
+      const time = bookedDate.toISOString().split("T")[1].split(".")[0]; 
       const expiryDate = new Date(bookedDate);
       expiryDate.setDate(expiryDate.getDate() + 3);
-      const expiryDateString = expiryDate.toISOString().split("T")[0]; // แยกวันที่ออกมา
+      const expiryDateString = expiryDate.toISOString().split("T")[0]; 
 
       const response = await ax.post(conf.apiUrlPrefix + `/createBooking`, {
         data: {
           booked_date: `${date} ${time}`,
-          expiry_date: `${expiryDateString} ${time}`, // ใช้วันที่หมดอายุที่ถูกปรับแล้ว
+          expiry_date: `${expiryDateString} ${time}`, 
           course: parseInt(id),
           publishedAt: new Date(),
         },

@@ -51,7 +51,7 @@ export default function LoginPage() {
       });
 
       result = await ax.get(`${conf.apiUrlPrefix}${conf.jwtUserEndpoint}`);
-      checkStreak({ id: result.data.id }); //checkStreak
+      checkStreak({ id: result.data.id }); 
       changeRole(result.data.role.name);
       if (result.data.image) {
         sessionStorage.setItem(
@@ -124,7 +124,7 @@ export default function LoginPage() {
             },
           });
         } else if (timeDifference >= 24 && timeDifference <= 35) {
-          // เพิ่ม CountStreak ขึ้น 1
+        
           await ax.put(`${conf.apiUrlPrefix}/login-streaks/${steakID}`, {
             data: {
               CountStreak: userData.login_streak.CountStreak + 1,
@@ -133,7 +133,7 @@ export default function LoginPage() {
             },
           });
         } else if (timeDifference > 35) {
-          // รีเซ็ต CountStreak เป็น 1
+  
           await ax.put(`${conf.apiUrlPrefix}/login-streaks/${steakID}`, {
             data: {
               CountStreak: 1,
