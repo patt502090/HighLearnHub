@@ -11,13 +11,13 @@ const ax = axios.create({
 })
 
 ax.interceptors.request.use(function (config) {
- 
+
   if (axData.jwt && config.url !== conf.loginEndpoint) {
     config.headers['Authorization'] = `Bearer ${axData.jwt}`
   }
   return config;
 }, function (error) {
- 
+
   return Promise.reject(error);
 });
 
