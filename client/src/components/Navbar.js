@@ -52,7 +52,7 @@ const Navbar = ({ data }) => {
                         onClick={() => navigate(`/profile/${user.id}`)}>
                       </img>
                       :
-                      <svg onClick={() => navigate(`/profile/${user.id}`)} class=" max-lg:hidden cursor-pointer ml-2 w-7 h-7 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <svg onClick={() => navigate(`/profile/${user.id}`)} className=" max-lg:hidden cursor-pointer ml-2 w-7 h-7 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a9 9 0 0 0 5-1.5 4 4 0 0 0-4-3.5h-2a4 4 0 0 0-4 3.5 9 9 0 0 0 5 1.5Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                       </svg>
                     }
