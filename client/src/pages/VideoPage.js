@@ -26,9 +26,8 @@ function VideoPage() {
   const [imageCourse, setImageCourse] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  console.log("T2", watchTimeData);
-  console.log(played);
-  console.log("T1", selectedVideo);
+  console.log("watchTimeData", watchTimeData);
+  console.log("selectedVideo", selectedVideo);
 
   const handleLeaveRoom = () => {
     setIsModalOpen(true);

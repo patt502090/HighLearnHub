@@ -53,7 +53,7 @@ export default function Course(props) {
   return (
     <ContextProvider>
       <>
-        <div className="relative z-0 w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between">
+        <div className="relative z-0 w-full md:w-5/6 2xl:w-4/5 mx-auto h-full flex flex-wrap items-center justify-between ">
           <p className="font-medium text-2xl md:text-3xl pl-3 md:pl-0">
             คอร์สโปรโมชั่นทั้งหมด
           </p>
