@@ -39,7 +39,8 @@ export default function HomePage() {
 
 
         const announcementResponse = await ax.get(
-          `${conf.apiUrlPrefix}/announcements?populate=image&populate=courses`
+          `${conf.apiUrlPrefix}/announcements?populate=image&populate=courses&sort=createdAt:desc `
+          // `${conf.apiUrlPrefix}/announcements?populate=image&sort=createdAt:desc`
         );
         console.log("gayyy = ",announcementResponse)
         const courseData = courseResponse?.data?.data?.map((course) => {

@@ -220,7 +220,7 @@ function Dashboard() {
                 {(todayLogin?.length / totalUsers?.length) * 100 >= 50 ? (
                   <>
                     <p className="text-green-500 mr-2">
-                      {(todayLogin?.length / totalUsers?.length) * 100}%
+                      {Math.round((todayLogin?.length / totalUsers?.length) * 100)}%
                     </p>
                     <svg
                       class="w-6 h-6 text-green-500 dark:text-white"
@@ -241,7 +241,7 @@ function Dashboard() {
                 ) : (
                   <>
                     <p className="text-red-500 mr-2">
-                      {(todayLogin?.length / totalUsers?.length) * 100}%
+                      {Math.round((todayLogin?.length / totalUsers?.length) * 100)}%
                     </p>
                     <svg
                       class="w-6 h-6 text-red-500 dark:text-white"

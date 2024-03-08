@@ -165,7 +165,7 @@ export default function PaymentPage() {
                 </div>
               </div>
             </section>
-            <div className="py-4">
+            <div className="py-4 flex flex-col sm:flex-row items-center">
               <input
                 type="file"
                 onChange={handleFileChange}
