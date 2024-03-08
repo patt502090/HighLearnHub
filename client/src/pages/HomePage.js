@@ -26,6 +26,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const { state: ContextState } = useContext(AuthContext);
   const { userRole } = ContextState;
+  const [showann ,setShowann ] = useState(false);
 
 
   useEffect(() => {
@@ -38,8 +39,9 @@ export default function HomePage() {
 
 
         const announcementResponse = await ax.get(
-          `${conf.apiUrlPrefix}/announcements?populate=image`
+          `${conf.apiUrlPrefix}/announcements?populate=image&populate=courses`
         );
+        console.log("gayyy = ",announcementResponse)
         const courseData = courseResponse?.data?.data?.map((course) => {
           const totalDurationSeconds = course.attributes.videos.data.reduce(
             (totalDuration, video) => totalDuration + video.attributes.duration,
@@ -71,8 +73,12 @@ export default function HomePage() {
           title: item.attributes?.title,
           image:
             `${conf.urlPrefix}` + item.attributes.image.data.attributes?.url,
-        }));
+          describtion:item.attributes.Describtion,
+          courses : item.attributes.courses,
+          expiry_date : item.attributes.expiry_date
 
+        }));
+        console.log("ann2 = ",announcementData)
         setCourse(courseData);
         setAnnouncements(announcementData);
       } catch (error) {
@@ -104,7 +110,7 @@ export default function HomePage() {
                 <title>HighLearnHub</title>
               </Helmet>
               <Navbar data={course} />
-              <Announcements data={announcements} />
+              <Announcements data={announcements} showmodal={setShowann} />
               <FilterSubject />
               <Course data={course} userRole={ContextState.userRole} />
               <FilterSubjectMoblie />
@@ -138,7 +144,7 @@ export default function HomePage() {
           <>
             <div className="scroll-smooth focus:scroll-auto">
               <Navbar data={course} />
-              <Announcements data={announcements} />
+              <Announcements data={announcements} showmodal={setShowann} />
               <FilterSubject />
               <MyCourseOnHome />
               <OnlineBestSeller />
