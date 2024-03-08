@@ -1,19 +1,19 @@
 import React from "react";
-import backgroundImage from "../../assets/background.png";
+import backgroundImage from "../../assets/LandingBG.jpg";
 import hero from "../../assets/hero.png";
 
 const PromotionSection = ({ shoppingSectionId }) => {
   return (
     <section
       className="bg-white dark:bg-gray-900 bg-center bg-cover h-screen flex items-center justify-center"
-      style={{ backgroundImage: `url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-uS-Xd3d7JFosKFwoefw2OhvMoFafFd47qw&usqp=CAU)` }}
+      style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="max-w-3xl px-6 py-12 mx-auto text-center flex items-center justify-center flex-col">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
           เทศกาลลดราคา
         </h1>
         <p className="mt-4 text-lg text-gray-700 dark:text-gray-300">
-          พบกับการลดราคาพิเศษที่ไม่ควรพลาดในงาน "Spring Sales 2024"
+          พบกับการลดราคาพิเศษที่ไม่ควรพลาดในงาน "HighLearnHub Sales 2024"
           ที่จะเปิดขายสินค้าและบริการหลากหลายจากผู้ผลิตและธุรกิจชั้นนำ
           ร่วมกับโปรโมชั่นพิเศษและส่วนลดที่น่าตื่นเต้น
           เตรียมพบกับโอกาสในการอัพเกรดสินค้าหรือบริการที่คุณต้องการในราคาที่ย่อมเหลือใจ
