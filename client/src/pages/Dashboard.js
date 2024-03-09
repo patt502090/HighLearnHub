@@ -89,15 +89,6 @@ function Dashboard() {
         );
         const onlineSellingData = onlineSellingResponse.data.data.map(
           (course) => {
-            const totalDurationSeconds = course.attributes.videos.data.reduce(
-              (totalDuration, video) =>
-                totalDuration + video.attributes.duration,
-              0
-            );
-
-            const minutes = Math.floor(totalDurationSeconds / 60);
-            const seconds = Math.floor(totalDurationSeconds % 60);
-
             return {
               id: course.id,
               title: course.attributes.title,
@@ -107,12 +98,11 @@ function Dashboard() {
               image:
                 `${conf.urlPrefix}`+
                 course.attributes.image.data.attributes.url,
-              duration: { minutes, seconds },
             };
           }
         );
 
-        setOnlineSelling(onlineSellingData);
+        setOnlineSelling(onlineSellingData);0
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -129,15 +119,6 @@ function Dashboard() {
         );
         const onlineSellingData = onlineSellingResponse.data.data.map(
           (course) => {
-            const totalDurationSeconds = course.attributes.videos.data.reduce(
-              (totalDuration, video) =>
-                totalDuration + video.attributes.duration,
-              0
-            );
-
-            const minutes = Math.floor(totalDurationSeconds / 60);
-            const seconds = Math.floor(totalDurationSeconds % 60);
-
             return {
               id: course.id,
               title: course.attributes.title,
@@ -147,7 +128,6 @@ function Dashboard() {
               image:
                 conf.urlPrefix +
                 course.attributes.image.data.attributes.url,
-              duration: { minutes, seconds },
             };
           }
         );

@@ -22,7 +22,6 @@ function VideoPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
   const [totalWatchTime, setTotalWatchTime] = useState(0);
-  const [durationSelected, setDurationSelected] = useState(0);
   const [imageCourse, setImageCourse] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -147,7 +146,6 @@ function VideoPage() {
       console.log("Selected", selected);
       if (selected) {
         setSelectedVideo(selected);
-        setDurationSelected(selected.duration);
         if (userID) {
           console.log("UserID", userID);
           const watchTimeResponse = await ax.get(
@@ -192,13 +190,6 @@ function VideoPage() {
     return Math.min(Math.round(progress), 100);
   };
 
-  const calculateProgressSelected = () => {
-    if (durationSelected === 0) return 0;
-    const progressSelected = (played / durationSelected) * 100;
-    return Math.round(progressSelected);
-  };
-
-  console.log("tyty", calculateProgressSelected());
 
   const fetchTotalWatchData = async () => {
     try {
