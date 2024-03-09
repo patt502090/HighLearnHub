@@ -31,7 +31,7 @@ test('Buttons on the registration page do not disable active buttons',()=>{
 })
 
 
-test('Button Register Account is clickable', () => {
+test('Button Register Account is clickable and can change location to register account page', () => {
     render(
         <Router>
           <RegisterPage />
@@ -44,7 +44,7 @@ test('Button Register Account is clickable', () => {
   
 });
 
-test('Button Have Account is clickable', () => {
+test('Button Have Account is clickable and can change location to login page', () => {
     render(
         <Router>
           <RegisterPage />
