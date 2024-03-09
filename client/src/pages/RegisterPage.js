@@ -28,7 +28,7 @@ export default function LoginPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <title>ยินดีต้อนรับเข้าสู่บัญชีผู้ใช้</title>
         </Helmet>
-      <div
+      <div data-testid="ancestor"
         className="flex items-center justify-center h-screen w-screen"
         style={{
           backgroundImage: `url(${backgroundImage})`,
@@ -36,12 +36,13 @@ export default function LoginPage() {
           backgroundPosition: "center",
         }}
       >
-        <div className="container w-auto bg-white border-2 rounded-lg shadow-2xl p-6 flex flex-col ">
+        <div className="container w-auto bg-white border-2 rounded-lg shadow-2xl p-6 flex flex-col " data-testid="descendant">
           <p className="text-lg font-bold mb-4 mt-4 text-center">ลงทะเบียน</p>
           <p className="text-base mb-6 text-center">
             ยินดีต้อนรับเข้าสู่บัญชีผู้ใช้ HighLearnHub
           </p>
           <Button
+            data-testid="ButtonRegisterAccount"
             className=" mb-3 px-6 items-center justify-center"
             gradientDuoTone="purpleToBlue"
             size="md"
@@ -58,6 +59,7 @@ export default function LoginPage() {
           </div>
 
           <button
+            data-testid="ButtonGoogleLoginClick"
             className="px-6 py-2.5 mb-4 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150 items-center mx-auto"
             onClick={handleGoogleLoginClick}
           >
@@ -68,10 +70,10 @@ export default function LoginPage() {
               alt="google logo"
             />
             <span className="text-sm">ดำเนินการต่อด้วย Google</span>
-          </button>
+          </button >
           <p className="text-sm text-center cursor-pointer font-medium mb-4">
             หากคุณมีบัญชีผู้ใช้งานแล้ว{" "}
-            <span className="text-blue-700 underline" onClick={handleLogin}>
+            <span data-testid="ButtonHaveAcccout" className="text-blue-700 underline" onClick={handleLogin}>
               เข้าสู่ระบบ
             </span>
           </p>
